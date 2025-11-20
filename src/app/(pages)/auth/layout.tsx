@@ -61,7 +61,7 @@ export default function BlogLayout({
                 priority
               />
               <Image
-                className=""
+                className="size-[36px]"
                 src="/logos/ic_outline-apple.svg"
                 alt="Next.js logo"
                 width={36}
@@ -75,7 +75,7 @@ export default function BlogLayout({
     </div>
 
 
-    <footer className="flex flex-row justify-center space-x-2 w-full p-6 text-sm">
+    <footer className="flex flex-row justify-center space-x-3 w-full p-6 text-sm">
       <Link href={"#"}>
         <span className="link-default link-default">Ajuda</span>
       </Link>
@@ -86,7 +86,7 @@ export default function BlogLayout({
         <span className="link-default link-default">Politicas</span>
       </Link>
       <Link href={"#"}>
-        <span className="link-default link-default">Termos de Uso</span>
+        <span className="link-default link-default">Termos</span>
       </Link>
     </footer>
   </section>
