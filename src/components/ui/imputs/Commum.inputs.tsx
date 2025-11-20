@@ -15,7 +15,7 @@ export default function CommumInput({ topLabel, ...props }: CommumInputInterface
 
       </div>
       <div className="relative flex justify-between items-center">
-        <input className="peer block w-[88%] border-0 bg-transparent p-0 text-sm file:my-1 file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:font-medium placeholder:text-muted-foreground/90 focus:outline-none focus:ring-0 sm:leading-7 text-foreground"
+        <input className="peer block w-[88%] border-0 bg-transparent p-0 text-sm file:my-1 file:rounded-full file:border-0 file:bg-accent file:px-4 file:py-2 file:font-medium placeholder:text-muted-foreground/90 focus:outline-none focus:ring-0 sm:leading-7"
           {...props}
         />
 
@@ -29,7 +29,7 @@ export default function CommumInput({ topLabel, ...props }: CommumInputInterface
         </div>
 
 
-        <div className="absolute right-0 invisible peer-invalid:visible peer-invalid:text-red-800">
+        <div className="absolute right-0 invisible peer-[&:not(:placeholder-shown):invalid]:visible peer-[&:not(:placeholder-shown):invalid]:text-red-800">
           <svg viewBox="0 0 54 54" fill="currentColor" className="w-4 h-4" xmlns="http://www.w3.org/2000/svg">
             <path d="M5.7 57L0 51.3L22.8 28.5L0 5.7L5.7 0L28.5 22.8L51.3 0L57 5.7L34.2 28.5L57 51.3L51.3 57L28.5 34.2L5.7 57Z" fill="currentColor" />
           </svg>

@@ -9,7 +9,7 @@ export default function BlogLayout({
   children: React.ReactNode
 }) {
 
-  return <section className="font-sans relative w-full text-black overflow-hidden min-h-screen justify-between flex flex-col">
+  return <section className="font-sans relative w-full text-black overflow-hidden min-h-dvh justify-between flex flex-col bg-white">
 
     <div className="bg-linear-to-b from-primary-blue to-secundary-blue w-[125%] h-[60vh] -translate-y-40 -translate-x-12 -rotate-6 absolute top-0 antialiased transform-gpu blur-[0.5px]" />
     <header className="flex flex-row justify-between p-6 z-9999 relative">
@@ -37,12 +37,12 @@ export default function BlogLayout({
             </p>
           </div>
 
-          <div className="p-6 pt-0">
+          <div className="px-6 pt-6 pb-3">
             {children}
           </div>
 
           <div className="flex flex-col space-y-2 justify-center w-full px-6 pb-6">
-            <p>ou</p>
+            <p className="text-sm font-medium text-[#0061A7]">ou</p>
             <div className="flex flex-row justify-center gap-6">
               <Image
                 src="/logos/devicon_google.svg"
@@ -74,18 +74,18 @@ export default function BlogLayout({
     </div>
 
 
-    <footer className="flex flex-row justify-center space-x-4 w-full p-6 text-sm font-medium leading-6">
+    <footer className="flex flex-row justify-center space-x-2 w-full p-6 text-sm">
       <Link href={"#"}>
-        <span className="link-default">Ajuda</span>
+        <span className="link-default link-default">Ajuda</span>
       </Link>
       <Link href={"#"}>
-        <span className="link-default">Página inicial</span>
+        <span className="link-default link-default">Página inicial</span>
       </Link>
       <Link href={"#"}>
-        <span className="link-default">Politicas</span>
+        <span className="link-default link-default">Politicas</span>
       </Link>
       <Link href={"#"}>
-        <span className="link-default">Termos de Uso</span>
+        <span className="link-default link-default">Termos de Uso</span>
       </Link>
     </footer>
   </section>

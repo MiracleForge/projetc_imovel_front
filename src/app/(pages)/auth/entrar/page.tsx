@@ -3,7 +3,8 @@ import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
 export default function Page() {
   return <form className="gap-px">
     <CommumInput topLabel="Email" autoComplete="on" type="email" name="email" placeholder="exemplo@email.com" required />
-    <CommumInput topLabel="Senha" autoComplete="off" type="password" name="password" required />
+    <CommumInput topLabel="Senha" autoComplete="off" type="password" name="password" placeholder="" required />
+
     <div className="mt-4 flex items-center justify-between">
       <label className="flex items-center gap-2 cursor-pointer">
         <input type="checkbox" name="remember"
