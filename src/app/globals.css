@@ -25,6 +25,14 @@
   }
 }
 
+@media screen and (max-width: 768px) and (orientation: landscape) {
+  .bg-mobile-landscape {
+    height: 120lvh;
+    transform: translateY(-20px) translateX(-6px) rotate(-6deg);
+  }
+}
+
+
 body {
   background: var(--background);
   color: var(--foreground);

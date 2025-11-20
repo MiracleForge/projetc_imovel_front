@@ -11,7 +11,8 @@ export default function BlogLayout({
 
   return <section className="font-sans relative w-full text-black overflow-hidden min-h-dvh justify-between flex flex-col bg-white">
 
-    <div className="bg-linear-to-b from-primary-blue to-secundary-blue w-[125%] h-[60vh] -translate-y-40 -translate-x-12 -rotate-6 absolute top-0 antialiased transform-gpu blur-[0.5px]" />
+    <div className="bg-linear-to-b from-primary-blue to-secundary-blue w-[125%] h-[60vh] -translate-y-40 -translate-x-12 -rotate-6 absolute top-0 antialiased transform-gpu blur-[0.5px]
+ bg-mobile-landscape   " />
     <header className="flex flex-row justify-between p-6 z-9999 relative">
       <Image
         className=""
