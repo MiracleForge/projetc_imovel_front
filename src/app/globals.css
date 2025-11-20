@@ -2,16 +2,21 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #BFBFBF;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins);
   --color-secundary-blue: #5D79F9;
   --color-primary-blue: #84BAFF;
+}
+
+@layer components {
+  .link-default {
+    @apply hover:underline leading-6 text-[#707070] hover:text-primary-blue;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
