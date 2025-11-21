@@ -24,7 +24,7 @@ export default function AuthLayout({
             <p className="mt-1.5 text-sm"> Faça parte da maior comunidade de anúncios.</p>
           </div>
 
-          <div className="px-6 pt-6 pb-3">
+          <div className="px-6 py-3">
             {children}
           </div>
 

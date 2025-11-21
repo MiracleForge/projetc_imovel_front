@@ -57,7 +57,7 @@ export default function Page() {
           </Link>
         </div>
 
-        <SubmitButton />
+        <SubmitButton text="Entrar" />
       </form>
 
       <p className="text-sm font-medium text-[#0061A7] py-2">ou</p>

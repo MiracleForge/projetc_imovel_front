@@ -15,7 +15,7 @@
 
 @layer components {
   .link-default {
-    @apply hover:underline leading-6 text-[#707070] hover:text-primary-blue;
+    @apply hover:underline leading-6 text-[#707070] hover:text-[#0029F6];
   }
 }
 
