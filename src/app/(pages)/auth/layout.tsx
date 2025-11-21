@@ -2,7 +2,7 @@ import "../../globals.css";
 import Link from "next/link";
 import { CompactHeader } from "@/src/components/layouts/headers/CompactHeader.header";
 
-export default function BlogLayout({
+export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode
