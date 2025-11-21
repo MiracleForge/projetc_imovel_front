@@ -4,24 +4,19 @@ import { createFetcher } from "@/src/utils/fetchData";
 import { actionResponse } from "@/src/schemasTypes/types/responses.core";
 import { loginSchema } from "@/src/schemasTypes/schemas/authentication/payloads.schemas";
 import { loginPayload } from "@/src/schemasTypes/types/payloads.authentication";
+import { validateFormData } from "@/src/utils/zod/validateFormData";
 
 
 export async function loginAction(_prevState: any, formData: FormData): Promise<actionResponse<undefined>> {
-  const data = Object.fromEntries(formData.entries());
-  const parsed = loginSchema.safeParse(
-    data
-  );
+  const result = await validateFormData(formData, loginSchema);
 
-  if (!parsed.success) {
-    return {
-      message: parsed.error.issues.map(issue => issue.message).join(", "),
-      error: parsed.error.issues.map(issue => issue.code).join(", ")
-    };
+  if (!result.success) {
+    return result.error;
   }
 
   const path = "/auth/login";
   const fetchLogin = createFetcher<loginPayload, undefined>(path, { method: "POST" });
 
-  return await fetchLogin(parsed.data);
+  await new Promise(r => setTimeout(r, 2000));
+  return await fetchLogin(result.data);
 }
-

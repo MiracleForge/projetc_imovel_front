@@ -1,18 +1,25 @@
 'use client';
 
-import Link from "next/link";
-import { loginAction } from "@/src/app/actions/login.actions";
 import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button";
 import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
+import { useFormStatus } from "react-dom";
 import { useActionState } from "react";
-import { actionResponse } from "@/src/schemasTypes/types/responses.core";
-import SubmitButton from "@/src/components/ui/buttons/Submit.button";
+import { loginAction } from "@/src/app/actions/login.actions";
+import { initialState } from "@/src/schemasTypes/types/responses.core";
 
-const initialState: actionResponse = {
-  message: "",
-  error: undefined,
-  data: undefined
-};
+function SubmitButton() {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      disabled={pending}
+      className="w-full mt-2 h-12 font-medium hover:bg-black hover:text-white hover:ring hover:ring-white transition duration-300 inline-flex items-center justify-center text-xl bg-black text-white px-4 py-2 disabled:pointer-events-none disabled:opacity-50"
+      type="submit"
+    >
+      {pending ? "Entrando..." : "Entrar"}
+    </button>
+  );
+}
 
 export default function Page() {
   const [state, formAction] = useActionState(loginAction, initialState);
@@ -38,7 +45,7 @@ export default function Page() {
           required
         />
 
-        {state.error &&
+        {state.message &&
           <p className="text-red-500 text-sm pt-0.5">{state.message}</p>
         }
 
@@ -52,9 +59,9 @@ export default function Page() {
             <span className="text-sm font-normal">Continuar conectado</span>
           </label>
 
-          <Link className="text-[10px] font-extralight link-default" href="/forgot-password">
+          <a className="text-[10px] font-extralight link-default" href="/forgot-password">
             Esqueceu sua senha?
-          </Link>
+          </a>
         </div>
 
         <SubmitButton />
@@ -67,3 +74,4 @@ export default function Page() {
     </div>
   );
 }
+
