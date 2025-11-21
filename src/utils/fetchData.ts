@@ -1,3 +1,5 @@
+import { actionResponse } from "../schemasTypes/types/responses.core";
+
 type FetcherOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   headers?: Record<string, string>;
@@ -5,11 +7,11 @@ type FetcherOptions = {
   isPublic?: boolean;
 };
 
-export function createFetcher<Payload = unknown, Response = unknown>(
+export function createFetcher<Payload = unknown, Data = unknown>(
   path: string,
   defaultOptions?: FetcherOptions
 ) {
-  return async (payload?: Payload, options?: FetcherOptions): Promise<Response> => {
+  return async (payload?: Payload, options?: FetcherOptions): Promise<actionResponse<Data>> => {
     const finalOptions = {
       ...defaultOptions,
       ...options
@@ -34,16 +36,24 @@ export function createFetcher<Payload = unknown, Response = unknown>(
 
     const url = new URL(path, baseUrl).toString();
 
-    const response = await fetch(url, {
-      method: finalOptions.method ?? "POST",
-      headers: finalHeaders,
-      body:
-        ["POST", "PUT", "PATCH"].includes(finalOptions.method ?? "POST") && payload
-          ? JSON.stringify(payload)
-          : undefined,
-    });
+    try {
 
-    return (await response.json()) as Response;
+      const response = await fetch(url, {
+        method: finalOptions.method ?? "POST",
+        headers: finalHeaders,
+        body:
+          ["POST", "PUT", "PATCH"].includes(finalOptions.method ?? "POST") && payload
+            ? JSON.stringify(payload)
+            : undefined,
+      });
+
+      const json = await response.json();
+      if (!response.ok) return { message: json.message ?? response.statusText, error: json.error ?? response.status } as actionResponse<Data>;
+
+      return json as actionResponse<Data>;
+    } catch (error) {
+      return { message: "Erro interno do servidor", error: "INTERNAL_SERVER_ERROR" } as actionResponse<Data>;
+    }
   };
 };
 

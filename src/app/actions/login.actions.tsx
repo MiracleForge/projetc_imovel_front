@@ -1,46 +1,27 @@
 "use server";
 
-
-import { z } from "zod";
 import { createFetcher } from "@/src/utils/fetchData";
+import { actionResponse } from "@/src/schemasTypes/types/responses.core";
+import { loginSchema } from "@/src/schemasTypes/schemas/authentication/payloads.schemas";
+import { loginPayload } from "@/src/schemasTypes/types/payloads.authentication";
 
-const loginSchema = z.object({
-  email: z.email(),
-  password: z.string().min(6)
-});
 
-type loginPayload = z.infer<typeof loginSchema>;
-
-type loginResponse = {
-  message: string,
-  payload: string
-}
-
-export type actionResponse = {
-  message: string;
-  error?: string;
-  data?: unknown;
-}
-
-export async function loginAction(prevState: any, formData: FormData): Promise<actionResponse> {
-  const parsed = loginSchema.safeParse({
-    formData
-  });
+export async function loginAction(_prevState: any, formData: FormData): Promise<actionResponse<undefined>> {
+  const data = Object.fromEntries(formData.entries());
+  const parsed = loginSchema.safeParse(
+    data
+  );
 
   if (!parsed.success) {
     return {
-      message: "Credenciais inválidas",
-      error: parsed.error.issues.map(issue => issue.message).join(", ")
+      message: parsed.error.issues.map(issue => issue.message).join(", "),
+      error: parsed.error.issues.map(issue => issue.code).join(", ")
     };
   }
 
-  const link = "/auth/login";
-  const fetchLogin = createFetcher<loginPayload, loginResponse>(link, { method: "POST" });
+  const path = "/auth/login";
+  const fetchLogin = createFetcher<loginPayload, undefined>(path, { method: "POST" });
 
-  const response = await fetchLogin(parsed.data);
-  return {
-    message: response.message,
-    data: response.payload,
-  }
+  return await fetchLogin(parsed.data);
 }
 

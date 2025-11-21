@@ -4,7 +4,8 @@ import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button"
 import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
 import { useFormStatus } from "react-dom";
 import { useActionState } from "react";
-import { actionResponse, loginAction } from "@/src/app/actions/login.actions";
+import { loginAction } from "@/src/app/actions/login.actions";
+import { actionResponse } from "@/src/schemasTypes/types/responses.core";
 
 const initialState: actionResponse = {
   message: "",
@@ -51,7 +52,7 @@ export default function Page() {
         />
 
         {state.error &&
-          <p className="text-red-500 text-sm pt-0.5">{state.error}</p>
+          <p className="text-red-500 text-sm pt-0.5">{state.message}</p>
         }
 
         <div className="mt-5 flex items-center justify-between">
