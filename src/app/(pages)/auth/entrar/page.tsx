@@ -4,12 +4,12 @@ import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button"
 import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
 import { useFormStatus } from "react-dom";
 import { useActionState } from "react";
-import { loginAction } from "@/src/app/actions/login.actions";
+import { actionResponse, loginAction } from "@/src/app/actions/login.actions";
 
-const initialState = {
-  success: false,
+const initialState: actionResponse = {
+  message: "",
   error: undefined,
-  issues: undefined
+  data: undefined
 };
 
 function SubmitButton() {
@@ -28,7 +28,6 @@ function SubmitButton() {
 
 export default function Page() {
   const [state, formAction] = useActionState(loginAction, initialState);
-  console.log(state.success)
   return (
     <div className="pb-6">
 

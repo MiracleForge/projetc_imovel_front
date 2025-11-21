@@ -16,21 +16,31 @@ type loginResponse = {
   payload: string
 }
 
-export async function loginAction(prevState: any, formData: FormData) {
+export type actionResponse = {
+  message: string;
+  error?: string;
+  data?: unknown;
+}
+
+export async function loginAction(prevState: any, formData: FormData): Promise<actionResponse> {
   const parsed = loginSchema.safeParse({
     formData
   });
 
   if (!parsed.success) {
     return {
-      errors: "Credenciais inválidas",
-      issues: parsed.error.issues
+      message: "Credenciais inválidas",
+      error: parsed.error.issues.map(issue => issue.message).join(", ")
     };
   }
 
   const link = "/auth/login";
   const fetchLogin = createFetcher<loginPayload, loginResponse>(link, { method: "POST" });
 
-  return await fetchLogin(parsed.data);
+  const response = await fetchLogin(parsed.data);
+  return {
+    message: response.message,
+    data: response.payload,
+  }
 }
 
