@@ -13,7 +13,7 @@ export const registerSteps = [
     fields: [
       { topLabel: "Senha", type: "password", name: "password", required: true, placeholder: "" },
       { topLabel: "Confirmar Senha", type: "password", name: "confirmPassword", required: true, placeholder: "" },
-      { topLabel: "CPF", type: "text", name: "cpf", required: true, placeHolder: "000.000.000-00" },
+      { topLabel: "CPF", type: "text", name: "cpf", required: true, placeholder: "000.000.000-00" },
     ]
   },
   {

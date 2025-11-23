@@ -39,10 +39,10 @@ export default function AuthLayout({
       <Link href={"#"}>
         <span className="link-default link-default">Página inicial</span>
       </Link>
-      <Link href={"#"}>
+      <Link href={"politicas-privacidade"}>
         <span className="link-default link-default">Politicas</span>
       </Link>
-      <Link href={"#"}>
+      <Link href={"/termos-de-uso"}>
         <span className="link-default link-default">Termos</span>
       </Link>
     </footer>

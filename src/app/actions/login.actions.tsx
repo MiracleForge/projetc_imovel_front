@@ -1,9 +1,9 @@
 "use server";
 
+import { loginSchema } from "@/src/contracts/schemas/authentication/payloads.schemas";
+import { loginPayload } from "@/src/contracts/types/payloads.authentication";
+import { actionResponse } from "@/src/contracts/types/responses.core";
 import { createFetcher } from "@/src/utils/fetchData";
-import { actionResponse } from "@/src/schemasTypes/types/responses.core";
-import { loginSchema } from "@/src/schemasTypes/schemas/authentication/payloads.schemas";
-import { loginPayload } from "@/src/schemasTypes/types/payloads.authentication";
 import { validateFormData } from "@/src/utils/zod/validateFormData";
 
 

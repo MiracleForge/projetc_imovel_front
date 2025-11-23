@@ -1,25 +1,11 @@
 'use client';
 
-import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button";
-import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
-import { useFormStatus } from "react-dom";
 import { useActionState } from "react";
+import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button";
 import { loginAction } from "@/src/app/actions/login.actions";
-import { initialState } from "@/src/schemasTypes/types/responses.core";
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-
-  return (
-    <button
-      disabled={pending}
-      className="w-full mt-2 h-12 font-medium hover:bg-black hover:text-white hover:ring hover:ring-white transition duration-300 inline-flex items-center justify-center text-xl bg-black text-white px-4 py-2 disabled:pointer-events-none disabled:opacity-50"
-      type="submit"
-    >
-      {pending ? "Entrando..." : "Entrar"}
-    </button>
-  );
-}
+import { initialState } from "@/src/contracts/types/responses.core";
+import SubmitButton from "@/src/components/ui/buttons/Submit.button";
+import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
 
 export default function Page() {
   const [state, formAction] = useActionState(loginAction, initialState);
@@ -64,7 +50,7 @@ export default function Page() {
           </a>
         </div>
 
-        <SubmitButton />
+        <SubmitButton text="Cadastrar" type="submit" />
       </form>
 
       <p className="text-sm font-medium text-[#0061A7] py-2">ou</p>
