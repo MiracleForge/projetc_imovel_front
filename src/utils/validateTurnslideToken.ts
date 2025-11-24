@@ -27,8 +27,6 @@ export const validateTurnstileToken = async (
     secret: process.env.TURNSTILE_SECRET_KEY!
   });
 
-  console.log(captcha);
-
   if (captcha?.success) return;
 
   return {
