@@ -1,4 +1,4 @@
-import { actionResponse } from "../schemasTypes/types/responses.core";
+import { actionResponse } from "../contracts/types/responses.core";
 
 type FetcherOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
@@ -23,34 +23,47 @@ export function createFetcher<Payload = unknown, Data = unknown>(
     };
 
     if (!finalOptions.isPublic) {
-      const token = await callAuthorization();
-      finalHeaders["Authorization"] = `Bearer ${token}`;
+      const accessToken = await callAuthorization();
+      finalHeaders["Authorization"] = `Bearer ${accessToken}`;
     } else if (finalOptions.authToken) {
       finalHeaders["Authorization"] = `Bearer ${finalOptions.authToken}`;
     }
 
+    const isFullURL = path.startsWith("http://") || path.startsWith("https://");
+
     const baseUrl =
       process.env.NODE_ENV === "development"
-        ? "http://localhost:3000"
-        : "https://www.minhaapi.com";
+        ? process.env.NEXT_PUBLIC_API_DEV
+        : process.env.NEXT_PUBLIC_API_PROD;
 
-    const url = new URL(path, baseUrl).toString();
+    const url = isFullURL ? path : `${baseUrl}${path}`;
+
+    let body: any = undefined;
+
+    if (["POST", "PUT", "PATCH"].includes(finalOptions.method ?? "POST") && payload) {
+      if (finalHeaders["Content-Type"] === "application/x-www-form-urlencoded") {
+        body = new URLSearchParams(payload as Record<string, string>).toString();
+      } else {
+        body = JSON.stringify(payload);
+      }
+    }
 
     try {
 
-      const response = await fetch(url, {
+      const response = await fetch(url ?? path, {
         method: finalOptions.method ?? "POST",
         headers: finalHeaders,
-        body:
-          ["POST", "PUT", "PATCH"].includes(finalOptions.method ?? "POST") && payload
-            ? JSON.stringify(payload)
-            : undefined,
+        body
       });
 
       const json = await response.json();
       if (!response.ok) return { message: json.message ?? response.statusText, error: json.error ?? response.status } as actionResponse<Data>;
 
-      return json as actionResponse<Data>;
+      return {
+        data: json as Data,
+        message: "",
+        error: "",
+      }
     } catch (error) {
       return { message: "Erro interno do servidor", error: "INTERNAL_SERVER_ERROR" } as actionResponse<Data>;
     }

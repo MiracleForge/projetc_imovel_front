@@ -3,3 +3,8 @@ import { loginSchema } from "../schemas/authentication/payloads.schemas";
 
 export type loginPayload = z.infer<typeof loginSchema>;
 
+export type turnsTilePayloadContract = {
+  response: string;
+  secret: string;
+};
+

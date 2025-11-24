@@ -33,6 +33,7 @@ export default function Turnstile({
         widgetId.current = window.turnstile.render(containerRef.current, {
           sitekey: siteKey,
           callback: (token: string) => onSuccessAction?.(token),
+          theme: "light",
         });
       }
     }, 100);
