@@ -10,7 +10,6 @@ import { validateFormData } from "@/src/utils/zod/validateFormData";
 
 export async function loginAction(_prevState: any, formData: FormData): Promise<actionResponse<undefined>> {
   const payloadValided = await validateFormData(formData, loginSchema);
-  console.log(formData);
   if (!payloadValided.success) {
     return payloadValided.error;
   }
@@ -21,7 +20,8 @@ export async function loginAction(_prevState: any, formData: FormData): Promise<
 
   const path = "/auth/login";
   const fetchLogin = createFetcher<loginPayload, undefined>(path, { method: "POST" });
-
+  console.log("passou no captcha")
+  //Temp for testing
   await new Promise(r => setTimeout(r, 2000));
   return await fetchLogin(payloadValided.data);
 }
