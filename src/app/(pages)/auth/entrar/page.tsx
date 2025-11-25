@@ -1,5 +1,6 @@
 'use client';
 
+import dynamic from "next/dynamic";
 import { useActionState } from "react";
 import Link from "next/link";
 import { loginAction } from "@/src/app/actions/login.actions";
@@ -7,7 +8,10 @@ import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button"
 import { initialState } from "@/src/contracts/types/responses.core";
 import SubmitButton from "@/src/components/ui/buttons/Submit.button";
 import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
-import TurnstileWidget from "@/src/components/layouts/captchas/TurnstileWidget.layout";
+const TurnstileWidget = dynamic(
+  () => import('@/src/components/layouts/captchas/TurnstileWidget.layout'),
+  { ssr: false }
+);
 
 
 export default function Page() {
@@ -53,12 +57,11 @@ export default function Page() {
           </Link>
         </div>
 
-        <SubmitButton text="Entrar" />
-
         <div className="pt-3 -translate-x-1.5">
           <TurnstileWidget key={"login-captcha"} siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!} />
         </div>
 
+        <SubmitButton text="Entrar" />
 
       </form>
 

@@ -1,8 +1,8 @@
 "use client";
+
 import { useActionState, useState, useCallback, useMemo } from "react";
 import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button";
 import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
-import { loginAction } from "@/src/app/actions/login.actions";
 import SubmitButton from "@/src/components/ui/buttons/Submit.button";
 import { registerSteps } from "./steps";
 import { initialState } from "@/src/contracts/types/responses.core";
@@ -14,12 +14,11 @@ const TurnstileWidget = dynamic(
 );
 import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
 import dynamic from "next/dynamic";
+import { registerAction } from "@/src/app/actions/register.actions";
 
 export default function Page() {
-  const [state, formAction] = useActionState(loginAction, initialState);
+  const [state, formAction] = useActionState(registerAction, initialState);
   const [step, setStep] = useState(0);
-
-  const currentStep = useMemo(() => registerSteps[step], [step]);
   const lastStep = useMemo(() => step === registerSteps.length - 1, [step]);
   const totalSteps = useMemo(() => registerSteps.length, []);
 
@@ -36,14 +35,26 @@ export default function Page() {
       <MultiStepIndicator totalSteps={totalSteps} currentStep={step} />
 
       <form action={formAction} className="gap-px">
-        <h2 className="text-lg font-semibold">{currentStep.title}</h2>
-
-        {currentStep.fields.map(field => (
-          <CommumInput key={field.name} {...field} />
+        {registerSteps.map((stepData, index) => (
+          <div key={index} style={{ display: step === index ? 'block' : 'none' }}>
+            <h2 className="text-lg font-semibold">{stepData.title}</h2>
+            {stepData.fields.map(field => (
+              <CommumInput key={field.name} {...field} />
+            ))}
+          </div>
         ))}
 
+        {lastStep && (
+          <div className="pt-3 -translate-x-1.5">
+            <TurnstileWidget
+              key="register-captcha"
+              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+            />
+          </div>
+        )}
+
         {state.message && (
-          <p className="text-red-500 text-sm pt-0.5">{state.message}</p>
+          <p className="text-red-500 text-sm pt-0.5">{state.error}</p>
         )}
 
         <StepNavigation
@@ -54,15 +65,6 @@ export default function Page() {
         />
       </form>
 
-      {lastStep && (
-        <div className="pt-3 -translate-x-1.5">
-          <TurnstileWidget
-            key="register-captcha"
-            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-          />
-        </div>
-      )}
-
       {!lastStep && (
         <>
           <p className="text-sm font-medium text-[#0061A7]">ou</p>
@@ -72,7 +74,6 @@ export default function Page() {
     </div>
   );
 }
-
 interface StepNavigationProps {
   step: number;
   lastStep: boolean;
