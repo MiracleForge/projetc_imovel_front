@@ -1,4 +1,21 @@
-export const registerSteps = [
+import { HTMLInputTypeAttribute, InputHTMLAttributes } from "react";
+
+export type FieldConfig = {
+  topLabel: string;
+  name: string;
+  type: HTMLInputTypeAttribute;
+  required?: boolean;
+} & Pick<
+  InputHTMLAttributes<HTMLInputElement>,
+  "placeholder" | "defaultChecked"
+>;
+
+export type RegisterStep = {
+  title: string;
+  fields: FieldConfig[];
+};
+
+export const registerSteps: RegisterStep[] = [
   {
     title: "Informações pessoais",
     fields: [
@@ -35,8 +52,8 @@ export const registerSteps = [
   {
     title: "Privacidade",
     fields: [
-      { topLabel: "Deseja Receber Emails Promocionais", type: "checkbox", name: "accepts_emails_promotions", required: false, placeholder: "" },
-      { topLabel: "Aceitar Cookies", type: "checkbox", name: "cookies_allowed", required: false, placeholder: "" },
+      { topLabel: "Deseja Receber Emails Promocionais", type: "checkbox", name: "accepts_emails_promotions", required: false, placeholder: "", defaultChecked: false },
+      { topLabel: "Aceitar Cookies", type: "checkbox", name: "cookies_allowed", required: false, placeholder: "", defaultChecked: false },
     ]
   }
 ];

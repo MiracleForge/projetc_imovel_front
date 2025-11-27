@@ -2,9 +2,10 @@
 
 import "server-only";
 
-import { turnsTilePayloadContract } from "../contracts/types/payloads.authentication";
-import { actionResponse, TurnstileContract } from "../contracts/types/responses.core";
-import { createFetcher } from "./fetchData";
+import { turnsTilePayloadContract } from "../../contracts/types/payloads.authentication";
+import { actionResponse, TurnstileContract } from "../../contracts/types/responses.core";
+import { createFetcher } from "../fetchData";
+import { TurnstileTokenInvalid } from "@/src/errors/constructors/factory.error";
 
 export const validateTurnstileToken = async (
   token: string
@@ -29,9 +30,11 @@ export const validateTurnstileToken = async (
 
   if (captcha?.success) return;
 
-  return {
-    error: "INVALID_CAPTCHA",
-    message: captcha?.["error-codes"]?.join(", ") || "Captcha inválido."
-  };
+  return TurnstileTokenInvalid();
+
+  // return {
+  //   error: "INVALID_CAPTCHA",
+  //   message: captcha?.["error-codes"]?.join(", ") || "Captcha inválido."
+  // };
 };
 

@@ -4,7 +4,7 @@ import { loginSchema } from "@/src/contracts/schemas/authentication/payloads.sch
 import { loginPayload } from "@/src/contracts/types/payloads.authentication";
 import { actionResponse } from "@/src/contracts/types/responses.core";
 import { createFetcher } from "@/src/utils/fetchData";
-import { validateTurnstileToken } from "@/src/utils/validateTurnslideToken";
+import { validateTurnstileToken } from "@/src/utils/turnstile/validateTurnslideToken";
 import { validateFormData } from "@/src/utils/zod/validateFormData";
 
 export async function loginAction(_prevState: any, formData: FormData): Promise<actionResponse<undefined>> {

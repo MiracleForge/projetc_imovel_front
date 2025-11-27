@@ -6,6 +6,7 @@ type FetcherOptions = {
   authToken?: string | null;
   isPublic?: boolean;
   raw?: boolean;
+  credentials?: RequestCredentials
 };
 
 export function createFetcher<Payload = unknown, Data = unknown>(
@@ -59,6 +60,7 @@ export function createFetcher<Payload = unknown, Data = unknown>(
         method: finalOptions.method ?? "POST",
         headers: finalHeaders,
         body,
+        credentials: finalOptions.credentials
       });
 
       const json = await response.json();
