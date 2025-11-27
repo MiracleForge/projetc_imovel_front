@@ -26,5 +26,3 @@ export async function registerAction(_prevState: any, formData: FormData): Promi
 
   return await fetchRegister(payloadValided.data);
 }
-
-
