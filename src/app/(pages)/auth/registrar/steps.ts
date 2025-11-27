@@ -30,7 +30,7 @@ export const registerSteps: RegisterStep[] = [
     fields: [
       { topLabel: "Email", type: "email", name: "email", required: true, placeholder: "exemplo@email.com" },
       { topLabel: "Data de Nascimento", type: "date", name: "birthdate", required: true },
-      { topLabel: "Telefone", type: "tel", name: "phone", required: true, placeholder: "(71)  98447-4664" },
+      { topLabel: "Telefone", type: "tel", name: "phone", required: true, placeholder: "(71) 98447-4664" },
     ]
   },
   {
