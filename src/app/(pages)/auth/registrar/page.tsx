@@ -7,14 +7,13 @@ import SubmitButton from "@/src/components/ui/buttons/Submit.button";
 import { registerSteps } from "./steps";
 import { initialState } from "@/src/contracts/types/responses.core";
 
-
+import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
+import dynamic from "next/dynamic";
+import { registerAction } from "@/src/app/actions/register.actions";
 const TurnstileWidget = dynamic(
   () => import('@/src/components/layouts/captchas/TurnstileWidget.layout'),
   { ssr: false }
 );
-import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
-import dynamic from "next/dynamic";
-import { registerAction } from "@/src/app/actions/register.actions";
 
 export default function Page() {
   const [state, formAction] = useActionState(registerAction, initialState);
@@ -54,7 +53,7 @@ export default function Page() {
         )}
 
         {state.message && (
-          <p className="text-red-500 text-sm pt-0.5">{state.error}</p>
+          <p className={`${state.error && "text-red-500"} text-sm pt-0.5`}>{state.message}</p>
         )}
 
         <StepNavigation
@@ -74,6 +73,7 @@ export default function Page() {
     </div>
   );
 }
+
 interface StepNavigationProps {
   step: number;
   lastStep: boolean;

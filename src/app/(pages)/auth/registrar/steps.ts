@@ -4,7 +4,8 @@ export const registerSteps = [
     fields: [
       { topLabel: "Nome Completo", type: "text", name: "name", required: true, placeholder: "Nome" },
       { topLabel: "Sobrenome", type: "text", name: "surname", required: true, placeholder: "Sobrenome" },
-      { topLabel: "CPF", type: "text", name: "document_number", required: true, placeholder: "000.000.000-00" },
+      { topLabel: "Número documento", type: "text", name: "document_number", required: true, placeholder: "000.000.000-00 ou 00.000.000/0001-00" },
+      { topLabel: "Pessoa Juridica", type: "checkbox", name: "is_juridic", required: false, placeholder: "", defaultChecked: false },
     ]
   },
   {

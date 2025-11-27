@@ -15,7 +15,7 @@ export const registerPayloadSchema = userEntitySchema
     email: true,
     password: true,
     birthdate: true,
-    // document_type: true,
+    is_juridic: true,
     document_number: true,
     phone: true,
     address: true,

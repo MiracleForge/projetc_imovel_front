@@ -76,7 +76,7 @@ export function createFetcher<Payload = unknown, Data = unknown>(
       if (!response.ok) {
         return {
           error: json.error ?? response.status,
-          message: json.message ?? response.statusText,
+          message: json.message,
           data: undefined,
         } satisfies actionResponse<Data>;
       }

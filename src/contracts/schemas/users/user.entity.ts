@@ -112,8 +112,7 @@ export const userEntitySchema = z.object({
   // Roles and Plans
   role: userRoleEnum.describe("User access role"),
   plan: userPlanEnum.describe("User current plan"),
-  document_type: z
-    .enum(["cpf", "cnpj"])
+  is_juridic: z.boolean().default(false)
     .describe("Document type (CPF or CNPJ)"),
   document_number: cpfCnpjSchema.describe("Número do CPF ou CNPJ"),
 

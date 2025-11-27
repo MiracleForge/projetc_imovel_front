@@ -11,7 +11,7 @@ export async function registerAction(_prevState: any, formData: FormData): Promi
 
   const widgetToken = formData.get("cf-turnstile-response") as string | null;
   formData.delete("cf-turnstile-response");
-
+  console.log(formData)
   const payloadValided = await validateFormData(formData, registerPayloadSchema);
   if (!payloadValided.success) {
     return payloadValided.error;
@@ -19,9 +19,8 @@ export async function registerAction(_prevState: any, formData: FormData): Promi
 
   await validateTurnstileToken(widgetToken!);
 
-  const path = "/auth/register";
+  const path = "/auth/routes/access/register";
   const fetchRegister = createFetcher<registerPayload, undefined>(path, { method: "POST" });
 
-  await new Promise(r => setTimeout(r, 2000));
   return await fetchRegister(payloadValided.data);
 }
