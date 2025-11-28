@@ -44,24 +44,6 @@ export const userPasswordSchema = z
     }
   });
 
-export const userAddressSchema = z.object({
-  city: z
-    .string()
-    .trim()
-    .min(1, "Cidade não pode ser vazia")
-    .describe("City of the address"),
-  address: z
-    .string()
-    .trim()
-    .min(1, "Estado não pode ser vazio")
-    .describe("State of the address"),
-  state: z
-    .string()
-    .trim()
-    .min(1, "Estado não pode ser vazio")
-    .describe("Number of the address"),
-});
-
 
 // User Role Enum Schema
 export const userRoleEnum = z.enum(["user", "admin", "moderador", "support"]);
@@ -105,9 +87,6 @@ export const userEntitySchema = z.object({
     .trim()
     .regex(/^\+?[1-9]\d{1,14}$/, "Telefone inválido")
     .describe("User phone number (international format)"),
-
-  // Address
-  address: userAddressSchema.describe("User full address"),
 
   // Roles and Plans
   role: userRoleEnum.describe("User access role"),

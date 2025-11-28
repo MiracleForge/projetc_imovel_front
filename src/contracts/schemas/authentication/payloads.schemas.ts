@@ -18,7 +18,6 @@ export const registerPayloadSchema = userEntitySchema
     is_juridic: true,
     document_number: true,
     phone: true,
-    address: true,
     accepts_emails_promotions: true,
     cookies_allowed: true,
     avatar_url: true,

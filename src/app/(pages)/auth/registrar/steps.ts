@@ -42,14 +42,6 @@ export const registerSteps: RegisterStep[] = [
     ]
   },
   {
-    title: "Endereço",
-    fields: [
-      { topLabel: "Endereço", type: "text", name: "address.address", required: true, placeholder: "" },
-      { topLabel: "Cidade", type: "text", name: "address.city", required: true, placeholder: "" },
-      { topLabel: "Estado", type: "text", name: "address.state", required: true, placeholder: "" },
-    ]
-  },
-  {
     title: "Privacidade",
     fields: [
       { topLabel: "Deseja Receber Emails Promocionais", type: "checkbox", name: "accepts_emails_promotions", required: false, placeholder: "", defaultChecked: false },
