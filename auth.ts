@@ -54,13 +54,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
     })
   ],
-  callbacks: {
-    redirect({ url, baseUrl }) {
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
-      if (url.startsWith(baseUrl)) return url;
-      return baseUrl;
-    }
-  },
   pages: {
     signIn: "/auth/entrar",
     error: "/auth/entrar?error=1",

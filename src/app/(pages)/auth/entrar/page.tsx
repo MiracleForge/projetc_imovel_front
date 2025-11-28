@@ -18,7 +18,8 @@ export default function Page() {
   const [state, formAction] = useActionState(loginAction, initialState);
 
   useEffect(() => {
-    if (state.data === (typeof "string")) {
+    if (state.data === "/") {
+      // TODO: CORRIGIR ISSO NO FUTURO, PASSAR A CALLBACK URL AO INVES DE UM VALOR FIXO
       console.log(state.data + "essa deveria ser a url ")
       console.log(state.message + "a mensagem q veio")
       redirect("/");
