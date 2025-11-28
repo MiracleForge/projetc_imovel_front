@@ -5,6 +5,7 @@ import GitHubProvider from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import { createFetcher } from "@/src/utils/fetchData";
 import { loginPayload } from "@/src/contracts/types/payloads.authentication";
+import { NextAuthCustomError } from "./src/errors/constructors/core.erros";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -37,10 +38,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           remember: true
         });
 
-        if (response.error || !response.data) return null;
+        if (response.error) {
+          throw new NextAuthCustomError(response.message || "Erro desconhecido, tente novamente mais tarde");
+        }
+
+        if (!response.data) return null;
 
         const user = response.data;
-
         return {
           id: user.id,
           name: user.name,

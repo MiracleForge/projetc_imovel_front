@@ -18,13 +18,13 @@ export default function Page() {
   const [state, formAction] = useActionState(loginAction, initialState);
 
   useEffect(() => {
-    if (state.message) {
+    if (state.data === (typeof "string")) {
       console.log(state.data + "essa deveria ser a url ")
       console.log(state.message + "a mensagem q veio")
       redirect("/");
     }
 
-  }, [state.message]);
+  }, [state.data]);
 
   return (
     <div className="pb-6">
