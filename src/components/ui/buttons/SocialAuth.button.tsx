@@ -1,5 +1,4 @@
 import Image from "next/image"
-import { handleGitHubSignIn } from "@/src/app/actions/auth.actions"
 import { signIn } from "next-auth/react"
 
 export const SocialAuthButton = () => {

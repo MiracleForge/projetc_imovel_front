@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import Provider from "./context/client-provider";
+import { auth } from "@/auth";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -15,6 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const session = auth();
   return (
     <html lang="pt-br">
       <head>
@@ -22,7 +25,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
 
       <body className={`${poppins.variable} antialiased`}>
-        {children}
+        <Provider session={session}>
+          {children}
+        </Provider>
 
         {/* Script recomendado pelo Cloudflare */}
         <Script
@@ -31,6 +36,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           async
           defer
         />
+
+        {/* Script flowbit para o tooltip */}
+        <Script
+          src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js" strategy="beforeInteractive" defer />
+
       </body>
     </html>
   );
