@@ -1,26 +1,35 @@
 'use client';
 
 import dynamic from "next/dynamic";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import Link from "next/link";
 import { loginAction } from "@/src/app/actions/login.actions";
 import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button";
 import { initialState } from "@/src/contracts/types/responses.core";
 import SubmitButton from "@/src/components/ui/buttons/Submit.button";
 import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
+import { redirect } from "next/navigation";
 const TurnstileWidget = dynamic(
   () => import('@/src/components/layouts/captchas/TurnstileWidget.layout'),
   { ssr: false }
 );
 
-
 export default function Page() {
   const [state, formAction] = useActionState(loginAction, initialState);
+
+  useEffect(() => {
+    if (state.message) {
+      console.log(state.data + "essa deveria ser a url ")
+      console.log(state.message + "a mensagem q veio")
+      redirect("/");
+    }
+
+  }, [state.message]);
+
   return (
     <div className="pb-6">
 
       <form action={formAction} className="gap-px">
-
         <CommumInput
           topLabel="Email"
           type="email"
@@ -38,7 +47,7 @@ export default function Page() {
           required
         />
 
-        {state.error &&
+        {state?.error &&
           <p className="text-red-500 text-sm pt-0.5">{state.message}</p>
         }
 
@@ -61,13 +70,13 @@ export default function Page() {
           <TurnstileWidget key={"login-captcha"} siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!} />
         </div>
 
-        <SubmitButton text="Entrar" />
+        <SubmitButton text="Entrar" type="submit" />
 
       </form>
 
       <p className="text-sm font-medium text-[#0061A7] py-2">ou</p>
 
-      <SocialAuthButton action="login" />
+      <SocialAuthButton />
 
     </div>
   );

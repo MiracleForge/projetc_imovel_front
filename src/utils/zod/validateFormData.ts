@@ -10,7 +10,6 @@ export async function validateFormData<T>(
   | { success: false; error: actionResponse<any> }
 > {
 
-  // Converte FormData para objeto preservando estruturas aninhadas
   let data: Record<string, any>;
 
   if (formData instanceof FormData) {
@@ -19,7 +18,6 @@ export async function validateFormData<T>(
     data = formData;
   }
 
-  // Valida com Zod
   const parsed = schema.safeParse(data);
 
   if (!parsed.success) {

@@ -22,7 +22,7 @@ export default function AvatarButton({ user }: AvatarButtonProps) {
         aria-haspopup="listbox"
         tabIndex={0}
       >
-        <div className="rounded-full p-0.5 inline-flex transition hover:shadow-[0_1px_5px_rgba(0,0,0,0.30)]">
+        <div className="rounded-full p-0.5 inline-flex transition hover:shadow-[0_1px_5px_rgba(0,0,0,0.30)] w-[46px] h-[50px]">
           <Image
             src={user.image ?? "/micelanions/user-avatar.svg"}
             width={46}

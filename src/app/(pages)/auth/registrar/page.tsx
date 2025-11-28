@@ -67,7 +67,7 @@ export default function Page() {
       {!lastStep && (
         <>
           <p className="text-sm font-medium text-[#0061A7]">ou</p>
-          <SocialAuthButton action="register" />
+          <SocialAuthButton />
         </>
       )}
     </div>

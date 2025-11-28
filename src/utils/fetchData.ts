@@ -16,7 +16,7 @@ export function createFetcher<Payload = unknown, Data = unknown>(
   return async (
     payload?: Payload,
     options?: FetcherOptions
-  ): Promise<any> => {
+  ): Promise<actionResponse<Data>> => {
 
     const finalOptions = { ...defaultOptions, ...options };
 
