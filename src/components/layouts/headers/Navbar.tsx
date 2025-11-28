@@ -1,13 +1,15 @@
-import { auth } from "@/auth"
 import Image from "next/image"
 import Link from "next/link"
 import SearchInput from "../../ui/imputs/SearchInput.ui";
 import AvatarButton from "../../ui/buttons/AvatarButton.ui";
 import UnauthenticatedButton from "../../ui/buttons/UnauthenticatedButton.ui";
+import { Session } from "next-auth";
 
-export default async function Navbar() {
-  const session = await auth()
+interface NavbarProps {
+  user: Session['user'] | null;
+}
 
+export default function Navbar({ user }: NavbarProps) {
   return (
     <header className="w-full">
       <nav className="flex flex-row items-center /justify-around p-4 space-x-4">
@@ -26,8 +28,8 @@ export default async function Navbar() {
           <SearchInput />
         </div>
 
-        {session ? (
-          <AvatarButton user={session.user!} />
+        {user ? (
+          <AvatarButton user={user} />
         ) : (
           <UnauthenticatedButton />
         )}
