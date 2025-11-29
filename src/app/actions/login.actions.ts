@@ -27,14 +27,12 @@ export async function loginAction(_prevState: any, formData: FormData): Promise<
       callbackUrl: "/",
     });
 
-    // login ok
     return {
       message: "Autenticado com sucesso! Redirecionando...",
       data: "/",
       error: undefined,
     };
   } catch (error: any) {
-    // Aqui pega o erro lançado pelo authorize
     return {
       message: error.message || "Erro ao fazer login",
       error: "LOGIN_EXCEPTION",

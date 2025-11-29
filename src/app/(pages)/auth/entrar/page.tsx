@@ -7,7 +7,7 @@ import { loginAction } from "@/src/app/actions/login.actions";
 import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button";
 import { initialState } from "@/src/contracts/types/responses.core";
 import SubmitButton from "@/src/components/ui/buttons/Submit.button";
-import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
+import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
 import { redirect } from "next/navigation";
 const TurnstileWidget = dynamic(
   () => import('@/src/components/layouts/captchas/TurnstileWidget.layout'),

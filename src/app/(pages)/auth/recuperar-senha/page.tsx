@@ -5,7 +5,7 @@ import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button"
 import { loginAction } from "@/src/app/actions/login.actions";
 import { initialState } from "@/src/contracts/types/responses.core";
 import SubmitButton from "@/src/components/ui/buttons/Submit.button";
-import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
+import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
 
 export default function Page() {
   const [state, formAction] = useActionState(loginAction, initialState);

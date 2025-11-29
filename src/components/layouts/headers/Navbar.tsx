@@ -1,16 +1,16 @@
 import { Session } from "next-auth";
-import SearchInput from "../../ui/imputs/SearchInput.ui";
+import SearchInput from "../../ui/inputs/SearchInput.ui";
 import AvatarButton from "../../ui/buttons/AvatarButton.ui";
 import ToHomeButton from "../../ui/buttons/ToHomeButton.ui";
 
 interface NavbarProps {
-  user: Session['user'] | null;
+  user: Session['user'] | undefined;
 }
 
 export default function Navbar({ user }: NavbarProps) {
   return (
     <header className="w-full relative">
-      <nav className="flex flex-row items-center /justify-around p-4 space-x-4">
+      <nav className="flex flex-row items-center p-4 space-x-4">
 
         <ToHomeButton />
 

@@ -27,7 +27,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         password: { type: "password" }
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials.password) return null;
+        if (!credentials.email || !credentials.password) return null;
 
         const path = "/auth/routes/access/login";
         const fetchLogin = createFetcher<loginPayload, User>(path, { method: "POST" });

@@ -2,7 +2,7 @@
 
 import { useActionState, useState, useCallback, useMemo } from "react";
 import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button";
-import CommumInput from "@/src/components/ui/imputs/Commum.inputs";
+import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
 import SubmitButton from "@/src/components/ui/buttons/Submit.button";
 import { registerSteps } from "./steps";
 import { initialState } from "@/src/contracts/types/responses.core";

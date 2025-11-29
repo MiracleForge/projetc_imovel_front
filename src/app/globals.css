@@ -18,6 +18,9 @@
     @apply hover:underline leading-6 text-[#707070] hover:text-[#0029F6];
   }
 
+  .border-default {
+    @apply border border-neutral-300 px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus:text-secundary-blue font-semibold;
+  }
   
   #toggle-menu:checked ~ .header .nav {
     opacity: 1;
