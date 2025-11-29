@@ -15,7 +15,7 @@ export default function UnauthenticatedButton() {
       >
         <div className="rounded-full p-0.5 inline-flex transition hover:shadow-[0_1px_5px_rgba(0,0,0,0.30)] w-[46px] h-[50px]">
           <Image
-            src={"/micelanions/user-avatar.svg"}
+            src={"miscellaneous/user-avatar.svg"}
             width={46}
             height={50}
             alt="avatar"

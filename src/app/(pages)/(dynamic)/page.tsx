@@ -1,4 +1,3 @@
-import Navbar from "../components/layouts/headers/Navbar";
 
 export default function Home() {
   return (

@@ -17,6 +17,12 @@
   .link-default {
     @apply hover:underline leading-6 text-[#707070] hover:text-[#0029F6];
   }
+
+  
+  #toggle-menu:checked ~ .header .nav {
+    opacity: 1;
+    left: 0;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -30,6 +36,7 @@
     height: 120lvh;
     transform: translateY(-20px) translateX(-6px) rotate(-6deg);
   }
+
 }
 
 

@@ -13,7 +13,7 @@ export default function FlowbitToolTip({ tooltipId, children }: toolTipProps) {
     <div
       id={tooltipId}
       role="tooltip"
-      className="absolute z-50 invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900/40 rounded shadow opacity-0 tooltip duration-500 transition-opacity" >
+      className="absolute  invisible inline-block px-3 py-2 text-sm font-medium text-white bg-gray-900/40 rounded shadow opacity-0 tooltip duration-500 transition-opacity z-9999" >
       {children}
       < div className="tooltip-arrow" data-popper-arrow > </div>
     </div >

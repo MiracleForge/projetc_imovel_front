@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import Provider from "./context/client-provider";
-import { auth } from "@/auth";
-import Navbar from "../components/layouts/headers/Navbar";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -18,7 +15,6 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const session = await auth();
   return (
     <html lang="pt-br">
       <head>
@@ -26,10 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
 
       <body className={`${poppins.variable} antialiased`}>
-        <Navbar user={session?.user}></Navbar>
-        <Provider session={session}>
-          {children}
-        </Provider>
+        {children}
 
         {/* Script recomendado pelo Cloudflare */}
         <Script
