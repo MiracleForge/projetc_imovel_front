@@ -9,7 +9,7 @@ interface UserAvatarProps {
 export default function UserAvatar({ image, name, size = 46 }: UserAvatarProps) {
   const seed = name?.trim() || "Guest";
 
-  const avatarSrc = image ?? name ? `https://api.dicebear.com/9.x/initials/png?seed=${encodeURIComponent(seed)}` : "/miscellaneous/user-avatar.svg";
+  const avatarSrc = image ? image : name ? `https://api.dicebear.com/9.x/initials/png?seed=${encodeURIComponent(seed)}` : "/miscellaneous/user-avatar.svg";
 
   return (
     <Image

@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function SearchInput() {
  return (
-  <div className="border-2 border-neutral-300 focus-within:border-black px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus-within:ring-black/20 rounded-lg">
+  <div className="w-full border-2 border-neutral-300 focus-within:border-black px-3 pb-1.5 pt-2.5 duration-200 focus-within:ring focus-within:ring-black/20 rounded-lg">
    <form className="flex flex-row justify-between">
 
     <input

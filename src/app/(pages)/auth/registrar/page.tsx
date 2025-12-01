@@ -83,7 +83,7 @@ interface StepNavigationProps {
 
 function StepNavigation({ step, lastStep, onNext, onPrev }: StepNavigationProps) {
   return (
-    <div className={`flex justify-between pt-3 ${step > 0 || lastStep ? "space-x-3" : ""}`}>
+    <div className={`flex justify-between pt-3 ${step > 0 || lastStep && "space-x-3"}`}>
       {step > 0 ? (
         <SubmitButton text="Voltar" type="button" onClick={onPrev} />
       ) : (

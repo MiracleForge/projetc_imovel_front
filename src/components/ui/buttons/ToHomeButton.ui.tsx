@@ -4,7 +4,9 @@ import Link from "next/link";
 export default function ToHomeButton() {
   return <Link href="/" className="shrink-0"
     role="button"
-    aria-label="Ir para a página inicial">
+    aria-label="Ir para a página inicial"
+    title="Páginia inicial do plx"
+  >
     <Image
       src="/logos/logo-gatu.webp"
       alt="Next.js logo"

@@ -9,32 +9,37 @@ import { createFetcher } from "@/src/utils/fetchData";
 interface SlideNavbarProps {
   toggleId: string;
   user: User | undefined;
-};
+}
 
-export default function SlideMenu({ toggleId, user }: SlideNavbarProps) {
+export default async function SlideMenu({ toggleId, user }: SlideNavbarProps) {
   const { name, email, image } = user ?? {};
 
+  const fetchBanner = createFetcher<undefined, bannerProps[]>(
+    "http://localhost:3000/api/banner",
+    { method: "GET", isPublic: true }
+  );
+
+  const bannerResponse = await fetchBanner();
+  const banner = bannerResponse.data;
+
   return (
-    <nav className="
-        fixed top-0 right-0 h-screen
-        w-screen md:max-w-sm
+    <nav
+      className="
+        fixed top-0 right-0 h-screen 
+        w-screen max-w-md md:max-w-sm
         p-4
         transform translate-x-full opacity-0
         peer-checked:translate-x-0 peer-checked:opacity-100
         transition-transform duration-300 ease-in-out
-        z-50
-        shadow bg-white
+        z-50 shadow bg-white overflow-y-auto
       "
       role="navigation"
       aria-label="Menu lateral"
       id="slide-menu"
     >
-
       <div className="flex w-full items-center p-4">
         {!user && <ToHomeButton />}
-        <p className="text-sm font-light text-center flex-1">
-          {email}
-        </p>
+        <p className="text-sm font-light text-center flex-1">{email}</p>
 
         <label
           htmlFor={toggleId}
@@ -45,10 +50,11 @@ export default function SlideMenu({ toggleId, user }: SlideNavbarProps) {
             src="/miscellaneous/close-icon.svg"
             width={16}
             height={16}
+            unoptimized
             alt="Fechar menu"
+            loading="lazy"
           />
         </label>
-
       </div>
 
       <span className="my-3">
@@ -59,26 +65,38 @@ export default function SlideMenu({ toggleId, user }: SlideNavbarProps) {
         )}
       </span>
 
-      <BannerSegment />
+      <BannerSegment banner={banner} />
+      <OptionsSegment />
+      <FooterSegment />
     </nav>
   );
 }
 
-
-interface LoggedSegmentProps {
+interface AuthenticatedSegmentProps {
   name: string | null | undefined;
   image: string | null | undefined;
 }
 
-function AuthenticatedSegment({ name, image }: LoggedSegmentProps) {
+function AuthenticatedSegment({ name, image }: AuthenticatedSegmentProps) {
   return (
     <div className="flex flex-col w-full justify-center items-center space-y-3 mt-3">
       <UserAvatar image={image} name={name} size={72} />
       <p>Olá, {name}!</p>
-      <CommumButton label="Gerenciar Conta" url="#" aria-label="Gerenciar Conta do Usuário" />
-      <Link href={"#"} className="border-default rounded-3xl w-full text-center" role="button" aria-label="Gerenciar Conta">
-        Meu Espaço
-      </Link>
+      <CommumButton label="Gerenciar Conta" url="#" />
+      <CommumButton
+        label="Meu Espaço"
+        url="#"
+        className="text-start flex flex-row space-x-3 w-full"
+      >
+        <Image
+          src="/miscellaneous/user-avatar.svg"
+          width={26}
+          height={26}
+          unoptimized
+          alt="User"
+          loading="lazy"
+        />
+      </CommumButton>
     </div>
   );
 }
@@ -86,13 +104,14 @@ function AuthenticatedSegment({ name, image }: LoggedSegmentProps) {
 function UnAuthenticatedSegment() {
   return (
     <span className="gap-y-4 flex flex-col mt-3">
-      <div className="
-      grid grid-cols-[auto_1fr]
-      w-full items-center
-      bg-secundary-blue/80 p-3 rounded-xl
-      gap-4 border-foreground
-    ">
-
+      <div
+        className="
+        grid grid-cols-[auto_1fr]
+        w-full items-center
+        bg-secundary-blue/80 p-3 rounded-xl
+        gap-4 border-foreground
+      "
+      >
         <span className="bg-foreground p-2 rounded-full shrink-0">
           <UserAvatar size={26} />
         </span>
@@ -105,31 +124,118 @@ function UnAuthenticatedSegment() {
           <CommumButton label="Entrar" url="/auth/entrar" />
           <CommumButton label="Criar Conta" url="/auth/entrar" />
         </div>
-
       </div>
     </span>
   );
 }
 
-type bannerProps = { title: string, paragraph: string, buttonLabel: string, url: string }
-function BannerSegment() {
-  const path = "http://localhost:3000"
-  const bannerFecher = createFetcher<undefined, bannerProps[]>(path, { method: "GET", isPublic: true })
-  return (
-    <div className="flex w-full mt-3 border border-foreground rounded-xl p-1 gap-3">
+type bannerProps = {
+  title: string;
+  paragraph: string;
+  url: string;
+  bannerImg: {
+    alt: string
+    src: string;
+  }
+};
 
-      {/* Imagem */}
+function BannerSegment({ banner }: { banner: bannerProps[] | undefined }) {
+  const item = banner?.[0];
+
+  return (
+    <Link
+      href={item?.url ?? "#"}
+      role="banner"
+      className="flex w-full mt-3 border border-foreground rounded-xl p-1 gap-3"
+    >
       <div
         className="
-      w-full rounded-xl
-      bg-[url('/banner.jpg')]
-      bg-right
-      bg-no-repeat
-      min-h-[100px]
-    "
-      ></div>
+        w-full rounded-xl
+        bg-[url('/banner.jpg')]
+        bg-right bg-no-repeat bg-cover
+        min-h-[140px]
+      ">
+      </div>
+    </Link>
+  );
+}
 
-    </div>
+function OptionsSegment() {
+  return (
+    <>
+      <div className="space-y-3 mt-3">
+        <CommumButton label="Gerenciar Conta" url="#" />
+
+        <CommumButton
+          label=""
+          url="#"
+          className="flex flex-row justify-around w-full items-center"
+        >
+          <span className="mr-auto flex flex-row gap-x-3">
+            <Image
+              src="/miscellaneous/user-avatar.svg"
+              width={26}
+              height={26}
+              unoptimized
+              alt="User"
+            />
+            Meu Espaço
+          </span>
+
+          <div className="w-fit px-3 py-1 bg-secundary-blue rounded-xl text-white font-bold">
+            Descubra
+          </div>
+        </CommumButton>
+
+        <CommumButton
+          label="Meus Anúncios"
+          url="#"
+          className="text-start flex flex-row space-x-3"
+        >
+          <Image
+            src="/miscellaneous/user-avatar.svg"
+            width={26}
+            height={26}
+            unoptimized
+            alt="User"
+            loading="lazy"
+          />
+        </CommumButton>
+
+        <CommumButton
+          label="Chat"
+          url="#"
+          className="text-start flex flex-row space-x-3"
+        >
+          <Image
+            src="/miscellaneous/user-avatar.svg"
+            width={26}
+            height={26}
+            unoptimized
+            alt="User"
+            loading="lazy"
+          />
+        </CommumButton>
+      </div>
+
+      <div className="flex space-x-3 mt-3">
+        <CommumButton label="Configurações" url="#" className="w-full" />
+        <CommumButton label="Ajuda" url="#" className="w-full" />
+      </div>
+    </>
+  );
+}
+
+function FooterSegment() {
+  return (
+    <footer className="flex flex-row justify-around space-x-3 w-full mt-6 text-sm">
+      <Link href={"politicas-privacidade"}>
+        <span className="link-default">Políticas de Privacidade</span>
+      </Link>
+      <Link href={"/termos-de-uso"}>
+        <span className="link-default">Termos de uso</span>
+      </Link>
+    </footer>
   );
 }
 

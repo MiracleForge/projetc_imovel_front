@@ -13,17 +13,13 @@ export default function AvatarButton({ user }: AvatarButtonProps) {
 
   return (
     <div className="relative">
-      <input
-        type="checkbox"
-        id="toggle-menu"
-        className="hidden peer"
-        aria-label="Abrir Menu"
-      />
+      <input type="checkbox" id="toggle-menu" className="hidden peer" />
 
-      <label htmlFor="toggle-menu" className="cursor-pointer" role="button" aria-controls="slide-menu" aria-expanded="false">
-        <div className="rounded-full p-0.5 inline-flex transition hover:shadow-[0_1px_5px_rgba(0,0,0,0.30)] size-12">
-          <UserAvatar image={user?.image} name={user?.name} />
-        </div>
+      <div className="fixed inset-0 bg-black/60 opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto transition-opacity duration-300 z-40">
+      </div>
+
+      <label htmlFor="toggle-menu" className="cursor-pointer">
+        <UserAvatar image={user?.image} name={user?.name} />
       </label>
 
       <SlideMenu toggleId="toggle-menu" user={user} />
