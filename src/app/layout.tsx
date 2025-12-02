@@ -21,7 +21,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="preconnect" href="https://challenges.cloudflare.com" />
       </head>
 
-      <body className={`${poppins.variable} antialiased lg:pt-6 lg:px-12`}>
+      <body className={`${poppins.variable} antialiased`}>
         {children}
 
         {/* Script recomendado pelo Cloudflare */}

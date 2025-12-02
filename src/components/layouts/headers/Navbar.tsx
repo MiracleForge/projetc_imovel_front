@@ -10,7 +10,7 @@ interface NavbarProps {
 
 export default function Navbar({ user }: NavbarProps) {
   return (
-    <header className="w-full relative boder border-b-foreground">
+    <header className="w-full relative border-b border-foreground">
       <nav className="flex flex-row items-center p-4 space-x-4 justify-between">
 
         <span className="inline-flex space-x-3 items-center">
