@@ -86,7 +86,7 @@ function AuthenticatedSegment({ name, image }: AuthenticatedSegmentProps) {
       <CommumButton
         label="Meu Espaço"
         url="#"
-        className="text-start flex flex-row space-x-3 w-full"
+        className="text-start flex flex-row space-x-3"
       >
         <Image
           src="/miscellaneous/user-avatar.svg"
@@ -151,7 +151,7 @@ function BannerSegment({ banner }: { banner: bannerProps[] | undefined }) {
       <div
         className="
         w-full rounded-xl
-        bg-[url('/banner.jpg')]
+        bg-[url('/banners/slide-menu-banner.jpg')]
         bg-right bg-no-repeat bg-cover
         min-h-[140px]
       ">

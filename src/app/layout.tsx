@@ -21,7 +21,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <link rel="preconnect" href="https://challenges.cloudflare.com" />
       </head>
 
-      <body className={`${poppins.variable} antialiased`}>
+      <body className={`${poppins.variable} antialiased lg:pt-6 lg:px-12`}>
         {children}
 
         {/* Script recomendado pelo Cloudflare */}
@@ -35,7 +35,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         {/* Script flowbit para o tooltip */}
         <Script
           src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js" strategy="beforeInteractive" defer />
-
       </body>
     </html>
   );

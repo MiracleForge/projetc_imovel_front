@@ -19,7 +19,7 @@ export default function AvatarButton({ user }: AvatarButtonProps) {
       </div>
 
       <label htmlFor="toggle-menu" className="cursor-pointer">
-        <UserAvatar image={user?.image} name={user?.name} />
+        <UserAvatar image={user?.image} name={user?.name} size={36} />
       </label>
 
       <SlideMenu toggleId="toggle-menu" user={user} />

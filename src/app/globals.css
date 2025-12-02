@@ -11,6 +11,11 @@
   --font-sans: var(--font-poppins);
   --color-secundary-blue: #5D79F9;
   --color-primary-blue: #84BAFF;
+  --color-terciary-blue: #4593FA;
+}
+
+ @utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
 
 @layer components {
@@ -35,7 +40,6 @@
   }
 
 }
-
 
 body {
   background: var(--background);
