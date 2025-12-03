@@ -10,7 +10,6 @@ export default function HeroBannerCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState<null | boolean>(null);
 
-  // Detecção de mobile - PRECISA ficar aqui (controla renderização condicional)
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
 
@@ -24,7 +23,6 @@ export default function HeroBannerCarousel() {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
-  // Autoplay - Bom ficar aqui (coordena o carrossel inteiro)
   useEffect(() => {
     const nextSlide = () => {
       const el = carouselRef.current;
@@ -189,7 +187,6 @@ function CarouselSlides({
   isMobile: boolean | null;
   onIndexChange: (index: number) => void;
 }) {
-  // Scroll tracking - AGORA está no componente certo!
   useEffect(() => {
     if (isMobile) return;
 
@@ -234,7 +231,6 @@ function CarouselIndicator({
     const el = carouselRef.current;
     if (!el) return;
 
-    // Reinicia o autoplay ao navegar manualmente
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
 

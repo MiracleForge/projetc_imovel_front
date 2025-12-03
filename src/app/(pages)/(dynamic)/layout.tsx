@@ -13,7 +13,9 @@ export default async function MainLayout({
     <>
       <Navbar user={session?.user} />
       <Provider session={session}>
-        {children}
+        <div className="lg:px-12">
+          {children}
+        </div>
       </Provider>
     </>
   );

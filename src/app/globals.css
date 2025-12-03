@@ -12,6 +12,7 @@
   --color-secundary-blue: #5D79F9;
   --color-primary-blue: #84BAFF;
   --color-terciary-blue: #4593FA;
+  --color-quartenary-blue: #1561ED;
 }
 
  @utility no-scrollbar {
@@ -30,6 +31,19 @@
   #toggle-menu:checked ~ .header .nav {
     opacity: 1;
     left: 0;
+  }
+
+  /* espaçamentos */
+  .space-component-to-component {
+    @apply my-8 lg:my-12;
+  } 
+
+  .space-card-to-component{
+    @apply mt-6 lg:mt-12;
+  }
+  /* tipografia */
+  .tipografy-title {
+    @apply leading-6 text-2xl lg:text-4xl font-bold text-black;
   }
 }
 
