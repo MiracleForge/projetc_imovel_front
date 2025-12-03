@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback, memo, useState } from "react";
+import { useRef, useEffect, memo, useState } from "react";
 import { heroCarrouselData } from "@/src/data/heroCarousel.data";
 import Image from "next/image";
 
@@ -10,7 +10,7 @@ export default function HeroBannerCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState<null | boolean>(null);
 
-  // Detecção de mobile otimizada
+  // Detecção de mobile - PRECISA ficar aqui (controla renderização condicional)
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)");
 
@@ -24,53 +24,22 @@ export default function HeroBannerCarousel() {
     return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
-  const nextSlide = useCallback(() => {
-    const el = carouselRef.current;
-    if (!el) return;
-
-    const width = el.clientWidth;
-    const lastIndex = heroCarrouselData.length - 1;
-    const isLast = el.scrollLeft >= width * lastIndex;
-
-    el.scrollTo({
-      left: isLast ? 0 : el.scrollLeft + width,
-      behavior: "smooth",
-    });
-  }, []);
-
-  const prevSlide = useCallback(() => {
-    const el = carouselRef.current;
-    if (!el) return;
-
-    const width = el.clientWidth;
-    const first = el.scrollLeft === 0;
-    const lastIndex = heroCarrouselData.length - 1;
-
-    el.scrollTo({
-      left: first ? width * lastIndex : el.scrollLeft - width,
-      behavior: "smooth",
-    });
-  }, []);
-
-  const goToSlide = useCallback((index: number) => {
-    const el = carouselRef.current;
-    if (!el) return;
-
-    // Reinicia o autoplay ao navegar manualmente
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = setInterval(nextSlide, 6000);
-    }
-
-    const width = el.clientWidth;
-    el.scrollTo({
-      left: width * index,
-      behavior: "smooth",
-    });
-  }, [nextSlide]);
-
-  // Autoplay com pausa em janela inativa
+  // Autoplay - Bom ficar aqui (coordena o carrossel inteiro)
   useEffect(() => {
+    const nextSlide = () => {
+      const el = carouselRef.current;
+      if (!el) return;
+
+      const width = el.clientWidth;
+      const lastIndex = heroCarrouselData.length - 1;
+      const isLast = el.scrollLeft >= width * lastIndex;
+
+      el.scrollTo({
+        left: isLast ? 0 : el.scrollLeft + width,
+        behavior: "smooth",
+      });
+    };
+
     const startAutoplay = () => {
       intervalRef.current = setInterval(nextSlide, 6000);
     };
@@ -91,24 +60,7 @@ export default function HeroBannerCarousel() {
       stopAutoplay();
       document.removeEventListener("visibilitychange", handleVisibility);
     };
-  }, [nextSlide]);
-
-  // Atualiza índice atual baseado no scroll
-  useEffect(() => {
-    if (isMobile) return;
-
-    const el = carouselRef.current;
-    if (!el) return;
-
-    const handleScroll = () => {
-      const width = el.clientWidth;
-      const index = Math.round(el.scrollLeft / width);
-      setCurrentIndex(index);
-    };
-
-    el.addEventListener("scroll", handleScroll);
-    return () => el.removeEventListener("scroll", handleScroll);
-  }, [isMobile]);
+  }, []);
 
   if (heroCarrouselData.length === 0) return null;
 
@@ -121,25 +73,29 @@ export default function HeroBannerCarousel() {
       aria-label="Carrossel de banners promocionais"
       aria-live="polite"
     >
-      <CarouselSlides carouselRef={carouselRef} />
+      <CarouselSlides
+        carouselRef={carouselRef}
+        isMobile={isMobile}
+        onIndexChange={setCurrentIndex}
+      />
 
       {showControls && (
         <>
           <CarouselButton
-            onClick={prevSlide}
-            position="left"
-            rotate
+            carouselRef={carouselRef}
+            direction="prev"
             label="Slide anterior"
           />
           <CarouselButton
-            onClick={nextSlide}
-            position="right"
+            carouselRef={carouselRef}
+            direction="next"
             label="Próximo slide"
           />
           <CarouselIndicator
             total={heroCarrouselData.length}
             currentIndex={currentIndex}
-            onSlideChange={goToSlide}
+            carouselRef={carouselRef}
+            intervalRef={intervalRef}
           />
         </>
       )}
@@ -148,21 +104,42 @@ export default function HeroBannerCarousel() {
 }
 
 const CarouselButton = memo(function CarouselButton({
-  onClick,
-  position,
-  rotate,
+  carouselRef,
+  direction,
   label,
 }: {
-  onClick: () => void;
-  position: "left" | "right";
-  rotate?: boolean;
+  carouselRef: React.RefObject<HTMLUListElement | null>;
+  direction: "prev" | "next";
   label: string;
 }) {
-  const positionClass = position === "left" ? "left-4" : "right-4";
+  const handleClick = () => {
+    const el = carouselRef.current;
+    if (!el) return;
+
+    const width = el.clientWidth;
+    const lastIndex = heroCarrouselData.length - 1;
+
+    if (direction === "next") {
+      const isLast = el.scrollLeft >= width * lastIndex;
+      el.scrollTo({
+        left: isLast ? 0 : el.scrollLeft + width,
+        behavior: "smooth",
+      });
+    } else {
+      const isFirst = el.scrollLeft === 0;
+      el.scrollTo({
+        left: isFirst ? width * lastIndex : el.scrollLeft - width,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const isLeft = direction === "prev";
+  const positionClass = isLeft ? "left-4" : "right-4";
 
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       aria-label={label}
       className={`absolute hidden md:block ${positionClass} top-1/2 -translate-y-1/2 
         p-3 bg-[#F5F5F5] hover:bg-foreground hover:scale-110 
@@ -174,7 +151,7 @@ const CarouselButton = memo(function CarouselButton({
         width={16}
         height={16}
         priority={false}
-        className={rotate ? "rotate-180" : ""}
+        className={isLeft ? "rotate-180" : ""}
       />
     </button>
   );
@@ -205,9 +182,30 @@ const CarouselItem = memo(function CarouselItem({
 
 function CarouselSlides({
   carouselRef,
+  isMobile,
+  onIndexChange,
 }: {
   carouselRef: React.RefObject<HTMLUListElement | null>;
+  isMobile: boolean | null;
+  onIndexChange: (index: number) => void;
 }) {
+  // Scroll tracking - AGORA está no componente certo!
+  useEffect(() => {
+    if (isMobile) return;
+
+    const el = carouselRef.current;
+    if (!el) return;
+
+    const handleScroll = () => {
+      const width = el.clientWidth;
+      const index = Math.round(el.scrollLeft / width);
+      onIndexChange(index);
+    };
+
+    el.addEventListener("scroll", handleScroll);
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, [isMobile, onIndexChange, carouselRef]);
+
   return (
     <ul
       ref={carouselRef}
@@ -224,12 +222,43 @@ function CarouselSlides({
 function CarouselIndicator({
   total,
   currentIndex,
-  onSlideChange,
+  carouselRef,
+  intervalRef,
 }: {
   total: number;
   currentIndex: number;
-  onSlideChange: (index: number) => void;
+  carouselRef: React.RefObject<HTMLUListElement | null>;
+  intervalRef: React.RefObject<NodeJS.Timeout | null>;
 }) {
+  const goToSlide = (index: number) => {
+    const el = carouselRef.current;
+    if (!el) return;
+
+    // Reinicia o autoplay ao navegar manualmente
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+
+      const nextSlide = () => {
+        const width = el.clientWidth;
+        const lastIndex = heroCarrouselData.length - 1;
+        const isLast = el.scrollLeft >= width * lastIndex;
+
+        el.scrollTo({
+          left: isLast ? 0 : el.scrollLeft + width,
+          behavior: "smooth",
+        });
+      };
+
+      intervalRef.current = setInterval(nextSlide, 6000);
+    }
+
+    const width = el.clientWidth;
+    el.scrollTo({
+      left: width * index,
+      behavior: "smooth",
+    });
+  };
+
   return (
     <div
       className="absolute bottom-6 inset-x-0 flex justify-center gap-2"
@@ -242,7 +271,7 @@ function CarouselIndicator({
         return (
           <button
             key={index}
-            onClick={() => onSlideChange(index)}
+            onClick={() => goToSlide(index)}
             role="tab"
             aria-selected={isActive}
             aria-label={`Ir para slide ${index + 1}`}
