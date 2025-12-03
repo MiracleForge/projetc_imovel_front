@@ -10,13 +10,18 @@ export default function HeroBannerCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobile, setIsMobile] = useState<null | boolean>(null);
 
-  const total = heroCarrouselData.length - 1;
-
+  // Detecção de mobile otimizada
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+
+    const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile(e.matches);
+    };
+
+    handleChange(mediaQuery);
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
   }, []);
 
   const nextSlide = useCallback(() => {
@@ -47,6 +52,24 @@ export default function HeroBannerCarousel() {
     });
   }, []);
 
+  const goToSlide = useCallback((index: number) => {
+    const el = carouselRef.current;
+    if (!el) return;
+
+    // Reinicia o autoplay ao navegar manualmente
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = setInterval(nextSlide, 6000);
+    }
+
+    const width = el.clientWidth;
+    el.scrollTo({
+      left: width * index,
+      behavior: "smooth",
+    });
+  }, [nextSlide]);
+
+  // Autoplay com pausa em janela inativa
   useEffect(() => {
     const startAutoplay = () => {
       intervalRef.current = setInterval(nextSlide, 6000);
@@ -70,6 +93,7 @@ export default function HeroBannerCarousel() {
     };
   }, [nextSlide]);
 
+  // Atualiza índice atual baseado no scroll
   useEffect(() => {
     if (isMobile) return;
 
@@ -86,20 +110,36 @@ export default function HeroBannerCarousel() {
     return () => el.removeEventListener("scroll", handleScroll);
   }, [isMobile]);
 
-  if (heroCarrouselData.length === 0) return;
+  if (heroCarrouselData.length === 0) return null;
+
+  const showControls = isMobile !== null && !isMobile && heroCarrouselData.length > 1;
+
   return (
-    <div className="relative w-full aspect-3/1 md:aspect-4/1 overflow-hidden">
+    <div
+      className="relative w-full aspect-3/1 md:aspect-4/1 overflow-hidden"
+      role="region"
+      aria-label="Carrossel de banners promocionais"
+      aria-live="polite"
+    >
       <CarouselSlides carouselRef={carouselRef} />
 
-      {isMobile !== null && !isMobile && heroCarrouselData.length !== 1 && (
+      {showControls && (
         <>
-          <CarouselButton onClick={prevSlide} position="left" rotate />
-          <CarouselButton onClick={nextSlide} position="right" />
+          <CarouselButton
+            onClick={prevSlide}
+            position="left"
+            rotate
+            label="Slide anterior"
+          />
+          <CarouselButton
+            onClick={nextSlide}
+            position="right"
+            label="Próximo slide"
+          />
           <CarouselIndicator
             total={heroCarrouselData.length}
             currentIndex={currentIndex}
-            carouselRef={carouselRef}
-            isMobile={isMobile}
+            onSlideChange={goToSlide}
           />
         </>
       )}
@@ -107,21 +147,26 @@ export default function HeroBannerCarousel() {
   );
 }
 
-
 const CarouselButton = memo(function CarouselButton({
   onClick,
   position,
   rotate,
+  label,
 }: {
   onClick: () => void;
   position: "left" | "right";
   rotate?: boolean;
+  label: string;
 }) {
+  const positionClass = position === "left" ? "left-4" : "right-4";
+
   return (
     <button
       onClick={onClick}
-      className={`absolute hidden md:block ${position === "left" ? "left-4" : "right-4"
-        } top-1/2 -translate-y-1/2 p-3 bg-[#F5F5F5] hover:bg-foreground hover:scale-110 rounded-full z-10`}
+      aria-label={label}
+      className={`absolute hidden md:block ${positionClass} top-1/2 -translate-y-1/2 
+        p-3 bg-[#F5F5F5] hover:bg-foreground hover:scale-110 
+        rounded-full z-10 transition-transform duration-200`}
     >
       <Image
         src="/miscellaneous/arrow-vector.svg"
@@ -134,7 +179,6 @@ const CarouselButton = memo(function CarouselButton({
     </button>
   );
 });
-
 
 const CarouselItem = memo(function CarouselItem({
   url,
@@ -167,49 +211,50 @@ function CarouselSlides({
   return (
     <ul
       ref={carouselRef}
-      className="flex overflow-x-scroll snap-x snap-mandatory w-full h-full no-scrollbar list-none m-0 p-0 relative touch-pan-x"
+      className="flex overflow-x-auto snap-x snap-mandatory w-full h-full 
+        no-scrollbar list-none m-0 p-0 relative touch-pan-x"
     >
       {heroCarrouselData.map((item, index) => (
         <CarouselItem key={index} url={item.url} index={index} />
       ))}
     </ul>
   );
-};
-
+}
 
 function CarouselIndicator({
   total,
   currentIndex,
-  carouselRef,
+  onSlideChange,
 }: {
   total: number;
   currentIndex: number;
-  carouselRef: React.RefObject<HTMLUListElement | null>;
-  isMobile: boolean | null
+  onSlideChange: (index: number) => void;
 }) {
-
-  const goToSlide = useCallback((index: number) => {
-    const el = carouselRef.current;
-    if (!el) return;
-
-    const width = el.clientWidth;
-    el.scrollTo({
-      left: width * index,
-      behavior: "smooth",
-    });
-  }, []);
-
   return (
-    <div className="absolute bottom-6 inset-x-0 flex justify-center space-x-1">
-      {Array.from({ length: total }).map((_, index) => (
-        <button
-          key={index}
-          onClick={() => goToSlide(index)}
-          className={`rounded-full transition-all bg-white border border-secundary-blue
-            ${currentIndex === index ? "h-2 w-8 " : "h-2 w-6"}`}
-        ></button>
-      ))}
+    <div
+      className="absolute bottom-6 inset-x-0 flex justify-center gap-2"
+      role="tablist"
+      aria-label="Slides do carrossel"
+    >
+      {Array.from({ length: total }).map((_, index) => {
+        const isActive = currentIndex === index;
+
+        return (
+          <button
+            key={index}
+            onClick={() => onSlideChange(index)}
+            role="tab"
+            aria-selected={isActive}
+            aria-label={`Ir para slide ${index + 1}`}
+            className={`rounded-full transition-all duration-300 bg-white 
+              border border-secundary-blue hover:opacity-100
+              ${isActive
+                ? "h-2 w-8 opacity-100"
+                : "h-2 w-6 opacity-60"
+              }`}
+          />
+        );
+      })}
     </div>
   );
 }
-
