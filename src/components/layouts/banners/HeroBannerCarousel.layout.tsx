@@ -1,12 +1,23 @@
 "use client";
 
-import { useRef, useEffect, useCallback, memo } from "react";
+import { useRef, useEffect, useCallback, memo, useState } from "react";
 import { heroCarrouselData } from "@/src/data/heroCarousel.data";
 import Image from "next/image";
 
 export default function HeroBannerCarousel() {
   const carouselRef = useRef<HTMLUListElement>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState<null | boolean>(null);
+
+  const total = heroCarrouselData.length - 1;
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const nextSlide = useCallback(() => {
     const el = carouselRef.current;
@@ -38,7 +49,7 @@ export default function HeroBannerCarousel() {
 
   useEffect(() => {
     const startAutoplay = () => {
-      intervalRef.current = setInterval(nextSlide, 4500);
+      intervalRef.current = setInterval(nextSlide, 6000);
     };
 
     const stopAutoplay = () => {
@@ -59,12 +70,39 @@ export default function HeroBannerCarousel() {
     };
   }, [nextSlide]);
 
+  useEffect(() => {
+    if (isMobile) return;
+
+    const el = carouselRef.current;
+    if (!el) return;
+
+    const handleScroll = () => {
+      const width = el.clientWidth;
+      const index = Math.round(el.scrollLeft / width);
+      setCurrentIndex(index);
+    };
+
+    el.addEventListener("scroll", handleScroll);
+    return () => el.removeEventListener("scroll", handleScroll);
+  }, [isMobile]);
+
+  if (heroCarrouselData.length === 0) return;
   return (
     <div className="relative w-full aspect-3/1 md:aspect-4/1 overflow-hidden">
       <CarouselSlides carouselRef={carouselRef} />
 
-      <CarouselButton onClick={prevSlide} position="left" rotate />
-      <CarouselButton onClick={nextSlide} position="right" />
+      {isMobile !== null && !isMobile && heroCarrouselData.length !== 1 && (
+        <>
+          <CarouselButton onClick={prevSlide} position="left" rotate />
+          <CarouselButton onClick={nextSlide} position="right" />
+          <CarouselIndicator
+            total={heroCarrouselData.length}
+            currentIndex={currentIndex}
+            carouselRef={carouselRef}
+            isMobile={isMobile}
+          />
+        </>
+      )}
     </div>
   );
 }
@@ -137,3 +175,41 @@ function CarouselSlides({
     </ul>
   );
 };
+
+
+function CarouselIndicator({
+  total,
+  currentIndex,
+  carouselRef,
+}: {
+  total: number;
+  currentIndex: number;
+  carouselRef: React.RefObject<HTMLUListElement | null>;
+  isMobile: boolean | null
+}) {
+
+  const goToSlide = useCallback((index: number) => {
+    const el = carouselRef.current;
+    if (!el) return;
+
+    const width = el.clientWidth;
+    el.scrollTo({
+      left: width * index,
+      behavior: "smooth",
+    });
+  }, []);
+
+  return (
+    <div className="absolute bottom-6 inset-x-0 flex justify-center space-x-1">
+      {Array.from({ length: total }).map((_, index) => (
+        <button
+          key={index}
+          onClick={() => goToSlide(index)}
+          className={`rounded-full transition-all bg-white border border-secundary-blue
+            ${currentIndex === index ? "h-2 w-8 " : "h-2 w-6"}`}
+        ></button>
+      ))}
+    </div>
+  );
+}
+
