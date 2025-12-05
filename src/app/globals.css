@@ -14,6 +14,10 @@
   --color-terciary-blue: #4593FA;
   --color-quartenary-blue: #1561ED;
   --color-text-blue: #1178FF;
+  --color-neutral: #0E1735;
+  --color-neutral-secondary: #3C4563;
+  --color-neutral-terciary: #888B97;
+  --color-shadow-blue: #2764FF85;
 }
 
  @utility no-scrollbar {
