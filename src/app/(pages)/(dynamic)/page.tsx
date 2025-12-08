@@ -16,10 +16,16 @@ export default function Home() {
 
       <HeroBannerCarousel />
 
-      <CardWrapper lazyLoading query="" />
+      <CardWrapper lazyLoading query="https://free.mockerapi.com/mock/b148a58f-c286-4328-8c75-75ad20c7a71d" />
+
+      <CardWrapper lazyLoading query="https://free.mockerapi.com/mock/32ca2f5a-8614-4b7c-bd36-12bd2f2ab1fd" />
+
+      <CardWrapper lazyLoading query="https://free.mockerapi.com/mock/32ca2f5a-8614-4b7c-bd36-12bd2f2ab1fd" />
 
       <SectionFeature />
-      <CardWrapper lazyLoading query="" />
+
+      <CardWrapper lazyLoading query="https://free.mockerapi.com/mock/32ca2f5a-8614-4b7c-bd36-12bd2f2ab1fd" />
+
 
     </main>
 

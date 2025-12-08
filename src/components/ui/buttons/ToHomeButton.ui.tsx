@@ -12,7 +12,7 @@ export default function ToHomeButton() {
       alt="Logo"
       width={42}
       height={42}
-      className="shrink-0"
+      className="shrink-0 h-auto w-auto"
       priority
     />
   </Link>

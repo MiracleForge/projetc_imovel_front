@@ -11,9 +11,9 @@ interface CardWrapperProps {
 export default async function CardWrapper({ query, lazyLoading }: CardWrapperProps) {
 
   const path = `/homecards/${query}`
-  const tempPath = "https://free.mockerapi.com/mock/b148a58f-c286-4328-8c75-75ad20c7a71d";
+  const tempPath = "";
   const fetchCardCategory = createFetcher<undefined, HomeCards[]>(
-    tempPath,
+    query,
     { method: "GET", isPublic: true, raw: true }
   );
 
