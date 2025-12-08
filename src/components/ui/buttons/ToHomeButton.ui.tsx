@@ -9,7 +9,7 @@ export default function ToHomeButton() {
   >
     <Image
       src="/logos/logo-gatu.webp"
-      alt="Next.js logo"
+      alt="Logo"
       width={42}
       height={42}
       className="shrink-0"

@@ -3,8 +3,8 @@ import UserAvatar from "@/src/components/ui/avatars/UserAvatar.ui";
 import Image from "next/image";
 import Link from "next/link";
 import CommumButton from "@/src/components/ui/buttons/CommumButton.ui";
-import ToHomeButton from "@/src/components/ui/buttons/ToHomeButton.ui";
 import { createFetcher } from "@/src/utils/fetchData";
+import SignOutButton from "@/src/components/ui/buttons/SignOutButton.ui";
 
 interface SlideNavbarProps {
   toggleId: string;
@@ -31,72 +31,58 @@ export default async function SlideMenu({ toggleId, user }: SlideNavbarProps) {
         transform translate-x-full opacity-0
         peer-checked:translate-x-0 peer-checked:opacity-100
         transition-transform duration-300 ease-in-out
-        z-50 shadow bg-white overflow-y-auto
-      "
+        z-50 shadow bg-white overflow-y-auto"
       role="navigation"
       aria-label="Menu lateral"
       id="slide-menu"
     >
-      <div className="flex w-full items-center p-4">
-        {!user && <ToHomeButton />}
-        <p className="text-sm font-light text-center flex-1">{email}</p>
 
-        <label
-          htmlFor={toggleId}
-          className="cursor-pointer shrink-0 p-4 -m-4"
-          role="button"
-        >
-          <Image
-            src="/miscellaneous/close-icon.svg"
-            width={16}
-            height={16}
-            unoptimized
-            alt="Fechar menu"
-            loading="lazy"
-          />
-        </label>
+      <div className="flex w-full p-4 border-b">
+        <span className="my-3 flex justify-around w-full">
+          {user ? (
+            <AuthenticatedSegment name={name} image={image} email={email} />
+          ) : (
+            <UnAuthenticatedSegment />
+          )}
+          <label
+            htmlFor={toggleId}
+            className="cursor-pointer shrink-0 p-4 -m-4"
+            role="button"
+          >
+            <Image
+              src="/miscellaneous/close-icon.svg"
+              width={16}
+              height={16}
+              unoptimized
+              alt="Fechar menu"
+              loading="lazy"
+            />
+          </label>
+        </span>
       </div>
-
-      <span className="my-3">
-        {user ? (
-          <AuthenticatedSegment name={name} image={image} />
-        ) : (
-          <UnAuthenticatedSegment />
-        )}
-      </span>
 
       <BannerSegment banner={banner} />
       <OptionsSegment />
+      <SignOutButton />
       <FooterSegment />
     </nav>
   );
 }
 
 interface AuthenticatedSegmentProps {
+  email: string | null | undefined;
   name: string | null | undefined;
   image: string | null | undefined;
 }
 
-function AuthenticatedSegment({ name, image }: AuthenticatedSegmentProps) {
+function AuthenticatedSegment({ name, image, email }: AuthenticatedSegmentProps) {
   return (
-    <div className="flex flex-col w-full justify-center items-center space-y-3 mt-3">
+    <div className="inline-flex space-x-6 w-full items-center space-y-3 mt-3">
       <UserAvatar image={image} name={name} size={72} />
-      <p>Olá, {name}!</p>
-      <CommumButton label="Gerenciar Conta" url="#" />
-      <CommumButton
-        label="Meu Espaço"
-        url="#"
-        className="text-start flex flex-row space-x-3"
-      >
-        <Image
-          src="/miscellaneous/user-avatar.svg"
-          width={26}
-          height={26}
-          unoptimized
-          alt="User"
-          loading="lazy"
-        />
-      </CommumButton>
+      <span className="block">
+        <p className="block">Olá, {name}!</p>
+        <p className="text-sm font-light text-center flex-1">{email}</p>
+      </span>
     </div>
   );
 }

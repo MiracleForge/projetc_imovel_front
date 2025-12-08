@@ -15,7 +15,7 @@ interface HomeCardProps {
   user: {
     avatar: string;
     name: string;
-    isRealtor?: boolean; // Opcional: identifica se é corretor
+    isRealtor?: boolean;
   };
 }
 

@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, memo, useState } from "react";
 import { heroCarrouselData } from "@/src/data/heroCarousel.data";
+import { Activity } from "react";
 import Image from "next/image";
 
 export default function HeroBannerCarousel() {
@@ -77,26 +78,24 @@ export default function HeroBannerCarousel() {
         onIndexChange={setCurrentIndex}
       />
 
-      {showControls && (
-        <>
-          <CarouselButton
-            carouselRef={carouselRef}
-            direction="prev"
-            label="Slide anterior"
-          />
-          <CarouselButton
-            carouselRef={carouselRef}
-            direction="next"
-            label="Próximo slide"
-          />
-          <CarouselIndicator
-            total={heroCarrouselData.length}
-            currentIndex={currentIndex}
-            carouselRef={carouselRef}
-            intervalRef={intervalRef}
-          />
-        </>
-      )}
+      <Activity mode={showControls ? "visible" : "hidden"}>
+        <CarouselButton
+          carouselRef={carouselRef}
+          direction="prev"
+          label="Slide anterior"
+        />
+        <CarouselButton
+          carouselRef={carouselRef}
+          direction="next"
+          label="Próximo slide"
+        />
+        <CarouselIndicator
+          total={heroCarrouselData.length}
+          currentIndex={currentIndex}
+          carouselRef={carouselRef}
+          intervalRef={intervalRef}
+        />
+      </Activity>
     </div>
   );
 }

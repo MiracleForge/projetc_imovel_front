@@ -1,6 +1,4 @@
 //WARN: IF IN PRODUCTION VERCEL SAYS HYDRATATION ERROR SHOWING TOOLTIP OR THIS COMPONENTS, APPLY USE CLIENT AT TOP OF THIS FIle
-//use client
-//
 import { Session } from "next-auth";
 import SlideMenu from "../../layouts/headers/nav/SlideMenu.layout";
 import UserAvatar from "../avatars/UserAvatar.ui";
