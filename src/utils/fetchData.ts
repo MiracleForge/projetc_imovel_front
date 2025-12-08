@@ -16,7 +16,7 @@ export function createFetcher<Payload = unknown, Data = unknown>(
   return async (
     payload?: Payload,
     options?: FetcherOptions
-  ): Promise<actionResponse<Data>> => {
+  ): Promise<actionResponse<Data> | Data> => {
 
     const finalOptions = { ...defaultOptions, ...options };
 
@@ -54,7 +54,7 @@ export function createFetcher<Payload = unknown, Data = unknown>(
         body = JSON.stringify(payload);
       }
     }
-
+    console.log(url)
     try {
       const response = await fetch(url, {
         method: finalOptions.method ?? "POST",
@@ -69,7 +69,7 @@ export function createFetcher<Payload = unknown, Data = unknown>(
       //     RETURN RAW MODE
       // =========================
       if (finalOptions.raw) {
-        return json as Data;
+        return json;
       }
 
       // =========================

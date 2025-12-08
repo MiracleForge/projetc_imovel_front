@@ -16,10 +16,10 @@ export default function Home() {
 
       <HeroBannerCarousel />
 
-      <CardWrapper />
+      <CardWrapper lazyLoading query="" />
 
       <SectionFeature />
-      <CardWrapper />
+      <CardWrapper lazyLoading query="" />
 
     </main>
 
