@@ -22,10 +22,9 @@ export default function Home() {
 
       <CardWrapper lazyLoading query="https://free.mockerapi.com/mock/32ca2f5a-8614-4b7c-bd36-12bd2f2ab1fd" />
 
-      <SectionFeature />
-
       <CardWrapper lazyLoading query="https://free.mockerapi.com/mock/32ca2f5a-8614-4b7c-bd36-12bd2f2ab1fd" />
-
+      <CardWrapper lazyLoading query="https://free.mockerapi.com/mock/32ca2f5a-8614-4b7c-bd36-12bd2f2ab1fd" />
+      <SectionFeature />
 
     </main>
 
