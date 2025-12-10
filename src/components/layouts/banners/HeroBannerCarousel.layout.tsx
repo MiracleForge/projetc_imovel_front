@@ -256,7 +256,7 @@ function CarouselIndicator({
 
   return (
     <div
-      className="absolute bottom-6 inset-x-0 flex justify-center gap-2"
+      className="absolute bottom-3 inset-x-0 flex justify-center gap-2"
       role="tablist"
       aria-label="Slides do carrossel"
     >

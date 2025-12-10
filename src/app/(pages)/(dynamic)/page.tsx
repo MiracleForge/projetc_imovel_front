@@ -1,5 +1,6 @@
 import HeroBannerCarousel from "@/src/components/layouts/banners/HeroBannerCarousel.layout";
 import CardWrapper from "@/src/components/layouts/cards/cardContext/CardWrapper.layout";
+import MySpace from "@/src/components/layouts/features/MySpace.layout";
 import SectionFeature from "@/src/components/layouts/features/SectionFeature.layout";
 import CategoryButton from "@/src/components/ui/buttons/CategoryButton.ui";
 import { categoryData } from "@/src/data/categoryButtonData.data";
@@ -19,6 +20,8 @@ export default function Home() {
       <CardWrapper lazyLoading query="https://free.mockerapi.com/mock/b148a58f-c286-4328-8c75-75ad20c7a71d" />
 
       <CardWrapper lazyLoading query="https://free.mockerapi.com/mock/32ca2f5a-8614-4b7c-bd36-12bd2f2ab1fd" />
+
+      <MySpace />
 
       <CardWrapper lazyLoading query="https://free.mockerapi.com/mock/32ca2f5a-8614-4b7c-bd36-12bd2f2ab1fd" />
 

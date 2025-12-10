@@ -25,6 +25,7 @@ export default function Navbar({ user }: NavbarProps) {
           {user && <CommumButton label="Meus Anuncios" url={`${user ? "/meus-anuncios" : "auth/entrar"}`} className="hidden md:block" />}
           <CommumButton label="Anúnciar" url={`${user ? "/criar-anuncio" : "auth/entrar"}`} className="hidden md:block" />
           {!user && <CommumButton label="Nova Conta" url="auth/registrar" className="hidden md:block" />}
+          <CommumButton label="Chat" url="auth/registrar" className="hidden md:block" />
           <AvatarButton user={user} />
         </div>
 

@@ -28,7 +28,7 @@ export default function SectionFeature() {
       </div>
 
       <div
-        className="mt-8 aspect-auto h-80 rounded-3xl overflow-hidden bg-center md:bg-cover bg-no-repeat"
+        className="mt-8 aspect-auto h-86 rounded-3xl overflow-hidden bg-center md:bg-cover bg-no-repeat"
         style={{
           backgroundImage:
             "url('/banners/features/frame-create-account-banner.png')",

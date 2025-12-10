@@ -32,9 +32,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           defer
         />
 
-        {/* Script flowbit para o tooltip */}
-        <Script
-          src="https://cdn.jsdelivr.net/npm/flowbite/dist/flowbite.min.js" strategy="beforeInteractive" defer />
       </body>
     </html>
   );

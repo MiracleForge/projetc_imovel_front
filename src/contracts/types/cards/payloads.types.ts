@@ -1,4 +1,5 @@
 export type HomeCards = {
+  category: string;
   price: number;
   title: string;
   cardUrl: string;
@@ -15,4 +16,5 @@ export type HomeCards = {
     avatar: string;
     name: string;
   }
+  created_at: Date;
 }

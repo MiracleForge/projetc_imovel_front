@@ -19,13 +19,12 @@ export default async function CardWrapper({ query, lazyLoading }: CardWrapperPro
 
   const response = await fetchCardCategory();
   const cards = response;
-  console.log(response)
   if (!cards || !Array.isArray(cards)) return null;
 
   console.log(cards)
   return (
     <div className="mt-16">
-      <div className="flex justify-between text-2xl">
+      <div className="flex justify-between tipografy-title">
         <h3 className="text-gray-600 font-medium">Recém Publicados</h3>
         <p className="uppercase font-bold text-terciary-blue items-center">HOJE! <span className="bg-terciary-blue py-2 px-3 md:px-4 rounded-r-2xl ml-2 lg:ml-4" /></p>
       </div>

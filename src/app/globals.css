@@ -48,7 +48,7 @@
   }
   /* tipografia */
   .tipografy-title {
-    @apply leading-6 text-2xl lg:text-4xl font-bold text-black;
+    @apply leading-6 text-xl lg:text-2xl font-bold text-black;
   }
 }
 
