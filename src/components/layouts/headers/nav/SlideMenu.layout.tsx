@@ -13,6 +13,7 @@ interface SlideNavbarProps {
 
 export default async function SlideMenu({ toggleId, user }: SlideNavbarProps) {
   const { name, email, image } = user ?? {};
+  const isLogged = !!user;
 
   const fetchBanner = createFetcher<undefined, bannerProps[]>(
     "http://localhost:3000/api/banner",
@@ -25,45 +26,39 @@ export default async function SlideMenu({ toggleId, user }: SlideNavbarProps) {
   return (
     <nav
       className="
-        fixed top-0 right-0 h-screen 
-        w-screen max-w-md md:max-w-sm
-        p-4
-        transform translate-x-full opacity-0
-        peer-checked:translate-x-0 peer-checked:opacity-100
-        transition-transform duration-300 ease-in-out
-        z-50 shadow bg-white overflow-y-auto"
-      role="navigation"
-      aria-label="Menu lateral"
-      id="slide-menu"
+    fixed top-0 right-0 h-dvh
+    w-screen max-w-md md:max-w-sm
+    px-6
+    flex flex-col
+    transform translate-x-full opacity-0
+    peer-checked:translate-x-0 peer-checked:opacity-100
+    transition-transform duration-300 ease-in-out
+    z-50 shadow bg-white overflow-y-auto text-black font-normal"
     >
+      <label
+        htmlFor={toggleId}
+        className="cursor-pointer shrink-0 border-b border-b-foreground items-end place-items-end grid p-3 -mx-6 bg-[#F3F5FF]"
+        role="button"
+      >
+        <Image
+          src="/miscellaneous/close-icon.svg"
+          className="m-0"
+          width={16}
+          height={16}
+          unoptimized
+          alt="Fechar menu"
+          loading="lazy"
+        />
+      </label>
 
-      <div className="flex w-full p-4 border-b">
-        <span className="my-3 flex justify-around w-full">
-          {user ? (
-            <AuthenticatedSegment name={name} image={image} email={email} />
-          ) : (
-            <UnAuthenticatedSegment />
-          )}
-          <label
-            htmlFor={toggleId}
-            className="cursor-pointer shrink-0 p-4 -m-4"
-            role="button"
-          >
-            <Image
-              src="/miscellaneous/close-icon.svg"
-              width={16}
-              height={16}
-              unoptimized
-              alt="Fechar menu"
-              loading="lazy"
-            />
-          </label>
-        </span>
-      </div>
 
+      {user ? (
+        <AuthenticatedSegment name={name} image={image} email={email} />
+      ) : (
+        <UnAuthenticatedSegment />
+      )}
       <BannerSegment banner={banner} />
-      <OptionsSegment />
-      <SignOutButton />
+      <OptionsSegment logged={isLogged} />
       <FooterSegment />
     </nav>
   );
@@ -77,42 +72,21 @@ interface AuthenticatedSegmentProps {
 
 function AuthenticatedSegment({ name, image, email }: AuthenticatedSegmentProps) {
   return (
-    <div className="inline-flex space-x-6 w-full items-center space-y-3 mt-3">
-      <UserAvatar image={image} name={name} size={72} />
-      <span className="block">
-        <p className="block">Olá, {name}!</p>
-        <p className="text-sm font-light text-center flex-1">{email}</p>
-      </span>
+    <div className="w-full flex flex-col justify-center items-center space-x-6 space-y-3 mt-2 text-xs">
+      <p >{email}</p>
+      <UserAvatar image={image} name={name} size={62} />
+      <p >Olá, {name}!</p>
     </div>
   );
 }
 
 function UnAuthenticatedSegment() {
   return (
-    <span className="gap-y-4 flex flex-col mt-3">
-      <div
-        className="
-        grid grid-cols-[auto_1fr]
-        w-full items-center
-        bg-secundary-blue/80 p-3 rounded-xl
-        gap-4 border-foreground
-      "
-      >
-        <span className="bg-foreground p-2 rounded-full shrink-0">
-          <UserAvatar size={26} />
-        </span>
-
-        <p className="text-sm text-black">
-          Entre na comunidade onde os anúncios e os corretores se encontram
-        </p>
-
-        <div className="col-span-2 grid grid-cols-2 gap-3 w-full">
-          <CommumButton label="Entrar" url="/auth/entrar" />
-          <CommumButton label="Criar Conta" url="/auth/entrar" />
-        </div>
-      </div>
-    </span>
-  );
+    <div className="w-full flex flex-col justify-center items-center space-y-3 mt-3 text-xs">
+      <UserAvatar size={68} />
+      <CommumButton label="Entrar" url="/auth/login" rounded="none" variant="secondary" className="px-10 py-1" shadows={"hard"} />
+      <div className="text-sm font-medium text-black"> <span> Não possue conta ? </span> <Link className="text-primary-blue" href={"/auth/register"}> Registre-se agora! </Link> </div>
+    </div>);
 }
 
 type bannerProps = {
@@ -132,11 +106,11 @@ function BannerSegment({ banner }: { banner: bannerProps[] | undefined }) {
     <Link
       href={item?.url ?? "#"}
       role="banner"
-      className="flex w-full mt-3 border border-foreground rounded-xl p-1 gap-3"
+      className="flex w-full mt-3 rounded-lg gap-3"
     >
       <div
         className="
-        w-full rounded-xl
+        w-full rounded-2xl
         bg-[url('/banners/slide-menu-banner.jpg')]
         bg-right bg-no-repeat bg-cover
         min-h-[140px]
@@ -146,75 +120,47 @@ function BannerSegment({ banner }: { banner: bannerProps[] | undefined }) {
   );
 }
 
-function OptionsSegment() {
+function OptionsSegment({ logged }: { logged: boolean }) {
   return (
-    <>
-      <div className="space-y-3 mt-3">
-        <CommumButton label="Gerenciar Conta" url="#" />
+    <div className="flex flex-col mt-4 h-full">
 
-        <CommumButton
-          label=""
-          url="#"
-          className="flex flex-row justify-around w-full items-center"
-        >
-          <span className="mr-auto flex flex-row gap-x-3">
-            <Image
-              src="/miscellaneous/user-avatar.svg"
-              width={26}
-              height={26}
-              unoptimized
-              alt="User"
-            />
-            Meu Espaço
-          </span>
+      {/* Itens de cima */}
+      <div className="space-y-3">
+        <CommumButton className="w-full items-center inline-flex space-x-3" label="Gerenciar Conta" url="#" variant="secondary" rounded="none">
+          <Image src="/miscellaneous/config-icon.svg" width={18} height={18} unoptimized alt="" />
+        </CommumButton>
 
-          <div className="w-fit px-3 py-1 bg-secundary-blue rounded-xl text-white font-bold">
-            Descubra
+        <CommumButton className="w-full items-center inline-flex space-x-3" label="Meu Espaço" url="#" variant="secondary" rounded="none">
+          <Image src="/miscellaneous/meu-espaco-icon.svg" width={18} height={18} unoptimized alt="" />
+        </CommumButton>
+
+        <CommumButton className="w-full items-center inline-flex space-x-3" label="Chat" url="#" variant="secondary" rounded="none">
+          <Image src="/miscellaneous/chat-icon.svg" width={18} height={18} unoptimized alt="" />
+        </CommumButton>
+
+        {logged && (
+          <div className="space-y-3">
+            <CommumButton className="w-full items-center inline-flex space-x-3" label="Inscrições" url="#" variant="secondary" rounded="none">
+              <Image src="/miscellaneous/inscricoes-icon.svg" width={18} height={18} unoptimized alt="" />
+            </CommumButton>
+            <SignOutButton />
           </div>
-        </CommumButton>
-
-        <CommumButton
-          label="Meus Anúncios"
-          url="#"
-          className="text-start flex flex-row space-x-3"
-        >
-          <Image
-            src="/miscellaneous/user-avatar.svg"
-            width={26}
-            height={26}
-            unoptimized
-            alt="User"
-            loading="lazy"
-          />
-        </CommumButton>
-
-        <CommumButton
-          label="Chat"
-          url="#"
-          className="text-start flex flex-row space-x-3"
-        >
-          <Image
-            src="/miscellaneous/user-avatar.svg"
-            width={26}
-            height={26}
-            unoptimized
-            alt="User"
-            loading="lazy"
-          />
-        </CommumButton>
+        )}
       </div>
 
-      <div className="flex space-x-3 mt-3">
-        <CommumButton label="Configurações" url="#" className="w-full" />
-        <CommumButton label="Ajuda" url="#" className="w-full" />
+      {/* Barra fixa no fundo */}
+      <div className="mt-auto pt-4 flex space-x-3">
+        <CommumButton className="w-1/2 text-center" label="Configurações" url="#" rounded="sm" variant="coal" shadows="hard" />
+        <CommumButton className="w-1/2 text-center" label="Ajuda" url="#" rounded="sm" variant="coal" shadows="hard" />
       </div>
-    </>
+    </div>
   );
 }
 
+
 function FooterSegment() {
   return (
-    <footer className="flex flex-row justify-around space-x-3 w-full mt-6 text-sm">
+    <footer className="flex flex-row justify-around space-x-3 w-full my-3 -mx-3 text-sm">
       <Link href={"politicas-privacidade"}>
         <span className="link-default">Políticas de Privacidade</span>
       </Link>

@@ -16,7 +16,7 @@ export default function AvatarButton({ user }: AvatarButtonProps) {
       <div className="fixed inset-0 bg-black/60 opacity-0 pointer-events-none peer-checked:opacity-100 peer-checked:pointer-events-auto transition-opacity duration-300 z-40">
       </div>
 
-      <label htmlFor="toggle-menu" className="cursor-pointer">
+      <label htmlFor="toggle-menu" className="cursor-pointer active:no-scrollbar">
         <UserAvatar image={user?.image} name={user?.name} size={36} />
       </label>
 
