@@ -12,12 +12,16 @@ type FetcherOptions = {
 export function createFetcher<Payload = unknown, Data = unknown>(
   path: string,
   defaultOptions?: FetcherOptions
+): {
+  (payload?: Payload, options?: FetcherOptions & { raw?: false }): Promise<actionResponse<Data>>;
+  (payload?: Payload, options?: FetcherOptions & { raw: true }): Promise<Data>;
+  (payload?: Payload, options?: FetcherOptions): Promise<actionResponse<Data> | Data>;
+};
+export function createFetcher<Payload, Data>(
+  path: string,
+  defaultOptions?: FetcherOptions
 ) {
-  return async (
-    payload?: Payload,
-    options?: FetcherOptions
-  ): Promise<actionResponse<Data> | Data> => {
-
+  return async (payload?: Payload, options?: FetcherOptions) => {
     const finalOptions = { ...defaultOptions, ...options };
 
     const finalHeaders: Record<string, string> = {
@@ -47,57 +51,51 @@ export function createFetcher<Payload = unknown, Data = unknown>(
       ["POST", "PUT", "PATCH"].includes(finalOptions.method ?? "POST") &&
       payload
     ) {
-      // Format only for claudiFlare captcha 
       if (finalHeaders["Content-Type"] === "application/x-www-form-urlencoded") {
         body = new URLSearchParams(payload as Record<string, string>).toString();
       } else {
         body = JSON.stringify(payload);
       }
     }
-    console.log(url)
+
     try {
       const response = await fetch(url, {
         method: finalOptions.method ?? "POST",
         headers: finalHeaders,
         body,
-        credentials: finalOptions.credentials
+        credentials: finalOptions.credentials,
       });
 
       const json = await response.json();
 
-      // =========================
-      //     RETURN RAW MODE
-      // =========================
       if (finalOptions.raw) {
-        return json;
+        // RAW → retorno puro Data
+        return json as Data;
       }
 
-      // =========================
-      //     RETURN API FORMAT
-      // =========================
       if (!response.ok) {
         return {
           error: json.error ?? response.status,
           message: json.message,
           data: undefined,
-        } satisfies actionResponse<Data>;
+        } as actionResponse<Data>;
       }
 
       return {
         error: undefined,
         message: json.message,
         data: json.data ?? undefined,
-      } satisfies actionResponse<Data>;
-
+      } as actionResponse<Data>;
     } catch (error) {
       return {
         error: "INTERNAL_SERVER_ERROR",
         message: "Erro interno do servidor",
         data: undefined,
-      } satisfies actionResponse<Data>;
+      } as actionResponse<Data>;
     }
   };
 }
+
 
 
 const callAuthorization = async (): Promise<string> => {
