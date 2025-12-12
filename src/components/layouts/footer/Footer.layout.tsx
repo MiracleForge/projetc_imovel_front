@@ -1,4 +1,3 @@
-import Link from "next/link";
 import ToHomeButton from "../../ui/buttons/ToHomeButton.ui";
 
 export default function Footer() {
@@ -6,7 +5,7 @@ export default function Footer() {
     <footer className="px-6 pt-8 lg:px-12 w-full bg-secundary-blue text-white">
       <div className="flex flex-col md:flex-row justify-between w-full gap-10 border-b border-foreground pb-10">
         <div className="md:max-w-96">
-          <ToHomeButton />
+          <ToHomeButton logoType="full" size={160} />
           <p className="mt-6 text-sm">
             Seu próximo lar — ou a oportunidade que você sempre esperou — está mais perto do que imagina.
             Fale diretamente com vendedores pelo chat ou conecte-se com corretores confiáveis para fechar negócio com segurança.
@@ -33,7 +32,7 @@ export default function Footer() {
         </div>
       </div>
       <p className="pt-4 px-3 text-center text-sm pb-5 bg-black -mx-6 lg:-mx-12 font-semibold">
-        Copyright {new Date().getFullYear()} © <Link href="https://prebuiltui.com">Sonnen Software</Link>. Todos os direitos reservados
+        Copyright {new Date().getFullYear()} © <a rel="noopener noreffer" href="https://sonnensoftware.com.br">Sonnen Software</a>. Todos os direitos reservados
       </p>
     </footer>
   )

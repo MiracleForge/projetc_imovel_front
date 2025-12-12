@@ -5,6 +5,7 @@ import Link from "next/link";
 import CommumButton from "@/src/components/ui/buttons/CommumButton.ui";
 import { createFetcher } from "@/src/utils/fetchData";
 import SignOutButton from "@/src/components/ui/buttons/SignOutButton.ui";
+import ExpandedInscriptionButton from "@/src/components/ui/buttons/ExpandedInscriptions.button";
 
 interface SlideNavbarProps {
   toggleId: string;
@@ -51,14 +52,13 @@ export default async function SlideMenu({ toggleId, user }: SlideNavbarProps) {
         />
       </label>
 
-
       {user ? (
         <AuthenticatedSegment name={name} image={image} email={email} />
       ) : (
         <UnAuthenticatedSegment />
       )}
       <BannerSegment banner={banner} />
-      <OptionsSegment logged={isLogged} />
+      <OptionsSegment logged={isLogged} userId={user?.name!} />
       <FooterSegment />
     </nav>
   );
@@ -84,7 +84,7 @@ function UnAuthenticatedSegment() {
   return (
     <div className="w-full flex flex-col justify-center items-center space-y-3 mt-3 text-xs">
       <UserAvatar size={68} />
-      <CommumButton label="Entrar" url="/auth/login" rounded="none" variant="secondary" className="px-10 py-1" shadows={"hard"} />
+      <CommumButton label="Entrar" url="/auth/entrar" rounded="none" variant="secondary" className="px-10 py-1" shadows={"hard"} />
       <div className="text-sm font-medium text-black"> <span> Não possue conta ? </span> <Link className="text-primary-blue" href={"/auth/register"}> Registre-se agora! </Link> </div>
     </div>);
 }
@@ -120,7 +120,7 @@ function BannerSegment({ banner }: { banner: bannerProps[] | undefined }) {
   );
 }
 
-function OptionsSegment({ logged }: { logged: boolean }) {
+function OptionsSegment({ logged, userId }: { logged: boolean, userId: string | undefined }) {
   return (
     <div className="flex flex-col mt-4 h-full">
 
@@ -130,19 +130,32 @@ function OptionsSegment({ logged }: { logged: boolean }) {
           <Image src="/miscellaneous/config-icon.svg" width={18} height={18} unoptimized alt="" />
         </CommumButton>
 
-        <CommumButton className="w-full items-center inline-flex space-x-3" label="Meu Espaço" url="#" variant="secondary" rounded="none">
-          <Image src="/miscellaneous/meu-espaco-icon.svg" width={18} height={18} unoptimized alt="" />
+        <CommumButton
+          className="group w-full items-center inline-flex space-x-3 px-2" label="Meu Espaço" url="#" variant="highlight" rounded="none">
+          <svg
+            className="group-hover:animate-pulse"
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+          >
+            <path
+              d="M13 1.5L15.7 8.3L22.5 11L15.7 13.7L13 20.5L10.3 13.7L3.5 11L10.3 8.3L13 1.5Z"
+              fill="currentColor"
+            />
+            <circle cx="21" cy="5" r="1.4" fill="currentColor" opacity="0.85" />
+            <circle cx="5.5" cy="20" r="1" fill="currentColor" opacity="0.55" />
+          </svg>
         </CommumButton>
 
         <CommumButton className="w-full items-center inline-flex space-x-3" label="Chat" url="#" variant="secondary" rounded="none">
           <Image src="/miscellaneous/chat-icon.svg" width={18} height={18} unoptimized alt="" />
         </CommumButton>
 
-        {logged && (
+        {logged && userId && (
           <div className="space-y-3">
-            <CommumButton className="w-full items-center inline-flex space-x-3" label="Inscrições" url="#" variant="secondary" rounded="none">
-              <Image src="/miscellaneous/inscricoes-icon.svg" width={18} height={18} unoptimized alt="" />
-            </CommumButton>
+            <ExpandedInscriptionButton userId={userId} />
             <SignOutButton />
           </div>
         )}
