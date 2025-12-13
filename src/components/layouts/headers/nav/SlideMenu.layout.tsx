@@ -64,6 +64,7 @@ export default async function SlideMenu({ toggleId, user }: SlideNavbarProps) {
   );
 }
 
+
 interface AuthenticatedSegmentProps {
   email: string | null | undefined;
   name: string | null | undefined;
@@ -80,10 +81,12 @@ function AuthenticatedSegment({ name, image, email }: AuthenticatedSegmentProps)
   );
 }
 
+
+
 function UnAuthenticatedSegment() {
   return (
     <div className="w-full flex flex-col justify-center items-center space-y-3 mt-3 text-xs">
-      <UserAvatar size={68} />
+      <img src={"/logos/imobily-logo.svg"} width={46} height={46} />
       <CommumButton label="Entrar" url="/auth/entrar" rounded="none" variant="secondary" className="px-10 py-1" shadows={"hard"} />
       <div className="text-sm font-medium text-black"> <span> Não possue conta ? </span> <Link className="text-primary-blue" href={"/auth/register"}> Registre-se agora! </Link> </div>
     </div>);
@@ -98,6 +101,7 @@ type bannerProps = {
     src: string;
   }
 };
+
 
 function BannerSegment({ banner }: { banner: bannerProps[] | undefined }) {
   const item = banner?.[0];
@@ -120,6 +124,7 @@ function BannerSegment({ banner }: { banner: bannerProps[] | undefined }) {
   );
 }
 
+
 function OptionsSegment({ logged, userId }: { logged: boolean, userId: string | undefined }) {
   return (
     <div className="flex flex-col mt-4 h-full">
@@ -131,7 +136,7 @@ function OptionsSegment({ logged, userId }: { logged: boolean, userId: string | 
         </CommumButton>
 
         <CommumButton
-          className="group w-full items-center inline-flex space-x-3 px-2" label="Meu Espaço" url="#" variant="highlight" rounded="none">
+          className="group w-full items-center inline-flex space-x-3 px-2" label="Imobly Studios" url="#" variant="highlight" rounded="none">
           <svg
             className="group-hover:animate-pulse"
             width="26"

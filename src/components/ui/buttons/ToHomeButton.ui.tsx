@@ -16,7 +16,7 @@ export default function ToHomeButton({ logoType, size }: { logoType?: "full" | "
   >
     <img
       src={logoSrc}
-      alt="Imobily Logo"
+      alt="Imobly Logo"
       width={size}
       height={size}
       className="shrink-0"

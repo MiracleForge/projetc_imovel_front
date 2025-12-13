@@ -20,7 +20,6 @@ export default function Navbar({ user }: NavbarProps) {
         <div className="flex-1 min-w-0">
           <SearchInput />
         </div>
-
         <div className="inline-flex space-x-3 ml-auto">
           {user &&
             <>
