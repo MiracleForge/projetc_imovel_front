@@ -99,5 +99,5 @@ export function createFetcher<Payload, Data>(
 
 
 const callAuthorization = async (): Promise<string> => {
-  return "du3u4h5u4h5u4h65u45h4unrfuntun64u5nu3n4u4n34n3"
+  return "sk_19898bbec5782b5ddf6302d6a7515b55c2bdb0e49f2dfbd5"
 }
