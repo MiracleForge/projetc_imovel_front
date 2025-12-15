@@ -4,20 +4,21 @@
 import Image from "next/image";
 import Link from "next/link";
 import UserAvatar from "../avatars/UserAvatar.ui";
-import { Activity, useEffect, useState } from "react";
+import { Activity, useState } from "react";
 import CommumButton from "./CommumButton.ui";
 import { ItemInscriptionPanel } from "@/src/contracts/types/cards/responses.type";
 import { createFetcher } from "@/src/utils/fetchData";
 
 export default function ExpandedInscriptionButton() {
+
   const [isExpanded, setExpanded] = useState(false);
-  const [userInscriptions, setUserInscriptions] =
-    useState<ItemInscriptionPanel[] | null>(null);
+  const [userSubscription, setUserInscriptions] = useState<ItemInscriptionPanel[] | null>(null);
 
-  useEffect(() => {
-    if (!isExpanded || userInscriptions) return;
+  const openSubscription = async () => {
+    const nextExpanded = !isExpanded;
+    setExpanded(nextExpanded);
 
-    const fetchInscriptions = async () => {
+    if (nextExpanded && !userSubscription) {
       const inscriptionFetcher = createFetcher<undefined, ItemInscriptionPanel[]>(
         "https://free.mockerapi.com/mock/fc5bb54c-5ee2-4658-a135-6812bd9e5d4a",
         { method: "GET", isPublic: false }
@@ -27,10 +28,8 @@ export default function ExpandedInscriptionButton() {
       if (Array.isArray(result)) {
         setUserInscriptions(result);
       }
-    };
-
-    fetchInscriptions();
-  }, [isExpanded, userInscriptions]);
+    }
+  };
 
   return (
     <div className="relative">
@@ -39,7 +38,7 @@ export default function ExpandedInscriptionButton() {
         aria-haspopup="listbox"
         aria-expanded={isExpanded}
         aria-controls={"inscricoes-panel"}
-        onClick={() => setExpanded((prev) => !prev)}
+        onClick={openSubscription}
         className="w-full inline-flex items-center space-x-3 px-4 py-1 border border-[#8C8C8C] bg-white hover:scale-[1.02] active:scale-[1.02] transition-all duration-200 font-semibold cursor-pointer"
       >
         <Image
@@ -62,15 +61,15 @@ export default function ExpandedInscriptionButton() {
       </button>
 
       <Activity mode={isExpanded ? "visible" : "hidden"}>
-        <InscriptionsPanel
-          items={userInscriptions}
+        <SubscriptionPanel
+          items={userSubscription}
         />
       </Activity>
     </div>
   );
 }
 
-function InscriptionsPanel({
+function SubscriptionPanel({
   items,
 }: {
   items: ItemInscriptionPanel[] | null;
