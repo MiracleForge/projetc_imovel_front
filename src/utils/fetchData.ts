@@ -68,7 +68,7 @@ export function createFetcher<Payload, Data>(
         next: finalOptions.next,
         cache: "no-cache"
       });
-
+      console.log("fech")
       const json = await response.json();
 
       if (finalOptions.raw) {
