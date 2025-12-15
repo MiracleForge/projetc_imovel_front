@@ -3,6 +3,7 @@ import { actionResponse } from "../contracts/types/responses.core";
 type FetcherOptions = {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   headers?: Record<string, string>;
+  next?: { revalidate: 0 },
   authToken?: string | null;
   isPublic?: boolean;
   raw?: boolean;
@@ -64,6 +65,8 @@ export function createFetcher<Payload, Data>(
         headers: finalHeaders,
         body,
         credentials: finalOptions.credentials,
+        next: finalOptions.next,
+        cache: "no-cache"
       });
 
       const json = await response.json();

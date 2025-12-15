@@ -50,6 +50,16 @@
   .tipografy-title {
     @apply leading-6 text-xl lg:text-2xl font-bold text-black;
   }
+
+ .wrapper-cards-container { @apply mt-16 space-y-3; }
+  .wrapper-cards-header { @apply flex justify-between; } /* só container flex */
+  .wrapper-cards-title { @apply text-gray-600 font-medium; }
+  .wrapper-cards-subtitle { @apply uppercase font-bold text-terciary-blue items-center; }
+  .wrapper-cards-badge { @apply bg-terciary-blue py-2 px-3 md:px-4 rounded-r-2xl ml-2 lg:ml-4; }
+  .wrapper-cards-list { @apply flex flex-row overflow-x-scroll gap-6 mt-6 px-2; }
+
+  /* Tipografia global */
+  .tipografy-title { @apply leading-6 text-xl lg:text-2xl font-bold text-black;}
 }
 
 @media screen and (max-width: 768px) and (orientation: landscape) {

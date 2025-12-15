@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import Navbar from "@/src/components/layouts/headers/Navbar";
-import Provider from "../../context/client-provider";
 import TopPromotion from "@/src/components/layouts/banners/TopPromotional.layout";
 import Footer from "@/src/components/layouts/footer/Footer.layout";
+import Provider from "@/src/components/context/client-provider";
 
 export default async function MainLayout({
   children

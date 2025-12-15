@@ -160,13 +160,12 @@ function OptionsSegment({ logged, userId }: { logged: boolean, userId: string | 
 
         {logged && userId && (
           <div className="space-y-3">
-            <ExpandedInscriptionButton userId={userId} />
+            <ExpandedInscriptionButton />
             <SignOutButton />
           </div>
         )}
       </div>
 
-      {/* Barra fixa no fundo */}
       <div className="mt-auto pt-4 flex space-x-3">
         <CommumButton className="w-1/2 text-center" label="Configurações" url="#" rounded="sm" variant="coal" shadows="hard" />
         <CommumButton className="w-1/2 text-center" label="Ajuda" url="#" rounded="sm" variant="coal" shadows="hard" />
