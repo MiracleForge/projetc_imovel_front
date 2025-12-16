@@ -11,7 +11,7 @@ const casas = [
     user: { avatar: "https://i.pravatar.cc/150?img=2", name: "Maria Oliveira" },
   },
   {
-    title: "Casa Rústica",
+    title: "Casa Rústica Atualizada",
     cardUrl: "/casas/2",
     brand: { label: "RusticHomes", icon: "https://images.unsplash.com/photo-1523217582562-09d0def993a6" },
     cardImage: "https://images.unsplash.com/photo-1523217582562-09d0def993a6",

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 // Seu JSON de 15 cards
 export const cards = [
   {
-    title: "Apartamento Moderno",
+    title: "Apartamento Moderno atualizada",
     cardUrl: "/apartamentos/1",
     brand: { label: "UrbanHomes", icon: "https://images.unsplash.com/photo-1560448204-4e0b7fdbf4d2" },
     cardImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
@@ -84,7 +84,7 @@ export const cards = [
     user: { avatar: "https://i.pravatar.cc/150?img=9", name: "Thiago Santos" },
   },
   {
-    title: "Casa de Campo",
+    title: "Casa de Campo atualizada",
     cardUrl: "/casas/10",
     brand: { label: "GreenLiving", icon: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c" },
     cardImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
@@ -96,6 +96,7 @@ export const cards = [
 ];
 export async function GET() {
   console.log("done")
+  await new Promise(response => setTimeout(response, 80000))
   return NextResponse.json(cards);
 }
 

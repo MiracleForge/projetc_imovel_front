@@ -8,7 +8,7 @@ export default function CategoryNav() {
   return (
     <nav aria-label="Categorias" className="w-full">
 
-      <ul className="flex px-1 space-x-3 flex-nowrap xl:justify-center overflow-x-auto scroll-smooth no-scrollbar">
+      <ul className="flex px-1 space-x-3 flex-nowrap  overflow-x-auto scroll-smooth no-scrollbar">
         {categoryData.map((btn, index) => (
           <li key={index} className="shrink-0">
             <CategoryButton

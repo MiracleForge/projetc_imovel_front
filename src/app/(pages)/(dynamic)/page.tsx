@@ -5,24 +5,14 @@ import CardWrapperSSR from "@/src/components/layouts/cards/cardContext/CardWrapp
 import MySpace from "@/src/components/layouts/features/MySpace.layout";
 import SectionFeature from "@/src/components/layouts/features/SectionFeature.layout";
 import CategoryNav from "@/src/components/layouts/headers/CategoryNav.header";
-import CardSkeleton from "@/src/components/ui/cards/HomeCardSkeleton.cards";
-import CardWrapper from "@/src/components/layouts/cards/cardContext/CardWrapper.layout";
+import dynamic from "next/dynamic";
+import WrapperCardSkeleton from "@/src/components/layouts/cards/cardContext/CardWrapper.skeleton";
 
-function WrapperCardSkeleton() {
-  return (
-    <div className="wrapper-cards-container animate-pulse">
-      <div className="wrapper-cards-header">
-        <div className="h-6 bg-gray-200 rounded w-48 mb-2"></div>
-        <div className="h-4 bg-gray-200 rounded w-24"></div>
-      </div>
-      <div className="wrapper-cards-list">
-        {[1, 2, 3, 4].map((i) => (
-          <CardSkeleton key={i} />
-        ))}
-      </div>
-    </div>
-  );
-}
+const CardWrapper = dynamic(
+  () => import("@/src/components/layouts/cards/cardContext/CardWrapper.layout"),
+);
+
+
 
 export default function Home() {
   return (
@@ -30,12 +20,10 @@ export default function Home() {
       <CategoryNav />
       <HeroBannerCarousel />
 
-      {/* Primeiro card - SSR direto com Suspense */}
       <Suspense fallback={<WrapperCardSkeleton />}>
-        <CardWrapperSSR query="http://localhost:3000/api/casas" />
+        <CardWrapperSSR query="http://localhost:3000/api/cards" />
       </Suspense>
 
-      {/* Cards lazy - só renderiza quando entrar na viewport */}
       <LazyLoadWrapper>
         <CardWrapper query="http://localhost:3000/api/cards" />
       </LazyLoadWrapper>
