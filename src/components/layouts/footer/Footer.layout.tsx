@@ -11,7 +11,7 @@ export default function Footer() {
             Fale diretamente com vendedores pelo chat ou conecte-se com corretores confiáveis para fechar negócio com segurança.
           </p>
         </div>
-        <div className="flex-1 flex items-start justify-between md:justify-end">
+        <div className="flex-1 flex items-start justify-between lg:gap-24 md:justify-end">
           <div>
             <h2 className="font-semibold mb-5 text-lg">Imobily</h2>
             <ul className="text-sm space-y-2 font-normal">

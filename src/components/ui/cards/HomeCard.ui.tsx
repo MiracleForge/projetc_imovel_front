@@ -1,32 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
 import UserAvatar from "../avatars/UserAvatar.ui";
-
-interface HomeCardProps {
-  title: string;
-  cardUrl: string;
-  brand: { label: string; icon: string };
-  cardImage: string;
-  price: number;
-  address: {
-    city: string;
-    locality: string;
-  };
-  user: {
-    avatar: string;
-    name: string;
-    isRealtor?: boolean;
-  };
-}
+import { HomeCardProps } from "@/src/contracts/types/cards/responses.type";
 
 export default function HomeCard({
+  advertiser,
   title,
-  cardUrl,
+  slugUrl,
   brand,
   address,
   cardImage,
   price,
-  user,
+  createdAt
 }: HomeCardProps) {
   const formattedPrice = price.toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
@@ -40,7 +25,7 @@ export default function HomeCard({
       className="w-full max-w-[260px] shrink-0 lg:max-w-[280px]"
     >
       <Link
-        href={cardUrl}
+        href={slugUrl}
         itemProp="url"
         title={`Ver detalhes: ${title}`}
         className="flex flex-col gap-2 lg:gap-3 group"
@@ -112,7 +97,7 @@ export default function HomeCard({
 
         {/* Footer com Anunciante */}
         <footer className="flex items-center gap-2 px-1 text-xs md:text-sm border-t border-neutral-terciary/10 pt-2">
-          <UserAvatar size={32} image={user.avatar} />
+          <UserAvatar size={32} image={advertiser.image} />
 
           <div className="flex flex-col gap-0.5 min-w-0 flex-1">
             <p
@@ -121,11 +106,16 @@ export default function HomeCard({
               itemScope
               itemType="https://schema.org/Person"
             >
-              <span itemProp="name">{user.name}</span>
+              <span itemProp="name">{advertiser.name.split(" ", 2).join(" ")}</span>
             </p>
-            <p className="text-[10px] text-neutral-terciary">
-              {user.isRealtor ? 'Corretor' : 'Anunciante'}
-            </p>
+            <span className="flex justify-between items-center">
+              <p className="text-[10px] text-neutral-terciary">
+                {advertiser.role === "owner" ? 'Anunciante' : 'Corretor'}
+              </p>
+              <p className="text-[10px] text-neutral-terciary">
+                {new Date(createdAt).toLocaleDateString("pt-br")}
+              </p>
+            </span>
           </div>
         </footer>
       </Link>

@@ -1,102 +1,147 @@
 import { NextResponse } from "next/server";
+import { HomeCardProps } from "@/src/contracts/types/cards/responses.type";
 
-// Seu JSON de 15 cards
-export const cards = [
+export const cards: HomeCardProps[] = [
   {
-    title: "Apartamento Moderno atualizada",
-    cardUrl: "/apartamentos/1",
-    brand: { label: "UrbanHomes", icon: "https://images.unsplash.com/photo-1560448204-4e0b7fdbf4d2" },
+    slugUrl: "/apartamentos/1",
+    category: "apartamentos",
+    title: "Apartamento Moderno atualizado",
+
+    brand: {
+      label: "UrbanHomes",
+      icon: "https://images.unsplash.com/photo-1560448204-4e0b7fdbf4d2",
+    },
+
     cardImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
-    price: 350000,
-    address: { city: "São Paulo", locality: "Vila Madalena" },
-    user: { avatar: "https://i.pravatar.cc/150?img=1", name: "João Silva", isRealtor: true },
+    price: 350_000,
+
+    address: {
+      city: "São Paulo",
+      locality: "Vila Madalena",
+    },
+
+    advertiser: {
+      id: "adv-1",
+      name: "João Silva",
+      image: "https://i.pravatar.cc/150?img=1",
+      role: "realtor",
+    },
+
+    createdAt: new Date()
   },
   {
+    slugUrl: "/casas/2",
+    category: "homes",
     title: "Casa com Jardim",
-    cardUrl: "/casas/2",
-    brand: { label: "GreenLiving", icon: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c" },
+
+    brand: {
+      label: "GreenLiving",
+      icon: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+    },
+
     cardImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
-    price: 750000,
-    address: { city: "Rio de Janeiro", locality: "Barra da Tijuca" },
-    user: { avatar: "https://i.pravatar.cc/150?img=2", name: "Maria Oliveira" },
+    price: 750_000,
+
+    address: {
+      city: "Rio de Janeiro",
+      locality: "Barra da Tijuca",
+    },
+
+    advertiser: {
+      id: "adv-2",
+      name: "Maria Oliveira",
+      image: "https://i.pravatar.cc/150?img=2",
+      role: "owner",
+    },
+
+    createdAt: new Date()
   },
   {
+    slugUrl: "/lofts/3",
+    category: "apartamentos",
     title: "Loft Compacto",
-    cardUrl: "/lofts/3",
-    brand: { label: "CityLofts", icon: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb" },
+
+    brand: {
+      label: "CityLofts",
+      icon: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
+    },
+
     cardImage: "https://images.unsplash.com/photo-1572120360610-d971b9b639d1",
-    price: 280000,
-    address: { city: "Belo Horizonte", locality: "Savassi" },
-    user: { avatar: "https://i.pravatar.cc/150?img=3", name: "Carlos Pereira", isRealtor: true },
+    price: 280_000,
+
+    address: {
+      city: "Belo Horizonte",
+      locality: "Savassi",
+    },
+
+    advertiser: {
+      id: "adv-3",
+      name: "Carlos Pereira",
+      image: "https://i.pravatar.cc/150?img=3",
+      role: "realtor",
+    },
+
+    createdAt: new Date()
   },
   {
+    slugUrl: "/coberturas/4",
+    category: "apartamentos",
     title: "Cobertura Luxuosa",
-    cardUrl: "/coberturas/4",
-    brand: { label: "PrimeResidences", icon: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb" },
+
+    brand: {
+      label: "PrimeResidences",
+      icon: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb",
+    },
+
     cardImage: "https://images.unsplash.com/photo-1599423300746-b62533397364",
-    price: 1250000,
-    address: { city: "São Paulo", locality: "Jardins" },
-    user: { avatar: "https://i.pravatar.cc/150?img=4", name: "Ana Souza" },
+    price: 1_250_000,
+
+    address: {
+      city: "São Paulo",
+      locality: "Jardins",
+    },
+
+    advertiser: {
+      id: "adv-4",
+      name: "Ana Souza",
+      image: "https://i.pravatar.cc/150?img=4",
+      role: "owner",
+    },
+
+    createdAt: new Date()
   },
   {
+    slugUrl: "/apartamentos/5",
+    category: "apartamentos",
     title: "Apartamento à Beira-Mar",
-    cardUrl: "/apartamentos/5",
-    brand: { label: "BeachLife", icon: "https://images.unsplash.com/photo-1501183638710-841dd1904471" },
+
+    brand: {
+      label: "BeachLife",
+      icon: "https://images.unsplash.com/photo-1501183638710-841dd1904471",
+    },
+
     cardImage: "https://images.unsplash.com/photo-1501183638710-841dd1904471",
-    price: 650000,
-    address: { city: "Florianópolis", locality: "Jurerê" },
-    user: { avatar: "https://i.pravatar.cc/150?img=5", name: "Rafael Costa" },
-  },
-  {
-    title: "Casa Rústica",
-    cardUrl: "/casas/6",
-    brand: { label: "RusticHomes", icon: "https://images.unsplash.com/photo-1523217582562-09d0def993a6" },
-    cardImage: "https://images.unsplash.com/photo-1523217582562-09d0def993a6",
-    price: 450000,
-    address: { city: "Curitiba", locality: "Batel" },
-    user: { avatar: "https://i.pravatar.cc/150?img=6", name: "Paula Lima" },
-  },
-  {
-    title: "Apartamento Compacto",
-    cardUrl: "/apartamentos/7",
-    brand: { label: "UrbanHomes", icon: "https://images.unsplash.com/photo-1560448204-4e0b7fdbf4d2" },
-    cardImage: "https://images.unsplash.com/photo-1560448204-4e0b7fdbf4d2",
-    price: 300000,
-    address: { city: "São Paulo", locality: "Pinheiros" },
-    user: { avatar: "https://i.pravatar.cc/150?img=7", name: "Lucas Martins" },
-  },
-  {
-    title: "Loft Industrial",
-    cardUrl: "/lofts/8",
-    brand: { label: "CityLofts", icon: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb" },
-    cardImage: "https://images.unsplash.com/photo-1560448070-62f85d3745e5",
-    price: 400000,
-    address: { city: "Porto Alegre", locality: "Moinhos de Vento" },
-    user: { avatar: "https://i.pravatar.cc/150?img=8", name: "Fernanda Ribeiro", isRealtor: true },
-  },
-  {
-    title: "Cobertura Moderna",
-    cardUrl: "/coberturas/9",
-    brand: { label: "PrimeResidences", icon: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb" },
-    cardImage: "https://images.unsplash.com/photo-1572120360610-d971b9b639d1",
-    price: 980000,
-    address: { city: "Rio de Janeiro", locality: "Ipanema" },
-    user: { avatar: "https://i.pravatar.cc/150?img=9", name: "Thiago Santos" },
-  },
-  {
-    title: "Casa de Campo atualizada",
-    cardUrl: "/casas/10",
-    brand: { label: "GreenLiving", icon: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c" },
-    cardImage: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
-    price: 520000,
-    address: { city: "Campos do Jordão", locality: "Capivari" },
-    user: { avatar: "https://i.pravatar.cc/150?img=10", name: "Juliana Ferreira" },
+    price: 650_000,
+
+    address: {
+      city: "Florianópolis",
+      locality: "Jurerê",
+    },
+
+    advertiser: {
+      id: "adv-5",
+      name: "Rafael Costa",
+      image: "https://i.pravatar.cc/150?img=5",
+      role: "owner",
+    },
+
+    createdAt: new Date()
   }
-  // você pode continuar até 15 seguindo o mesmo padrão
 ];
+
 export async function GET() {
-  console.log("done")
-  await new Promise(response => setTimeout(response, 20000))
+  console.log("done");
+  await new Promise(resolve => setTimeout(resolve, 2000));
   return NextResponse.json(cards);
 }
 
