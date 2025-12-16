@@ -4,7 +4,7 @@ import { HomeCardProps } from "@/src/contracts/types/cards/responses.type";
 const casas: HomeCardProps[] = [
   {
     slugUrl: "/casas/1",
-    category: "homes",
+    category: "casas",
     title: "Casa com Jardim",
 
     brand: {
@@ -31,7 +31,7 @@ const casas: HomeCardProps[] = [
   },
   {
     slugUrl: "/casas/2",
-    category: "homes",
+    category: "casas",
     title: "Casa Rústica Atualizada",
 
     brand: {

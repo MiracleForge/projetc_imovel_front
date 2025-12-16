@@ -14,9 +14,13 @@ export type ItemInscriptionPanel = {
 
 export type CardsType =
   | "apartamentos"
-  | "homes"
-  | "terrain"
-  | "commercial";
+  | "casas"
+  | "terrenos"
+  | "comérciais"
+  | "condominio"
+  | "venda"
+  | "aluguéis"
+  | "aluguéis"
 
 
 export interface HomeCardProps {

@@ -1,6 +1,6 @@
 import CardSkeleton from "@/src/components/ui/cards/HomeCardSkeleton.cards";
 
-export default function WrapperCardSkeleton() {
+export default function SectionCardSkeleton() {
   return (
     <div className="wrapper-cards-container animate-pulse overflow-hidden">
       <div className="wrapper-cards-header">

@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #BFBFBF;
+  --foreground: #E0E3EB;
 }
 
 @theme inline {
@@ -18,6 +18,13 @@
   --color-neutral-secondary: #3C4563;
   --color-neutral-terciary: #888B97;
   --color-shadow-blue: #2764FF85;
+}
+
+.logo-img {
+  /* to black */
+  filter: invert(1);
+  /* or to blue */
+  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg);
 }
 
  @utility no-scrollbar {

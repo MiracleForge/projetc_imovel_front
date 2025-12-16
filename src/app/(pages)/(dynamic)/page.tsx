@@ -1,17 +1,16 @@
 import { Suspense } from "react";
 import LazyLoadWrapper from "@/src/components/context/LazyLoadWrapper.client";
 import HeroBannerCarousel from "@/src/components/layouts/banners/HeroBannerCarousel.layout";
-import CardWrapperSSR from "@/src/components/layouts/cards/cardContext/CardWrapperSSR.layout";
 import MySpace from "@/src/components/layouts/features/MySpace.layout";
 import SectionFeature from "@/src/components/layouts/features/SectionFeature.layout";
 import CategoryNav from "@/src/components/layouts/headers/CategoryNav.header";
 import dynamic from "next/dynamic";
-import WrapperCardSkeleton from "@/src/components/layouts/cards/cardContext/CardWrapper.skeleton";
+import CardSectionServer from "@/src/components/layouts/cards/cardContext/CardSectionServer.layout";
+import SectionCardSkeleton from "@/src/components/layouts/cards/cardContext/SectionCard.skeleton";
 
 const CardWrapper = dynamic(
   () => import("@/src/components/layouts/cards/cardContext/CardWrapper.layout"),
 );
-
 
 
 export default function Home() {
@@ -20,8 +19,8 @@ export default function Home() {
       <CategoryNav />
       <HeroBannerCarousel />
 
-      <Suspense fallback={<WrapperCardSkeleton />}>
-        <CardWrapperSSR query="http://localhost:3000/api/cards" />
+      <Suspense fallback={<SectionCardSkeleton />}>
+        <CardSectionServer />
       </Suspense>
 
       <LazyLoadWrapper>

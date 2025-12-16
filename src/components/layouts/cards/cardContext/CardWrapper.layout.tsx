@@ -2,30 +2,30 @@
 
 
 import { useEffect, useState } from 'react'
-import HomeCard from "@/src/components/ui/cards/HomeCard.ui"
-import { HomeCards } from "@/src/contracts/types/cards/payloads.types"
 import { createFetcher } from "@/src/utils/fetchData"
-import WrapperCardSkeleton from './CardWrapper.skeleton'
+import SectionCardSkeleton from './SectionCard.skeleton'
+import { HomeCardProps } from '@/src/contracts/types/cards/responses.type'
+import HomeCard from '@/src/components/ui/cards/HomeCard.ui'
 
 
 export default function CardWrapper({ query }: { query: string }) {
-  const [cards, setCards] = useState<HomeCards[] | null>(null)
+  const [cards, setCards] = useState<HomeCardProps[] | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchCards = async () => {
-      const fetchCardCategory = createFetcher<undefined, HomeCards[]>(
+      const fetchCardCategory = createFetcher<undefined, HomeCardProps[]>(
         query,
         { method: 'GET', isPublic: true, raw: true }
       )
       const response = await fetchCardCategory()
       setCards(Array.isArray(response) ? response : null)
-      setLoading(false) // 🎯 FALTAVA ISSO!
+      setLoading(false)
     }
     fetchCards()
   }, [query])
 
-  if (loading) return <WrapperCardSkeleton />
+  if (loading) return <SectionCardSkeleton />
   if (!cards) return null
 
   return (
@@ -38,7 +38,10 @@ export default function CardWrapper({ query }: { query: string }) {
       </div>
       <div className="wrapper-cards-list no-scrollbar">
         {cards.map((card, index) => (
-          <HomeCard key={`card-${index}`} {...card} />
+          <HomeCard
+            key={`${card.slugUrl}-${index}`}
+            {...card}
+          />
         ))}
       </div>
     </div>
