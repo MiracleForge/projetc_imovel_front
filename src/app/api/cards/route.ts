@@ -96,7 +96,7 @@ export const cards = [
 ];
 export async function GET() {
   console.log("done")
-  await new Promise(response => setTimeout(response, 80000))
+  await new Promise(response => setTimeout(response, 20000))
   return NextResponse.json(cards);
 }
 

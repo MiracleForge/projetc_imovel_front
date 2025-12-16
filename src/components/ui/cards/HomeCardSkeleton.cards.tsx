@@ -6,7 +6,6 @@ export default function CardSkeleton() {
         <div className="relative overflow-hidden rounded-2xl bg-neutral-200 w-full h-[180px] lg:h-[200px] shadow-[4px_5px_5px_0px] shadow-shadow-blue/85" />
 
         {/* Badge */}
-        <div className="absolute top-2 left-2 inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-neutral-300 w-16 h-6" />
 
         {/* Informações do Imóvel */}
         <div className="flex flex-col gap-2 px-1">

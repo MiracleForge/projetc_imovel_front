@@ -4,10 +4,8 @@ import { useEffect, useState, useRef } from 'react'
 
 export default function LazyGate({
   children,
-  fallBack
 }: {
   children: React.ReactNode
-  fallBack?: React.ReactNode
 }) {
   const ref = useRef<HTMLDivElement | null>(null)
   const [shouldRender, setShouldRender] = useState(false)
@@ -31,7 +29,7 @@ export default function LazyGate({
 
   return (
     <div ref={ref}>
-      {shouldRender ? children : fallBack}
+      {shouldRender && children}
     </div>
   )
 }
