@@ -13,7 +13,7 @@ export default function FilteradeCardSection({
   const [filteredCards, setFilteredCards] = useState<HomeCardProps[]>(cards);
 
   return (
-    <section className="wrapper-cards-container">
+    <section className="wrapper-cards-container space-y-4">
       <div className="wrapper-cards-header tipografy-title">
         <h3 className="wrapper-cards-title">Recém Publicados</h3>
         <p className="wrapper-cards-subtitle">

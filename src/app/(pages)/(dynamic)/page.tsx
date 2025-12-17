@@ -5,11 +5,11 @@ import MySpace from "@/src/components/layouts/features/MySpace.layout";
 import SectionFeature from "@/src/components/layouts/features/SectionFeature.layout";
 import CategoryNav from "@/src/components/layouts/headers/CategoryNav.header";
 import dynamic from "next/dynamic";
-import CardSectionServer from "@/src/components/layouts/cards/cardContext/CardSectionServer.layout";
-import SectionCardSkeleton from "@/src/components/layouts/cards/cardContext/SectionCard.skeleton";
+import CardSectionServer from "@/src/components/layouts/cards/cardSections/CardSectionServer.layout";
+import SectionCardSkeleton from "@/src/components/layouts/cards/cardSections/SectionCard.skeleton";
 
 const CardWrapper = dynamic(
-  () => import("@/src/components/layouts/cards/cardContext/CardWrapper.layout"),
+  () => import("@/src/components/layouts/cards/cardSections/CardWrapper.layout"),
 );
 
 

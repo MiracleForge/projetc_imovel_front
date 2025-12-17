@@ -59,18 +59,20 @@ function FiltersButton({ category, isActive, onClick }: ButtonProps) {
     <button
       onClick={onClick}
       className={`
-    inline-flex items-center capitalize gap-2 rounded-full border px-3 py-2 text-sm font-medium transition-all cursor-pointer
+    inline-flex items-center capitalize gap-1 rounded-full border border-[#E0E3EB] px-2 py-2 text-xs md:text-sm font-medium transition-all cursor-pointer
     ${isActive ? "text-terciary-blue bg-[#BDD9FF] active:scale-[0.97]" : "text-neutral-terciary hover:text-terciary-blue hover:bg-[#BDD9FF] hover:border-white "}`}
     >
       <img
         src={`/icons/${category}-categoria.svg`}
         alt={category}
-        className="h-4 w-4 logo-img"
+        className="h-3 w-3 logo-img"
       />
-      {category}
+      <span className={`${isActive ? "max-w-none w-fit" : "max-w-[7ch] truncate "} md:max-w-none  whitespace-nowrap`}>
+        {category.replace(/-/g, " ")}
+      </span>
       {isActive && (
         <svg
-          className="w-3 h-3 ml-1"
+          className="w-3 h-3 ml-1 shrink-0"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
