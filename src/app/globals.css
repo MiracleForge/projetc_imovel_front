@@ -20,13 +20,6 @@
   --color-shadow-blue: #2764FF85;
 }
 
-.logo-img {
-  /* to black */
-  filter: invert(1);
-  /* or to blue */
-  filter: invert(0.5) sepia(1) saturate(5) hue-rotate(175deg);
-}
-
  @utility no-scrollbar {
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }

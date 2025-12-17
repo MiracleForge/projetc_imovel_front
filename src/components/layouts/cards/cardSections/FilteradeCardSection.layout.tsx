@@ -4,6 +4,7 @@ import { useState } from "react";
 import FilterCards from "@/src/components/ui/buttons/filters/CardCategoryFilter.ui";
 import HomeCard from "@/src/components/ui/cards/HomeCard.ui";
 import { HomeCardProps } from "@/src/contracts/types/cards/responses.type";
+import HorizontalScroll from "@/src/components/context/HorizontalScroll.context";
 
 export default function FilteradeCardSection({
   cards,
@@ -25,15 +26,16 @@ export default function FilteradeCardSection({
         itemsArray={cards}
         onFilter={setFilteredCards}
       />
-
-      <div className="wrapper-cards-list no-scrollbar">
-        {filteredCards.map((card, index) => (
-          <HomeCard
-            key={`${card.slugUrl}-${index}`}
-            {...card}
-          />
-        ))}
-      </div>
+      <HorizontalScroll>
+        <ul className="w-max shrink-0 inline-flex items-center space-x-3 font-medium leading-7 whitespace-nowrap py-1 px-1 rounded-lg gap-6">
+          {filteredCards.map((card, index) => (
+            <HomeCard
+              key={`${card.slugUrl}-${index}`}
+              {...card}
+            />
+          ))}
+        </ul>
+      </HorizontalScroll>
     </section>
   );
 }

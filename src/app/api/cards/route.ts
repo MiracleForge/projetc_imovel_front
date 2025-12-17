@@ -136,6 +136,60 @@ export const cards: HomeCardProps[] = [
     },
 
     createdAt: new Date()
+  },
+  {
+    slugUrl: "/apartamentos/5",
+    category: "casas-e-sobrados",
+    title: "Apartamento à Beira-Mar",
+
+    brand: {
+      label: "BeachLife",
+      icon: "https://images.unsplash.com/photo-1501183638710-841dd1904471",
+    },
+
+    cardImage: "https://images.unsplash.com/photo-1501183638710-841dd1904471",
+    price: 650_000,
+
+    address: {
+      city: "Florianópolis",
+      locality: "Jurerê",
+    },
+
+    advertiser: {
+      id: "adv-5",
+      name: "Rafael Costa",
+      image: "https://i.pravatar.cc/150?img=5",
+      role: "owner",
+    },
+
+    createdAt: new Date()
+  },
+  {
+    slugUrl: "/apartamentos/5",
+    category: "casas-e-sobrados",
+    title: "Apartamento à Beira-Mar",
+
+    brand: {
+      label: "BeachLife",
+      icon: "https://images.unsplash.com/photo-1501183638710-841dd1904471",
+    },
+
+    cardImage: "https://images.unsplash.com/photo-1501183638710-841dd1904471",
+    price: 650_000,
+
+    address: {
+      city: "Florianópolis",
+      locality: "Jurerê",
+    },
+
+    advertiser: {
+      id: "adv-5",
+      name: "Rafael Costa",
+      image: "https://i.pravatar.cc/150?img=5",
+      role: "owner",
+    },
+
+    createdAt: new Date()
   }
 ];
 

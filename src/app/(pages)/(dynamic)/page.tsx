@@ -15,7 +15,7 @@ const CardWrapper = dynamic(
 
 export default function Home() {
   return (
-    <main className="flex flex-col bg-white px-2 py-3 lg:space-y-12">
+    <main className="flex flex-col bg-white px-2 py-3 lg:space-y-6">
       <CategoryNav />
       <HeroBannerCarousel />
 
