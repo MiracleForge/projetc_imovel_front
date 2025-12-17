@@ -1,12 +1,11 @@
 'use client'
 
-
 import { useEffect, useState } from 'react'
 import { createFetcher } from "@/src/utils/fetchData"
 import SectionCardSkeleton from './SectionCard.skeleton'
 import { HomeCardProps } from '@/src/contracts/types/cards/responses.type'
 import HomeCard from '@/src/components/ui/cards/HomeCard.ui'
-
+import HorizontalScroll from '@/src/components/context/ResponsiveHorizontalScroll.context'
 
 export default function CardWrapper({ query }: { query: string }) {
   const [cards, setCards] = useState<HomeCardProps[] | null>(null)
@@ -36,14 +35,16 @@ export default function CardWrapper({ query }: { query: string }) {
           HOJE! <span className="wrapper-cards-badge" />
         </p>
       </div>
-      <div className="wrapper-cards-list no-scrollbar">
-        {cards.map((card, index) => (
-          <HomeCard
-            key={`${card.slugUrl}-${index}`}
-            {...card}
-          />
-        ))}
-      </div>
+      <HorizontalScroll>
+        <ul className=" wrapper-cards-list w-full no-scrollbar">
+          {cards.map((card, index) => (
+            <HomeCard
+              key={`${card.slugUrl}-${index}`}
+              {...card}
+            />
+          ))}
+        </ul>
+      </HorizontalScroll>
     </div>
   )
 }

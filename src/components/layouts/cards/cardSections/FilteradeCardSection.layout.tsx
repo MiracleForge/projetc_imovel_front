@@ -4,7 +4,7 @@ import { useState } from "react";
 import FilterCards from "@/src/components/ui/buttons/filters/CardCategoryFilter.ui";
 import HomeCard from "@/src/components/ui/cards/HomeCard.ui";
 import { HomeCardProps } from "@/src/contracts/types/cards/responses.type";
-import HorizontalScroll from "@/src/components/context/HorizontalScroll.context";
+import HorizontalScroll from "@/src/components/context/ResponsiveHorizontalScroll.context";
 
 export default function FilteradeCardSection({
   cards,

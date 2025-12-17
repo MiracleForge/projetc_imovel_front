@@ -2,13 +2,14 @@
 import { Activity, useRef, useState } from 'react';
 import ScrollButton from '../ui/buttons/ScrollButons.ui';
 
-export default function HorizontalScroll({
+export default function HorizontalScrollDesktop({
   children,
   hideButtons = false,
 }: {
   children: React.ReactNode, hideButtons?: boolean
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
 
   const [isDown, setIsDown] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -65,8 +66,13 @@ export default function HorizontalScroll({
     const x = e.pageX - ref.current.offsetLeft;
     const walk = x - startX;
 
+    if (Math.abs(walk) > 5) {
+      isDragging.current = true;
+    }
+
     ref.current.scrollLeft = scrollStart - walk;
   };
+
 
   return (
     <div className="relative">
@@ -81,12 +87,20 @@ export default function HorizontalScroll({
 
       <div
         ref={ref}
+        onClickCapture={(e) => {
+          if (isDragging.current) {
+            e.preventDefault();
+            e.stopPropagation();
+            isDragging.current = false;
+          }
+        }}
         onMouseDown={handleMouseDown}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
         onMouseMove={handleMouseMove}
         className="overflow-x-auto scroll-smooth no-scrollbar snap-x snap-mandatory cursor-grab"
       >
+
         {children}
       </div>
 
