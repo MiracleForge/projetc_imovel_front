@@ -9,6 +9,7 @@ export default function SectionFeature() {
     >
       {/* Header */}
       <div className="max-w-3xl">
+        <Badge label="Experiência Personalizada" />
         <h2
           id="titulo-confira-tambem"
           className="text-2xl md:text-3xl font-bold text-gray-800"
@@ -82,13 +83,13 @@ export default function SectionFeature() {
             </p>
 
             {/* comprador */}
-            <p className="mt-4 hidden peer-checked/comprador:block">
+            <p className="mt-4 text-xs md:text-sm hidden peer-checked/comprador:block">
               Receba alertas inteligentes, salve imóveis favoritos e descubra
               oportunidades que combinam com seu perfil.
             </p>
 
             {/* vendedor */}
-            <p className="mt-4 hidden peer-checked/vendedor:block">
+            <p className="mt-4 text-xs md:text-sm hidden peer-checked/vendedor:block">
               Anuncie com destaque, alcance compradores qualificados e gerencie
               tudo em um só lugar.
             </p>

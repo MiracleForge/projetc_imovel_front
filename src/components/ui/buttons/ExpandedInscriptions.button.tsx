@@ -1,6 +1,5 @@
 "use client";
 
-
 import Image from "next/image";
 import Link from "next/link";
 import UserAvatar from "../avatars/UserAvatar.ui";
@@ -10,17 +9,23 @@ import { ItemInscriptionPanel } from "@/src/contracts/types/cards/responses.type
 import { createFetcher } from "@/src/utils/fetchData";
 
 export default function ExpandedInscriptionButton() {
-
   const [isExpanded, setExpanded] = useState(false);
-  const [userSubscription, setUserInscriptions] = useState<ItemInscriptionPanel[] | null>(null);
+  const [userSubscriptions, setUserInscriptions] =
+    useState<ItemInscriptionPanel[] | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const openSubscription = async () => {
     const nextExpanded = !isExpanded;
     setExpanded(nextExpanded);
 
-    if (nextExpanded && !userSubscription) {
-      const inscriptionFetcher = createFetcher<undefined, ItemInscriptionPanel[]>(
-        "https://free.mockerapi.com/mock/fc5bb54c-5ee2-4658-a135-6812bd9e5d4a",
+    if (nextExpanded && !userSubscriptions) {
+      setLoading(true);
+
+      const inscriptionFetcher = createFetcher<
+        undefined,
+        ItemInscriptionPanel[]
+      >(
+        "/api/subscriptions",
         { method: "GET", isPublic: false }
       );
 
@@ -28,18 +33,29 @@ export default function ExpandedInscriptionButton() {
       if (Array.isArray(result)) {
         setUserInscriptions(result);
       }
+
+      setLoading(false);
     }
   };
 
   return (
     <div className="relative">
+      {/* Trigger */}
       <button
         type="button"
         aria-haspopup="listbox"
         aria-expanded={isExpanded}
-        aria-controls={"inscricoes-panel"}
+        aria-controls="inscricoes-panel"
         onClick={openSubscription}
-        className="w-full inline-flex items-center space-x-3 px-4 py-1 border border-[#8C8C8C] bg-white hover:scale-[1.02] active:scale-[1.02] transition-all duration-200 font-semibold cursor-pointer"
+        className={`
+          w-full flex items-center gap-3 px-4 py-2
+          rounded-xl border bg-white
+          transition-all duration-300
+          font-semibold
+          ${isExpanded
+            ? "border-primary-blue shadow-md"
+            : "border-[#8C8C8C] hover:shadow-sm"}
+        `}
       >
         <Image
           src="/miscellaneous/inscricoes-icon.svg"
@@ -48,22 +64,25 @@ export default function ExpandedInscriptionButton() {
           unoptimized
           alt=""
         />
+
         <span>Inscrições</span>
 
         <Image
           src="/miscellaneous/arrow-down-icon.svg"
-          className="ml-auto"
           width={18}
           height={18}
           unoptimized
           alt=""
+          className={`
+            ml-auto transition-transform duration-300
+            ${isExpanded ? "rotate-180" : ""}
+          `}
         />
       </button>
 
+      {/* Panel */}
       <Activity mode={isExpanded ? "visible" : "hidden"}>
-        <SubscriptionPanel
-          items={userSubscription}
-        />
+        <SubscriptionPanel items={userSubscriptions} loading={loading} />
       </Activity>
     </div>
   );
@@ -71,60 +90,88 @@ export default function ExpandedInscriptionButton() {
 
 function SubscriptionPanel({
   items,
+  loading,
 }: {
   items: ItemInscriptionPanel[] | null;
+  loading: boolean;
 }) {
-  if (!items) return null;
-  //TODO: ADD A LOADING STATE HERE FOR BETTER UX
   return (
-    <ul
+    <div
       id="inscricoes-panel"
       role="listbox"
       aria-label="Lista de inscrições"
-      className="anchor px-3 py-2 space-y-1 overflow-y-scroll"
+      className="
+        mt-3
+        rounded-2xl
+        bg-white
+        shadow-xl
+        border
+        overflow-hidden
+      "
     >
-      <CommumButton
-        variant="ghost"
-        url="/minhas-inscricoes"
-        label="Ver Todos"
-      />
+      {/* Header */}
+      <div className="px-4 py-3 border-b bg-neutral-50">
+        <p className="text-sm font-semibold text-neutral-700">
+          Minhas inscrições
+        </p>
+      </div>
 
-      {items.map((item) => {
-        const title = `${item.ownerName}${item.hasNewPublication ? " — Nova publicação" : ""
-          }`;
-
-        return (
-          <li
-            key={item.spaceId}
-            role="option"
-            aria-selected={false}
-            title={title}
-            className="text-black hover:bg-neutral-100 text-base rounded-xl cursor-pointer hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 font-medium hover:shadow-md"
-          >
-            <Link
-              href={`/meu-espaço/${item.spaceId}`}
-              aria-label={
-                item.hasNewPublication
-                  ? `${item.ownerName}, nova publicação disponível`
-                  : item.ownerName
-              }
-              className="flex items-center space-x-6 w-full h-full px-4 py-1.5"
-            >
-              <UserAvatar size={26} image={item.ownerAvatar} />
-
-              <p className="truncate">{item.ownerName}</p>
-
-              {item.hasNewPublication && (
-                <span
-                  className="size-0.5 p-1 rounded-full ml-auto bg-primary-blue animate-pulse"
-                  aria-label="Nova publicação"
-                />
-              )}
-            </Link>
+      {/* Content */}
+      <ul className="max-h-56 overflow-y-auto px-2 py-2 space-y-1">
+        {loading && (
+          <li className="px-4 py-3 text-sm text-neutral-500">
+            Carregando inscrições…
           </li>
-        );
-      })}
-    </ul>
+        )}
+
+        {!loading && items?.length === 0 && (
+          <li className="px-4 py-3 text-sm text-neutral-500">
+            Nenhuma inscrição encontrada
+          </li>
+        )}
+
+        {!loading &&
+          items?.map((item) => (
+            <li
+              key={item.spaceId}
+              role="option"
+              className="
+                rounded-xl transition-all
+                hover:bg-neutral-100
+                hover:shadow-sm
+              "
+            >
+              <Link
+                href={`/meu-espaço/${item.spaceId}`}
+                className="flex items-center gap-4 px-4 py-2"
+              >
+                <UserAvatar size={28} image={item.advertiser.image} />
+
+                <p className="truncate font-medium text-sm">
+                  {item.advertiser.name}
+                </p>
+
+                {item.hasNewPublication && (
+                  <span
+                    className="ml-auto size-2 rounded-full bg-primary-blue animate-pulse"
+                    aria-label="Nova publicação"
+                  />
+                )}
+              </Link>
+            </li>
+          ))}
+      </ul>
+
+      {/* Footer */}
+      <div className="border-t p-2">
+        <CommumButton
+          variant="ghost"
+          url="/minhas-inscricoes"
+          label="Ver todas as inscrições"
+          className="w-full"
+        />
+      </div>
+    </div>
   );
 }
 

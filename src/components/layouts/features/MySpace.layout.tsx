@@ -43,7 +43,6 @@ export default function MySpace() {
               </svg>
             </CommumButton>
 
-
             <span className="text-xs text-neutral/60">Sem custo inicial no lançamento * <Link className="link-default" href={"#"}>Ver Condições especiais</Link></span>
           </div>
 
@@ -135,7 +134,6 @@ export default function MySpace() {
               </div>
             </div>
 
-            {/* NOTIFICAÇÕES */}
             {/* NOTIFICAÇÕES */}
             <div className="absolute right-4 bottom-6 w-56 h-40 overflow-hidden pointer-events-none">
               <div className="relative h-full">

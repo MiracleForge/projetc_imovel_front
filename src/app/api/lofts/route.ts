@@ -1,9 +1,10 @@
-import { HomeCardProps } from "@/src/contracts/types/cards/responses.type";
+import { HomeCardsType } from "@/src/contracts/types/cards/responses.type";
 import { NextResponse } from "next/server";
 
-const lofts: HomeCardProps[] = [
+const lofts: HomeCardsType[] = [
   {
-    category: "homes",
+    id: "string",
+    category: "casas-e-sobrados",
     title: "Loft Compacto",
     slugUrl: "/lofts/1",
 
@@ -30,7 +31,8 @@ const lofts: HomeCardProps[] = [
     createdAt: new Date
   },
   {
-    category: "homes",
+    id: "string",
+    category: "casas-e-sobrados",
     title: "Loft Industrial",
     slugUrl: "/lofts/2",
 
