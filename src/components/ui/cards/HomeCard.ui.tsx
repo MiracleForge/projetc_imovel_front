@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import UserAvatar from "../avatars/UserAvatar.ui";
-import { HomeCardProps } from "@/src/contracts/types/cards/responses.type";
+import LikeButton from "../buttons/LikeButtons.ui";
+import { HomeCardsType } from "@/src/contracts/types/cards/responses.type";
 
 export default function HomeCard({
   advertiser,
@@ -12,7 +13,7 @@ export default function HomeCard({
   cardImage,
   price,
   createdAt
-}: HomeCardProps) {
+}: HomeCardsType) {
   const formattedPrice = price.toLocaleString("pt-BR", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -55,6 +56,7 @@ export default function HomeCard({
             />
             <span className="capitalize">{brand.label}</span>
           </figcaption>
+          <LikeButton initialState={price} />
         </figure>
 
         {/* Informações do Imóvel */}

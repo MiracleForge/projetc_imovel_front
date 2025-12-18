@@ -7,6 +7,7 @@ import CategoryNav from "@/src/components/layouts/headers/CategoryNav.header";
 import dynamic from "next/dynamic";
 import CardSectionServer from "@/src/components/layouts/cards/cardSections/CardSectionServer.layout";
 import SectionCardSkeleton from "@/src/components/layouts/cards/cardSections/SectionCard.skeleton";
+import RegionEmptyState from "@/src/components/layouts/stateZero/RegionEmptyState.layout";
 
 const CardWrapper = dynamic(
   () => import("@/src/components/layouts/cards/cardSections/CardWrapper.layout"),
@@ -22,6 +23,8 @@ export default function Home() {
       <Suspense fallback={<SectionCardSkeleton />}>
         <CardSectionServer />
       </Suspense>
+
+      <RegionEmptyState />
 
       <LazyLoadWrapper>
         <CardWrapper query="http://localhost:3000/api/cards" />

@@ -25,7 +25,8 @@ export type CardsType =
   | "imóveis-novos"
 
 
-export interface HomeCardProps {
+export interface HomeCardsType {
+  id: string;
   category: CardsType;
   title: string;
   slugUrl: string;

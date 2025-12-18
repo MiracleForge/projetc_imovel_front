@@ -14,7 +14,7 @@ export default function Navbar({ user }: NavbarProps) {
       <nav className="flex flex-row items-center p-4 space-x-4 justify-start">
 
         <span className="inline-flex space-x-3 items-center">
-          <ToHomeButton logoType="small" size={36} />
+          <ToHomeButton logoType="small" size={28} />
         </span>
 
         <div className="flex-1 min-w-0">

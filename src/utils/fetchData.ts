@@ -1,6 +1,6 @@
 import { actionResponse } from "../contracts/types/responses.core";
 
-type FetcherOptions = {
+type FetcherOptions<Payload = any> = {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   headers?: Record<string, string>;
   next?: { revalidate: 0 },
@@ -8,6 +8,7 @@ type FetcherOptions = {
   isPublic?: boolean;
   raw?: boolean;
   credentials?: RequestCredentials
+  body?: Payload;
 };
 
 export function createFetcher<Payload = unknown, Data = unknown>(
@@ -63,7 +64,7 @@ export function createFetcher<Payload, Data>(
       const response = await fetch(url, {
         method: finalOptions.method ?? "POST",
         headers: finalHeaders,
-        body,
+        body: finalOptions.body,
         credentials: finalOptions.credentials,
         next: finalOptions.next,
         cache: "no-cache"

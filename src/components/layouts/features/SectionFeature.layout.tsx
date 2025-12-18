@@ -1,3 +1,5 @@
+import Badge from "../../ui/tooltips/Badge.ui";
+
 export default function SectionFeature() {
   return (
     <section
@@ -5,138 +7,122 @@ export default function SectionFeature() {
       aria-labelledby="titulo-confira-tambem"
       role="region"
     >
-      <h2
-        id="titulo-confira-tambem"
-        className="tipografy-title text-gray-600 text-2xl font-medium"
-        itemProp="name"
-      >
-        Confira Também
-      </h2>
+      {/* Header */}
+      <div className="max-w-3xl">
+        <h2
+          id="titulo-confira-tambem"
+          className="text-2xl md:text-3xl font-bold text-gray-800"
+        >
+          Oportunidades que realmente fazem sentido para você
+        </h2>
+        <p className="mt-2 text-gray-500">
+          Imóveis selecionados para morar melhor ou investir com mais segurança.
+        </p>
+      </div>
 
+      {/* Feature cards */}
       <div className="md:flex mt-8 md:-mx-4" role="list">
         <FeatureImageCard
+          badge="Pronto para morar"
           title="Apartamentos Decorados"
-          description="Descubra ambientes planejados nos mínimos detalhes."
+          description="Ambientes planejados nos mínimos detalhes para você se imaginar vivendo."
           backgroundUrl="/banners/features/apartamentos-decorados.png"
         />
 
         <FeatureImageCard
-          title="Encontre Imóveis na Planta"
-          description="Comprar na planta é investir com segurança e construir o espaço perfeito desde o início."
+          badge="Alta valorização"
+          title="Imóveis na Planta"
+          description="Invista antes do lançamento e maximize seu potencial de retorno."
           backgroundUrl="/banners/features/compra-na-planta.png"
         />
       </div>
 
+      {/* Banner Create Account */}
       <div
-        className="mt-8 aspect-auto h-86 rounded-3xl overflow-hidden bg-center md:bg-cover bg-no-repeat"
+        className="relative mt-10 h-86 rounded-3xl overflow-hidden bg-center bg-cover"
         style={{
           backgroundImage:
             "url('/banners/features/frame-create-account-banner.png')",
         }}
-        role="region"
         aria-labelledby="titulo-crie-conta"
       >
-        <div className="flex items-center justify-end h-full">
-          <div className="px-6 md:px-10 max-w-xl" itemScope itemType="https://schema.org/RegisterAction">
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-l from-blue-700/30 via-blue-600/15 to-transparent" />
 
-            {/* Radios acessíveis */}
+
+        <div className="relative z-10 flex items-center justify-end h-full">
+          <div className="px-6 md:px-10 max-w-xl text-white">
+
+            {/* Radios */}
             <input
               id="opt-comprador"
               type="radio"
               name="mode"
               className="peer/comprador hidden"
               defaultChecked
-              aria-label="Ver benefícios para compradores"
             />
-
             <input
               id="opt-vendedor"
               type="radio"
               name="mode"
               className="peer/vendedor hidden"
-              aria-label="Ver benefícios para vendedores"
             />
+
+            <Badge label="Gratuito • Leva menos de 1 minuto" />
 
             <h2
               id="titulo-crie-conta"
-              className="text-2xl md:text-3xl text-text-blue font-stretch-semi-expanded"
-              itemProp="name"
+              className="mt-3 text-3xl md:text-4xl font-extrabold leading-tight"
             >
-              Crie sua Conta...
+              Crie sua conta
             </h2>
 
-            <p className="mt-2 text-text-blue" itemProp="description">
-              Junte-se aos milhares de compradores & vendedores
+            <p className="mt-3 text-white/80">
+              Uma experiência personalizada para comprar, vender ou investir melhor.
             </p>
 
             {/* comprador */}
-            <p
-              className="mt-2 text-text-blue hidden peer-checked/comprador:block"
-              aria-live="polite"
-              itemProp="description"
-            >
-              Encontre imóveis perfeitos para você com filtros inteligentes,
-              tours virtuais e alertas sob medida.
+            <p className="mt-4 hidden peer-checked/comprador:block">
+              Receba alertas inteligentes, salve imóveis favoritos e descubra
+              oportunidades que combinam com seu perfil.
             </p>
 
             {/* vendedor */}
-            <p
-              className="mt-2 text-text-blue hidden peer-checked/vendedor:block"
-              aria-live="polite"
-              itemProp="description"
-            >
-              Anuncie com destaque, gerencie propostas e alcance compradores
-              qualificados com facilidade.
+            <p className="mt-4 hidden peer-checked/vendedor:block">
+              Anuncie com destaque, alcance compradores qualificados e gerencie
+              tudo em um só lugar.
             </p>
 
-            <div className="flex gap-3 mt-4" role="radiogroup" aria-label="Tipo de usuário">
+            {/* Selectors */}
+            <div className="flex gap-3 mt-6">
               <label
                 htmlFor="opt-comprador"
-                className="inline-flex items-center px-2 md:px-3 py-2 text-xs md:text-sm uppercase font-bold rounded cursor-pointer bg-blue-600 text-white hover:bg-blue-500 transition peer-checked/comprador:bg-blue-800 peer-checked/comprador:scale-105"
+                className="
+                  flex items-center gap-2 px-2 md:px-4 py-3 rounded-xl cursor-pointer
+                  bg-secundary-blue backdrop-blur-md border border-white/20
+                  hover:bg-white/30 transition-all
+                  active:scale-[0.96]
+                "
               >
-                Sou Comprador
-
-                {/* Ícone inativo */}
-                <svg
-                  className="h-5 w-5 ml-2 peer-checked/comprador:hidden"
-                  fill="none"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                </svg>
-
-                {/* Ícone ativo */}
-                <svg
-                  className="h-5 w-5 ml-2 hidden peer-checked/comprador:block"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M12 2l9 9-9 9-9-9 9-9z"></path>
-                </svg>
+                <img src="/miscellaneous/comprador-icon.svg" width={18} />
+                <span className="font-bold uppercase text-xs md:text-sm">
+                  Sou Comprador
+                </span>
               </label>
+
               <label
                 htmlFor="opt-vendedor"
                 className="
-                  inline-flex items-center px-2 md:px-3 py-2 text-xs md:text-sm uppercase font-bold rounded cursor-pointer
-                  bg-blue-600 text-white hover:bg-blue-500 transition
-                  peer-checked/vendedor:bg-blue-800 peer-checked/vendedor:scale-105
+                  flex items-center gap-2 px-2 md:px-4 py-3 rounded-xl cursor-pointer
+                  bg-secundary-blue backdrop-blur-md border border-white/20
+                  hover:bg-white/30 transition-all
+                  active:scale-[0.96]
                 "
-                role="radio"
-                aria-checked="false"
               >
-                Sou Vendedor
-                <svg
-                  className="h-5 w-5 ml-2"
-                  fill="none"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
-                </svg>
+                <img src="/miscellaneous/vendedor-icon.svg" width={18} />
+                <span className="font-bold uppercase text-xs md:text-sm">
+                  Sou Vendedor
+                </span>
               </label>
             </div>
           </div>
@@ -146,55 +132,62 @@ export default function SectionFeature() {
   );
 }
 
+/* --------------------------------------------- */
+
 interface FeatureImageCardProps {
   title: string;
   description: string;
   backgroundUrl: string;
+  badge: string;
 }
 
-function FeatureImageCard({ title, description, backgroundUrl }: FeatureImageCardProps) {
+function FeatureImageCard({
+  title,
+  description,
+  backgroundUrl,
+  badge,
+}: FeatureImageCardProps) {
   return (
     <article
       className="
-        relative w-full h-54 md:h-64 mt-8 md:mx-4 overflow-hidden bg-cover bg-center
-        md:mt-0 md:w-1/2 rounded-2xl before:absolute before:inset-0
-        before:bg-linear-to-t before:from-black/60 before:to-black/10 before:z-10 md:brightness-100
+        group relative w-full md:w-1/2 h-56 md:h-64 mt-8 md:mt-0 md:mx-4
+        rounded-3xl overflow-hidden bg-cover bg-center
+        before:absolute before:inset-0
+        before:bg-gradient-to-t before:from-black/70 before:to-black/10
+        before:transition-opacity before:duration-500
+        group-hover:before:opacity-80
       "
       style={{ backgroundImage: `url('${backgroundUrl}')` }}
-      role="listitem"
-      itemScope
-      itemType="https://schema.org/CreativeWork"
-      aria-label={title}
     >
-      <meta itemProp="image" content={backgroundUrl} />
+      <div className="relative z-10 flex items-center h-full">
+        <div className="px-6 md:px-10 max-w-xl text-white">
+          <Badge label={badge} />
 
-      <div className="relative z-20 flex items-center h-full">
-        <div className="px-10 max-w-xl">
-          <h3 className="text-xl lg:text-2xl text-white font-semibold" itemProp="headline">
+          <h3 className="mt-2 text-xl md:text-2xl font-bold">
             {title}
           </h3>
 
-          <p className="mt-2 text-white" itemProp="description">
+          <p className="mt-2 text-white/90">
             {description}
           </p>
 
           <button
-            className="flex items-center mt-4 text-white text-sm uppercase font-medium rounded hover:underline focus:outline-none"
-            aria-label={`Visitar página de ${title}`}
-            itemProp="url"
+            className="mt-5 inline-flex items-center gap-2 font-semibold uppercase text-sm tracking-wide hover:underline"
+            aria-label={`Visitar ${title}`}
           >
-            <span>Visite agora</span>
+            Quero conhecer
             <svg
-              className="h-5 w-5 mx-2"
+              className="h-5 w-5"
               fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+              stroke="currentColor"
               strokeWidth="2"
               viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
             >
-              <path d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
             </svg>
           </button>
         </div>
