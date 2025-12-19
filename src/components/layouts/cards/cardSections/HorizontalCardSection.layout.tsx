@@ -29,9 +29,7 @@ export function HorizontalCardSection({
       <HorizontalScroll>
         <ul className="wrapper-cards-list">
           {(hasFilter ? filtered : cards).map((card, index) => (
-            <li key={`${card.slugUrl}-${index}`}>
-              <PublicationCard {...card} />
-            </li>
+            <PublicationCard key={`${card.slugUrl}-${index}`} {...card} />
           ))}
         </ul>
       </HorizontalScroll>
