@@ -22,8 +22,9 @@ export default function PublicationCard({
     <article
       itemScope
       itemType="https://schema.org/RealEstateListing"
-      className="w-full max-w-[260px] shrink-0 lg:max-w-[280px]"
+      className="w-full max-w-[260px] lg:max-w-[280px] shrink-0"
     >
+      <meta itemProp="datePosted" content={new Date(createdAt).toISOString()} />
       <Link
         href={slugUrl}
         itemProp="url"
@@ -31,13 +32,13 @@ export default function PublicationCard({
         className="flex flex-col gap-2 lg:gap-3 group"
       >
         {/* Imagem do Imóvel */}
-        <figure className="relative overflow-hidden rounded-2xl shadow-[4px_5px_5px_0px] shadow-shadow-blue/85 transition-transform group-hover:scale-[1.02]">
+        <figure className="relative aspect-14/10 overflow-hidden rounded-2xl shadow-[4px_5px_5px_0px] shadow-shadow-blue/85 transition-transform group-hover:scale-[1.02]">
           <Image
             src={cardImage}
             alt={`Imóvel: ${title} - ${address.locality}, ${address.city}`}
             width={280}
             height={200}
-            className="w-full h-[180px] lg:h-[200px] object-cover"
+            className="w-full h-full object-cover"
             itemProp="image"
             loading="lazy"
             sizes="(max-width: 768px) 260px, 280px"
@@ -61,7 +62,7 @@ export default function PublicationCard({
         {/* Informações do Imóvel */}
         <div className="flex flex-col gap-2 px-1">
           <h2
-            className="text-sm font-bold text-neutral line-clamp-2 min-h-10"
+            className="text-sm font-bold text-neutral line-clamp-2 min-h-6 truncate"
             itemProp="name"
           >
             {title}
@@ -97,7 +98,7 @@ export default function PublicationCard({
         </div>
 
         {/* Footer com Anunciante */}
-        <footer className="flex items-center gap-2 px-1 text-xs md:text-sm border-t border-neutral-terciary/10 pt-2">
+        <footer className="flex items-center gap-2 px-1 text-xs md:text-sm border-t border-neutral-terciary/10 pt-4">
           <UserAvatar size={32} image={advertiser.image} />
 
           <div className="flex flex-col gap-0.5 min-w-0 flex-1">
