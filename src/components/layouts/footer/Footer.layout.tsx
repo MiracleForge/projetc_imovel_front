@@ -26,7 +26,7 @@ export default function Footer() {
             <h2 className="font-semibold mb-5 text-lg">Get in touch</h2>
             <div className="text-sm space-y-2 font-normal">
               <p>+1-234-567-890</p>
-              <p>contact@example.com</p>
+              <a href="mailto:contato@sonnensoftware.com">@SonnenSoftware</a>
             </div>
           </div>
         </div>

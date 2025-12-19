@@ -56,7 +56,7 @@
   .wrapper-cards-title { @apply text-gray-600 font-medium; }
   .wrapper-cards-subtitle { @apply uppercase font-bold text-terciary-blue items-center; }
   .wrapper-cards-badge { @apply bg-terciary-blue py-2 px-3 md:px-4 rounded-r-2xl ml-2 lg:ml-4; }
-  .wrapper-cards-list { @apply  overflow-x-scroll gap-6 mt-6 px-2 w-max shrink-0 inline-flex items-stretch whitespace-nowrap; }
+  .wrapper-cards-list { @apply  w-max shrink-0 inline-flex items-center space-x-3 font-medium leading-7 whitespace-nowrap py-1 px-1 rounded-lg gap-6; }
 
   /* Tipografia global */
   .tipografy-title { @apply leading-6 text-xl lg:text-2xl font-bold text-black;}

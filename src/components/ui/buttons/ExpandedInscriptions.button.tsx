@@ -53,15 +53,14 @@ export default function ExpandedInscriptionButton() {
           transition-all duration-300
           font-semibold
           ${isExpanded
-            ? "border-primary-blue shadow-md"
+            ? "border-primary-blue shadow-md border-b-0 rounded-b-none"
             : "border-[#8C8C8C] hover:shadow-sm"}
         `}
       >
-        <Image
+        <img
           src="/miscellaneous/inscricoes-icon.svg"
           width={18}
           height={18}
-          unoptimized
           alt=""
         />
 
@@ -101,20 +100,15 @@ function SubscriptionPanel({
       role="listbox"
       aria-label="Lista de inscrições"
       className="
-        mt-3
         rounded-2xl
+        border
+        border-primary-blue
+        rounded-t-none
         bg-white
         shadow-xl
-        border
         overflow-hidden
       "
     >
-      {/* Header */}
-      <div className="px-4 py-3 border-b bg-neutral-50">
-        <p className="text-sm font-semibold text-neutral-700">
-          Minhas inscrições
-        </p>
-      </div>
 
       {/* Content */}
       <ul className="max-h-56 overflow-y-auto px-2 py-2 space-y-1">
@@ -131,15 +125,15 @@ function SubscriptionPanel({
         )}
 
         {!loading &&
-          items?.map((item) => (
+          items?.map((item, index) => (
             <li
-              key={item.spaceId}
+              key={index}
               role="option"
               className="
                 rounded-xl transition-all
                 hover:bg-neutral-100
-                hover:shadow-sm
-              "
+                hover:shadow-sm"
+              title={item.hasNewPublication ? "Nova Publicação" : ""}
             >
               <Link
                 href={`/meu-espaço/${item.spaceId}`}
@@ -163,7 +157,7 @@ function SubscriptionPanel({
       </ul>
 
       {/* Footer */}
-      <div className="border-t p-2">
+      <div className="p-2">
         <CommumButton
           variant="ghost"
           url="/minhas-inscricoes"

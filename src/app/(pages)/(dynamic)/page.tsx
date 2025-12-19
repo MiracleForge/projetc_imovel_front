@@ -9,8 +9,8 @@ import CardSectionServer from "@/src/components/layouts/cards/cardSections/CardS
 import SectionCardSkeleton from "@/src/components/layouts/cards/cardSections/SectionCard.skeleton";
 import RegionEmptyState from "@/src/components/layouts/stateZero/RegionEmptyState.layout";
 
-const CardWrapper = dynamic(
-  () => import("@/src/components/layouts/cards/cardSections/CardWrapper.layout"),
+const CardSectionClient = dynamic(
+  () => import("@/src/components/layouts/cards/cardSections/CardSectionClient.layout"),
 );
 
 
@@ -27,25 +27,25 @@ export default function Home() {
       <RegionEmptyState />
 
       <LazyLoadWrapper>
-        <CardWrapper query="http://localhost:3000/api/cards" />
+        <CardSectionClient query="http://localhost:3000/api/cards" />
       </LazyLoadWrapper>
 
       <LazyLoadWrapper>
-        <CardWrapper query="http://localhost:3000/api/lofts" />
+        <CardSectionClient query="http://localhost:3000/api/lofts" />
       </LazyLoadWrapper>
 
       <MySpace />
 
       <LazyLoadWrapper>
-        <CardWrapper query="http://localhost:3000/api/apartamentos" />
+        <CardSectionClient query="http://localhost:3000/api/apartamentos" />
       </LazyLoadWrapper>
 
       <LazyLoadWrapper>
-        <CardWrapper query="http://localhost:3000/api/coberturas" />
+        <CardSectionClient query="http://localhost:3000/api/coberturas" />
       </LazyLoadWrapper>
 
       <LazyLoadWrapper>
-        <CardWrapper query="http://localhost:3000/api/casas" />
+        <CardSectionClient query="http://localhost:3000/api/casas" />
       </LazyLoadWrapper>
 
       <SectionFeature />

@@ -76,7 +76,7 @@ function AuthenticatedSegment({ name, image, email }: AuthenticatedSegmentProps)
   return (
     <div className="
       relative -mx-6 px-6 py-6
-      bg-gradient-to-br from-[#F3F5FF] to-white
+      bg-linear-to-br from-[#F3F5FF] to-white
       border-b
       flex flex-col items-center gap-2
     ">
@@ -100,7 +100,7 @@ function UnAuthenticatedSegment() {
   return (
     <div className="
       -mx-6 px-6 py-6
-      bg-gradient-to-br from-[#F3F5FF] to-white
+      bg-linear-to-br from-[#F3F5FF] to-white
       border-b
       flex flex-col items-center gap-4
     ">
@@ -176,8 +176,9 @@ function OptionsSegment({ logged, userId }: { logged: boolean; userId?: string }
       <div className="space-y-2">
         <SectionTitle>Minha conta</SectionTitle>
 
-        <MenuButton label="Gerenciar conta" icon="/miscellaneous/config-icon.svg" />
-        <MenuButton label="Chat" icon="/miscellaneous/chat-icon.svg" />
+        <MenuButton label="Gerenciar conta" url="#" icon="/miscellaneous/config-icon.svg" />
+        <MenuButton label="Favoritos" url="" icon="/miscellaneous/full-heart.svg" />
+        <MenuButton label="Chat" url="" icon="/miscellaneous/chat-icon.svg" />
       </div>
 
       {/* Destaque */}
@@ -251,11 +252,11 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
   );
 }
 
-function MenuButton({ label, icon }: { label: string; icon: string }) {
+function MenuButton({ label, icon, url }: { label: string; icon: string, url: string }) {
   return (
     <CommumButton
       label={label}
-      url="#"
+      url={url}
       variant="secondary"
       rounded="md"
       className="w-full flex items-center gap-3 px-4"

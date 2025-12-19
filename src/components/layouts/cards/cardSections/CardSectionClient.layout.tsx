@@ -3,17 +3,17 @@
 import { useEffect, useState } from 'react'
 import { createFetcher } from "@/src/utils/fetchData"
 import SectionCardSkeleton from './SectionCard.skeleton'
-import { HomeCardProps } from '@/src/contracts/types/cards/responses.type'
 import HomeCard from '@/src/components/ui/cards/HomeCard.ui'
 import HorizontalScroll from '@/src/components/context/ResponsiveHorizontalScroll.context'
+import { HomeCardsType } from '@/src/contracts/types/cards/responses.type'
 
-export default function CardWrapper({ query }: { query: string }) {
-  const [cards, setCards] = useState<HomeCardProps[] | null>(null)
+export default function CardSectionClient({ query }: { query: string }) {
+  const [cards, setCards] = useState<HomeCardsType[] | null>(null)
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
     const fetchCards = async () => {
-      const fetchCardCategory = createFetcher<undefined, HomeCardProps[]>(
+      const fetchCardCategory = createFetcher<undefined, HomeCardsType[]>(
         query,
         { method: 'GET', isPublic: true, raw: true }
       )
@@ -36,12 +36,14 @@ export default function CardWrapper({ query }: { query: string }) {
         </p>
       </div>
       <HorizontalScroll>
-        <ul className=" wrapper-cards-list w-full no-scrollbar">
+        <ul className="wrapper-cards-list">
           {cards.map((card, index) => (
-            <HomeCard
-              key={`${card.slugUrl}-${index}`}
-              {...card}
-            />
+            <li className='shrink-0'>
+              <HomeCard
+                key={`${card.slugUrl}-${index}`}
+                {...card}
+              />
+            </li>
           ))}
         </ul>
       </HorizontalScroll>

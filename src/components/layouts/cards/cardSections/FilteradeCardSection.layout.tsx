@@ -3,15 +3,15 @@
 import { useState } from "react";
 import FilterCards from "@/src/components/ui/buttons/filters/CardCategoryFilter.ui";
 import HomeCard from "@/src/components/ui/cards/HomeCard.ui";
-import { HomeCardProps } from "@/src/contracts/types/cards/responses.type";
 import HorizontalScroll from "@/src/components/context/ResponsiveHorizontalScroll.context";
+import { HomeCardsType } from "@/src/contracts/types/cards/responses.type";
 
 export default function FilteradeCardSection({
   cards,
 }: {
-  cards: HomeCardProps[];
+  cards: HomeCardsType[];
 }) {
-  const [filteredCards, setFilteredCards] = useState<HomeCardProps[]>(cards);
+  const [filteredCards, setFilteredCards] = useState<HomeCardsType[]>(cards);
 
   return (
     <section className="wrapper-cards-container space-y-4">
@@ -27,16 +27,17 @@ export default function FilteradeCardSection({
         onFilter={setFilteredCards}
       />
       <HorizontalScroll>
-        <ul className="w-max shrink-0 inline-flex items-center space-x-3 font-medium leading-7 whitespace-nowrap py-1 px-1 rounded-lg gap-6">
+        <ul className="wrapper-cards-list">
           {filteredCards.map((card, index) => (
-            <HomeCard
-              key={`${card.slugUrl}-${index}`}
-              {...card}
-            />
+            <li>
+              <HomeCard
+                key={`${card.slugUrl}-${index}`}
+                {...card}
+              />
+            </li>
           ))}
         </ul>
       </HorizontalScroll>
     </section>
   );
 }
-
