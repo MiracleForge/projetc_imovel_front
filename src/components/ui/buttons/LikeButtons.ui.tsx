@@ -1,30 +1,32 @@
 'use client'
 
-import incrementLike from '@/src/app/actions/incrementLike.actions'
-import { useState } from 'react'
+import { useState } from 'react';
+import incrementLike from '@/src/app/actions/incrementLike.actions';
 
-export default function LikeButton({ initialState }: { initialState: boolean }) {
+interface LikeButtonProps {
+  initialState: boolean;
+}
+
+export default function LikeButton({ initialState }: LikeButtonProps) {
   const [liked, setLiked] = useState(initialState);
   const [pressed, setPressed] = useState(false);
 
   const iconPath = liked
-    ? "/miscellaneous/full-heart.svg"
-    : "/miscellaneous/empty-heart.svg";
+    ? '/miscellaneous/full-heart.svg'
+    : '/miscellaneous/empty-heart.svg';
 
   async function handleClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.stopPropagation();
     e.preventDefault();
 
-    // --- 1) aplicar mudança instantânea (UX otimista)
+    // --- 1) mudança otimista (UX)
     setLiked(prev => !prev);
 
     // --- 2) chamar server action
     const ok = await incrementLike();
 
-    // --- 3) se falhar, reverter
-    if (!ok) {
-      setLiked(prev => !prev);
-    }
+    // --- 3) se falhar, reverte
+    if (!ok) setLiked(prev => !prev);
   }
 
   return (
@@ -32,12 +34,10 @@ export default function LikeButton({ initialState }: { initialState: boolean }) 
       onMouseDown={() => setPressed(true)}
       onMouseUp={() => setPressed(false)}
       onMouseLeave={() => setPressed(false)}
-      className={`
-        absolute top-1 right-1 bg-white/40 p-2 rounded-full
-        transition-transform z-10
-        ${pressed ? "scale-[1.5]" : ""}
-      `}
+      className={`absolute top-1 right-1 bg-white/40 p-2 rounded-full transition-transform z-10 ${pressed ? 'scale-[1.5]' : ''
+        }`}
       title="Favoritar"
+      aria-pressed={liked}
       onClick={handleClick}
     >
       <img src={iconPath} width={12} height={12} className="size-5" />

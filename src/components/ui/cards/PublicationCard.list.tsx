@@ -1,10 +1,11 @@
-import Link from "next/link";
 import Image from "next/image";
-import UserAvatar from "../avatars/UserAvatar.ui";
 import LikeButton from "../buttons/LikeButtons.ui";
+import Link from "next/link";
+import UserAvatar from "../avatars/UserAvatar.ui";
 import { HomeCardsType } from "@/src/contracts/types/cards/responses.type";
+import { formattedPrice } from "@/src/utils/formating.utils";
 
-export default function HomeCard({
+export default function PublicationCard({
   advertiser,
   title,
   slugUrl,
@@ -14,10 +15,8 @@ export default function HomeCard({
   price,
   createdAt
 }: HomeCardsType) {
-  const formattedPrice = price.toLocaleString("pt-BR", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
+
+  const formatedPrice = formattedPrice(price);
 
   return (
     <article
@@ -44,7 +43,6 @@ export default function HomeCard({
             sizes="(max-width: 768px) 260px, 280px"
           />
 
-          {/* Badge da Marca/Tipo */}
           <figcaption className="absolute top-2 left-2 inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-100 text-red-600 text-[10px] font-medium shadow-sm">
             <Image
               src={brand.icon}
@@ -56,7 +54,8 @@ export default function HomeCard({
             />
             <span className="capitalize">{brand.label}</span>
           </figcaption>
-          <LikeButton initialState={price} />
+          <LikeButton initialState={true} />
+          { /* TODO: likebutton realInitial value */}
         </figure>
 
         {/* Informações do Imóvel */}
@@ -79,7 +78,7 @@ export default function HomeCard({
               R$
             </span>
             <span itemProp="price" content={price.toString()}>
-              {formattedPrice}
+              {formatedPrice}
             </span>
             <meta itemProp="availability" content="https://schema.org/InStock" />
           </div>
@@ -115,8 +114,7 @@ export default function HomeCard({
                 {advertiser.role === "owner" ? 'Anunciante' : 'Corretor'}
               </p>
               <p className="text-[10px] text-neutral-terciary">
-                {new Date(createdAt).toLocaleDateString("pt-br")}
-              </p>
+                {new Date(createdAt).toLocaleString("pt-BR")} </p>
             </span>
           </div>
         </footer>

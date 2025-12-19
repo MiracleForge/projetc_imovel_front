@@ -46,6 +46,6 @@ export interface HomeCardsType {
 
   advertiser: Advertiser;
 
-  createdAt: Date;
+  createdAt: string;
 }
 

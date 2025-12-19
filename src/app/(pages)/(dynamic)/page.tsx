@@ -1,16 +1,16 @@
-import { Suspense } from "react";
-import LazyLoadWrapper from "@/src/components/context/LazyLoadWrapper.client";
-import HeroBannerCarousel from "@/src/components/layouts/banners/HeroBannerCarousel.layout";
-import MySpace from "@/src/components/layouts/features/MySpace.layout";
-import SectionFeature from "@/src/components/layouts/features/SectionFeature.layout";
 import CategoryNav from "@/src/components/layouts/headers/CategoryNav.header";
-import dynamic from "next/dynamic";
-import CardSectionServer from "@/src/components/layouts/cards/cardSections/CardSectionServer.layout";
-import SectionCardSkeleton from "@/src/components/layouts/cards/cardSections/SectionCard.skeleton";
+import FecherSSR from "@/src/components/wrappers/FecherSSR.wrapper";
+import HeroBannerCarousel from "@/src/components/layouts/banners/HeroBannerCarousel.layout";
+import LazyLoadWrapper from "@/src/components/wrappers/LazyLoadWrapper.wrapper";
+import MySpace from "@/src/components/layouts/features/MySpace.layout";
 import RegionEmptyState from "@/src/components/layouts/stateZero/RegionEmptyState.layout";
+import SectionCardSkeleton from "@/src/components/layouts/cards/cardSections/HorizontalCardSection.skeleton";
+import SectionFeature from "@/src/components/layouts/features/SectionFeature.layout";
+import { Suspense } from "react";
 
-const CardSectionClient = dynamic(
-  () => import("@/src/components/layouts/cards/cardSections/CardSectionClient.layout"),
+import dynamic from "next/dynamic";
+const FecherClient = dynamic(
+  () => import("@/src/components/wrappers/FecherClient.wrapper"),
 );
 
 
@@ -21,31 +21,31 @@ export default function Home() {
       <HeroBannerCarousel />
 
       <Suspense fallback={<SectionCardSkeleton />}>
-        <CardSectionServer />
+        <FecherSSR />
       </Suspense>
 
       <RegionEmptyState />
 
       <LazyLoadWrapper>
-        <CardSectionClient query="http://localhost:3000/api/cards" />
+        <FecherClient query="http://localhost:3000/api/cards" />
       </LazyLoadWrapper>
 
       <LazyLoadWrapper>
-        <CardSectionClient query="http://localhost:3000/api/lofts" />
+        <FecherClient query="http://localhost:3000/api/lofts" />
       </LazyLoadWrapper>
 
       <MySpace />
 
       <LazyLoadWrapper>
-        <CardSectionClient query="http://localhost:3000/api/apartamentos" />
+        <FecherClient query="http://localhost:3000/api/apartamentos" />
       </LazyLoadWrapper>
 
       <LazyLoadWrapper>
-        <CardSectionClient query="http://localhost:3000/api/coberturas" />
+        <FecherClient query="http://localhost:3000/api/coberturas" />
       </LazyLoadWrapper>
 
       <LazyLoadWrapper>
-        <CardSectionClient query="http://localhost:3000/api/casas" />
+        <FecherClient query="http://localhost:3000/api/casas" />
       </LazyLoadWrapper>
 
       <SectionFeature />

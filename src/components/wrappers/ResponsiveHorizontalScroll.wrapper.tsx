@@ -4,7 +4,7 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 
 const HorizontalScrollDesktop = dynamic(
-  () => import('./HorizontalScrollDesktop.context'),
+  () => import('./HorizontalScrollDesktop.wrapper'),
   { ssr: false }
 );
 

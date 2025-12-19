@@ -2,7 +2,7 @@ import { auth } from "@/auth";
 import Navbar from "@/src/components/layouts/headers/Navbar";
 import TopPromotion from "@/src/components/layouts/banners/TopPromotional.layout";
 import Footer from "@/src/components/layouts/footer/Footer.layout";
-import Provider from "@/src/components/context/client-provider";
+import Provider from "@/src/components/providers/client-provider.context";
 
 export default async function MainLayout({
   children

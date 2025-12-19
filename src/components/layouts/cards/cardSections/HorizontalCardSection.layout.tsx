@@ -2,16 +2,18 @@
 
 import { useState } from "react";
 import FilterCards from "@/src/components/ui/buttons/filters/CardCategoryFilter.ui";
-import HomeCard from "@/src/components/ui/cards/HomeCard.ui";
-import HorizontalScroll from "@/src/components/context/ResponsiveHorizontalScroll.context";
+import HorizontalScroll from "@/src/components/wrappers/ResponsiveHorizontalScroll.wrapper";
 import { HomeCardsType } from "@/src/contracts/types/cards/responses.type";
+import PublicationCard from "@/src/components/ui/cards/PublicationCard.list";
 
-export default function FilteradeCardSection({
+export function HorizontalCardSection({
   cards,
+  hasFilter = false,
 }: {
   cards: HomeCardsType[];
+  hasFilter?: boolean;
 }) {
-  const [filteredCards, setFilteredCards] = useState<HomeCardsType[]>(cards);
+  const [filtered, setFiltered] = useState(cards);
 
   return (
     <section className="wrapper-cards-container space-y-4">
@@ -22,18 +24,13 @@ export default function FilteradeCardSection({
         </p>
       </div>
 
-      <FilterCards
-        itemsArray={cards}
-        onFilter={setFilteredCards}
-      />
+      {hasFilter && <FilterCards itemsArray={cards} onFilter={setFiltered} />}
+
       <HorizontalScroll>
         <ul className="wrapper-cards-list">
-          {filteredCards.map((card, index) => (
-            <li>
-              <HomeCard
-                key={`${card.slugUrl}-${index}`}
-                {...card}
-              />
+          {(hasFilter ? filtered : cards).map((card, index) => (
+            <li key={`${card.slugUrl}-${index}`} className="shrink-0">
+              <PublicationCard {...card} />
             </li>
           ))}
         </ul>
@@ -41,3 +38,4 @@ export default function FilteradeCardSection({
     </section>
   );
 }
+

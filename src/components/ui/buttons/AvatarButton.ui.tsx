@@ -1,7 +1,13 @@
 //WARN: IF IN PRODUCTION VERCEL SAYS HYDRATATION ERROR SHOWING TOOLTIP OR THIS COMPONENTS, APPLY USE CLIENT AT TOP OF THIS FIle
 import { Session } from "next-auth";
-import SlideMenu from "../../layouts/headers/nav/SlideMenu.layout";
 import UserAvatar from "../avatars/UserAvatar.ui";
+
+import dynamic from "next/dynamic";
+const SlideMenu = dynamic(
+  () => import("../../layouts/headers/nav/SlideMenu.layout")
+);
+
+
 
 interface AvatarButtonProps {
   user: Session["user"] | undefined;

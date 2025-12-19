@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { categoryData } from "@/src/data/global.settings.data"
-import HorizontalScroll from "../../context/ResponsiveHorizontalScroll.context";
+import HorizontalScroll from "../../wrappers/ResponsiveHorizontalScroll.wrapper";
 
 export default function CategoryNav() {
   return (
