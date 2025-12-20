@@ -1,9 +1,4 @@
-export type Advertiser = {
-  id: string;
-  name: string;
-  image: string;
-  role?: "owner" | "realtor" | "agency";
-};
+import { Advertiser, listingEntity } from "./domain.types";
 
 export type ItemInscriptionPanel = {
   spaceId: string;
@@ -11,41 +6,10 @@ export type ItemInscriptionPanel = {
   hasNewPublication: boolean;
 };
 
+export type PartialOptions = Partial<listingEntity["options"]>;
 
-export type CardsType =
-  | "recém-publicados"
-  | "apartamentos"
-  | "casas-e-sobrados"
-  | "terrenos-sítios-fazendas"
-  | "salas-comérciais"
-  | "condomínios"
-  | "venda"
-  | "aluguel"
-  | "temporada"
-  | "imóveis-novos"
+export type HomeCardsType = Omit<listingEntity, "updatedAt" | "options"> & {
+  options?: PartialOptions;
+};
 
-
-export interface HomeCardsType {
-  id: string;
-  category: CardsType;
-  title: string;
-  slugUrl: string;
-
-  brand: {
-    label: string;
-    icon: string;
-  };
-
-  cardImage: string;
-  price: number;
-
-  address: {
-    city: string;
-    locality: string;
-  };
-
-  advertiser: Advertiser;
-
-  createdAt: string;
-}
 

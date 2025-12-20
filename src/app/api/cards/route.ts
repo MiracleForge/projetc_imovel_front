@@ -1,8 +1,9 @@
+import { HomeCardsType } from "@/src/contracts/types/cards/responses.type";
 import { NextResponse } from "next/server";
-import { HomeCardProps } from "@/src/contracts/types/cards/responses.type";
 
-export const cards: HomeCardProps[] = [
+export const cards: HomeCardsType[] = [
   {
+    id: "23",
     slugUrl: "/apartamentos/1",
     category: "condomínios",
     title: "Apartamento Moderno atualizado",
@@ -27,9 +28,11 @@ export const cards: HomeCardProps[] = [
       role: "realtor",
     },
 
-    createdAt: new Date()
+    createdAt: new Date(),
+
   },
   {
+    id: "1",
     slugUrl: "/casas/2",
     category: "casas-e-sobrados",
     title: "Casa com Jardim",
@@ -54,9 +57,17 @@ export const cards: HomeCardProps[] = [
       role: "owner",
     },
 
+    options: {
+      garage: 3,
+      area: 4,
+      bathrooms: 6,
+      rooms: 6
+    },
+
     createdAt: new Date()
   },
   {
+    id: "12",
     slugUrl: "/lofts/3",
     category: "apartamentos",
     title: "Loft Compacto",
@@ -84,6 +95,7 @@ export const cards: HomeCardProps[] = [
     createdAt: new Date()
   },
   {
+    id: "4",
     slugUrl: "/coberturas/4",
     category: "apartamentos",
     title: "Cobertura Luxuosa",
@@ -111,6 +123,7 @@ export const cards: HomeCardProps[] = [
     createdAt: new Date()
   },
   {
+    id: "6",
     slugUrl: "/apartamentos/5",
     category: "casas-e-sobrados",
     title: "Apartamento à Beira-Mar",
@@ -138,6 +151,7 @@ export const cards: HomeCardProps[] = [
     createdAt: new Date()
   },
   {
+    id: "8",
     slugUrl: "/apartamentos/5",
     category: "casas-e-sobrados",
     title: "Apartamento à Beira-Mar",
@@ -165,6 +179,7 @@ export const cards: HomeCardProps[] = [
     createdAt: new Date()
   },
   {
+    id: "9",
     slugUrl: "/apartamentos/5",
     category: "casas-e-sobrados",
     title: "Apartamento à Beira-Mar",
