@@ -23,7 +23,7 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h2 className="font-semibold mb-5 text-lg">Get in touch</h2>
+            <h2 className="font-semibold mb-5 text-lg">Entre em contato</h2>
             <div className="text-sm space-y-2 font-normal">
               <p>+1-234-567-890</p>
               <a href="mailto:contato@sonnensoftware.com">@SonnenSoftware</a>

@@ -1,0 +1,31 @@
+{
+	"keyAccount": false,
+	"locationDataFromZipCode": {
+		"state": "BA",
+		"city": "Salvador",
+		"neighbourhood": "Pituba"
+	},
+	"facematch": {
+		"processCompleted": 1,
+		"profileVerified": true
+	},
+	"lastActivity": {
+		"online": false,
+		"timestamp": "2025-12-21T18:12:35.198Z"
+	},
+	"nickname": "Dantas",
+	"imageUrl": "https://static.olx.com.br/upr/img/photo-off.png",
+	"configs": {
+		"profilePictureEnabled": true
+	},
+	"phoneVerified": true,
+	"emailVerified": true,
+	"facebookVerified": false,
+	"phone": null,
+	"creationDate": "2024-05-16T11:20:40.996Z",
+	"isPro": false,
+	"slug": "dantas-78088f50",
+	"publicAccountId": "78088f50-f5f5-4d0a-9962-dede28f65ad2",
+	"creci": null,
+	"score": null
+}

@@ -77,24 +77,25 @@ export default function Page() {
 interface StepNavigationProps {
   step: number;
   lastStep: boolean;
+  disabled?: boolean;
   onNext: () => void;
   onPrev: () => void;
 }
 
-function StepNavigation({ step, lastStep, onNext, onPrev }: StepNavigationProps) {
+export function StepNavigation({ step, lastStep, disabled, onNext, onPrev }: StepNavigationProps) {
   return (
     <div className={`flex justify-between pt-3 ${step > 0 || lastStep && "space-x-3"}`}>
       {step > 0 ? (
-        <SubmitButton text="Voltar" type="button" onClick={onPrev} />
+        <SubmitButton disabled={disabled} text="Voltar" type="button" onClick={onPrev} />
       ) : (
         <span />
       )}
 
       {!lastStep ? (
-        <SubmitButton text="Avançar" type="button" onClick={onNext} />
+        <SubmitButton disabled={disabled} text="Avançar" type="button" onClick={onNext} />
       ) : null}
 
-      {lastStep && <SubmitButton text="Cadastrar" type="submit" />}
+      {lastStep && <SubmitButton disabled={disabled} text="Cadastrar" type="submit" />}
     </div>
   );
 }

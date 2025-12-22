@@ -1,15 +1,7 @@
-export type CardsType =
-  | "recém-publicados"
-  | "apartamentos"
-  | "casas-e-sobrados"
-  | "terrenos-sítios-fazendas"
-  | "salas-comérciais"
-  | "condomínios"
-  | "venda"
-  | "aluguel"
-  | "temporada"
-  | "imóveis-novos"
+import { z } from "zod";
+import { CardsTypeSchema } from "../../schemas/advertisement/advertisement.entity";
 
+export type CardsType = z.infer<typeof CardsTypeSchema>;
 
 export type listingEntity = {
   id: string;

@@ -1,19 +1,19 @@
 import Image from "next/image";
 import Link from "next/link";
-import { categoryData } from "@/src/data/global.settings.data"
 import HorizontalScroll from "../../wrappers/ResponsiveHorizontalScroll.wrapper";
+import { allCategoriesData } from "@/src/data/global.constants";
 
 export default function CategoryNav() {
   return (
     <nav aria-label="Categorias" className="w-full">
       <HorizontalScroll hideButtons>
         <ul className="w-max shrink-0 inline-flex items-center space-x-3 font-medium leading-7 whitespace-nowrap py-1 rounded-lg snap-x snap-mandatory">
-          {categoryData.map((btn, index) => (
+          {allCategoriesData.map((btn, index) => (
             <li key={index} className="shrink-0 snap-start first:pl-1 last:pr-1">
               <CategoryButton
-                label={btn.name}
-                url={`/icons/${encodeURI(btn.name)}`}
-                iconPath={encodeURI(btn.name)}
+                label={btn}
+                url={`/icons/${encodeURI(btn)}`}
+                iconPath={encodeURI(btn)}
               />
             </li>
           ))}
