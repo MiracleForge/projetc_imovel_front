@@ -9,7 +9,6 @@ export async function validateFormData<T>(
   | { success: true; data: T }
   | { success: false; error: actionResponse<any> }
 > {
-
   let data: Record<string, any>;
 
   if (formData instanceof FormData) {
@@ -18,14 +17,21 @@ export async function validateFormData<T>(
     data = formData;
   }
 
+  // converte chaves planas como 'address.state' em objetos aninhados
+  data = nestFlatKeys(data);
+
   const parsed = schema.safeParse(data);
 
   if (!parsed.success) {
+    const formattedMessages = parsed.error.issues
+      .map(issue => issue.message)
+      .join("\n");
+
     return {
       success: false,
       error: {
-        message: parsed.error.issues.map(issue => issue.message).join(", "),
-        error: parsed.error.issues.map(issue => issue.message).join(", "),
+        message: formattedMessages,
+        error: formattedMessages,
         data: { values: data }
       }
     };
@@ -33,3 +39,29 @@ export async function validateFormData<T>(
 
   return { success: true, data: parsed.data };
 }
+
+// Helper para transformar chaves planas em objetos aninhados
+function nestFlatKeys(obj: Record<string, any>): Record<string, any> {
+  const result: Record<string, any> = {};
+
+  for (const key in obj) {
+    if (key.includes(".")) {
+      const parts = key.split(".");
+      let cur = result;
+
+      parts.forEach((part, index) => {
+        if (index === parts.length - 1) {
+          cur[part] = obj[key]; // valor final
+        } else {
+          if (!cur[part]) cur[part] = {};
+          cur = cur[part];
+        }
+      });
+    } else {
+      result[key] = obj[key];
+    }
+  }
+
+  return result;
+}
+

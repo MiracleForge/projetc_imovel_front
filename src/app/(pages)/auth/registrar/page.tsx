@@ -3,13 +3,14 @@
 import { useActionState, useState, useCallback, useMemo } from "react";
 import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
-import SubmitButton from "@/src/components/ui/buttons/Submit.button";
 import { registerSteps } from "./steps";
 import { initialState } from "@/src/contracts/types/responses.core";
 
 import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
-import dynamic from "next/dynamic";
 import { registerAction } from "@/src/app/actions/register.actions";
+import { StepNavigation } from "@/src/components/ui/steps/MultiStepController.ui";
+
+import dynamic from "next/dynamic";
 const TurnstileWidget = dynamic(
   () => import('@/src/components/layouts/captchas/TurnstileWidget.layout'),
   { ssr: false }
@@ -34,6 +35,7 @@ export default function Page() {
       <MultiStepIndicator totalSteps={totalSteps} currentStep={step} />
 
       <form action={formAction} className="gap-px">
+
         {registerSteps.map((stepData, index) => (
           <div key={index} style={{ display: step === index ? 'block' : 'none' }}>
             <h2 className="text-lg font-semibold">{stepData.title}</h2>
@@ -74,28 +76,4 @@ export default function Page() {
   );
 }
 
-interface StepNavigationProps {
-  step: number;
-  lastStep: boolean;
-  disabled?: boolean;
-  onNext: () => void;
-  onPrev: () => void;
-}
 
-export function StepNavigation({ step, lastStep, disabled, onNext, onPrev }: StepNavigationProps) {
-  return (
-    <div className={`flex justify-between pt-3 ${step > 0 || lastStep && "space-x-3"}`}>
-      {step > 0 ? (
-        <SubmitButton disabled={disabled} text="Voltar" type="button" onClick={onPrev} />
-      ) : (
-        <span />
-      )}
-
-      {!lastStep ? (
-        <SubmitButton disabled={disabled} text="Avançar" type="button" onClick={onNext} />
-      ) : null}
-
-      {lastStep && <SubmitButton disabled={disabled} text="Cadastrar" type="submit" />}
-    </div>
-  );
-}

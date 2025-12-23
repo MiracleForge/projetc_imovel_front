@@ -1,14 +1,19 @@
 import { z } from "zod";
 import { adversetimentCategoriesData, transactionMode } from "@/src/data/global.constants";
 
-export const CardsTypeSchema = z.enum(adversetimentCategoriesData);
+export type adversetimentEntityDTO = z.infer<typeof adversetimentSchema>;
+export type adversetimentCategoryDTO = z.infer<typeof adversetizeCategorySchema>;
+
+
+export const adversetizeCategorySchema = z.enum(adversetimentCategoriesData);
 export const TransactionModeSchema = z.enum(transactionMode);
 
+// ENTITY
 export const adversetimentSchema = z.object({
   id: z.cuid2(),
   advertiser_id: z.uuidv7(),
 
-  category: CardsTypeSchema,
+  category: adversetizeCategorySchema,
 
   title: z
     .string()
@@ -25,9 +30,15 @@ export const adversetimentSchema = z.object({
     .max(1000, "Você atingiu o limite máximo de caracteres.")
     .optional(),
 
-  price: z.number(),
-  imagesURL: z.array(z.instanceof(File)).min(1, "Ao menos uma imagem é necessária."),
+  price: z.preprocess((val) => {
+    if (typeof val === "string") return Number(val);
+    return val;
+  }, z.number()),
+
   phone: z.string(),
+  // images: z.array(z.instanceof(File)).min(1, "Ao menos uma imagem é necessária."),
+
+
   whatsapp: z.string(),
 
   address: z.object({

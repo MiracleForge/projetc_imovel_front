@@ -2,11 +2,11 @@ import Image from "next/image";
 import LikeButton from "../buttons/LikeButtons.ui";
 import Link from "next/link";
 import UserAvatar from "../avatars/UserAvatar.ui";
-import { HomeCardsType, PartialOptions } from "@/src/contracts/types/cards/responses.type";
 import { formattedPrice } from "@/src/utils/formating.utils";
+import { advertisementCardOptions, homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 
 interface PublicationCardProps {
-  data: HomeCardsType;
+  data: homeCardAdvertisement;
 }
 
 export default function PublicationCard({ data }: PublicationCardProps) {
@@ -29,8 +29,8 @@ export default function PublicationCard({ data }: PublicationCardProps) {
         {/* Imagem do Imóvel */}
         <figure className="relative aspect-14/10 overflow-hidden rounded-2xl shadow-[4px_5px_5px_0px] shadow-shadow-blue/85 transition-transform group-hover:scale-[1.02]">
           <Image
-            src={data.cardImage}
-            alt={`Imóvel: ${data.title} - ${data.address.locality}, ${data.address.city}`}
+            src={data.imagesURL[0]}
+            alt={`Imóvel: ${data.title} - ${data.address.neighbourhood}, ${data.address.city}`}
             width={280}
             height={200}
             className="w-full h-full object-cover"
@@ -75,7 +75,7 @@ export default function PublicationCard({ data }: PublicationCardProps) {
             itemScope
             itemType="https://schema.org/PostalAddress"
           >
-            <span itemProp="addressLocality">{data.address.locality}</span>
+            <span itemProp="addressLocality">{data.address.neighbourhood}</span>
             <span>, </span>
             <span itemProp="addressRegion">{data.address.city}</span>
           </p>
@@ -116,7 +116,7 @@ const iconsMap: Record<string, string> = {
   area: "/icons/listings/area-icon.svg",
 };
 
-export function OptionsGrid({ options }: { options: PartialOptions }) {
+export function OptionsGrid({ options }: { options: advertisementCardOptions }) {
 
   return (
     <dl className="absolute grid grid-cols-2 gap-2 z-10 top-1 left-1">

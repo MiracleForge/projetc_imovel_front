@@ -8,12 +8,12 @@ export const adversetimentCreateSchema = adversetimentSchema.pick({
   description: true,
   phone: true,
   whatsapp: true,
-  imagesURL: true,
+  // images: true,
   price: true,
   category: true,
   address: true,
   transactionMode: true,
-  options: true
-}).strict();
+  // options: true
+})
 
 export type adversetimentCreateDTO = z.infer<typeof adversetimentCreateSchema>;

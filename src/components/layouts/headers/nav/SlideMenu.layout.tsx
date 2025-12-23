@@ -116,7 +116,7 @@ function UnAuthenticatedSegment() {
 
       <p className="text-sm text-neutral-600">
         Ainda não tem conta?
-        <Link className="ml-1 font-semibold text-primary-blue" href="/auth/register">
+        <Link className="ml-1 font-semibold text-primary-blue" href="/auth/registrar">
           Criar agora
         </Link>
       </p>
