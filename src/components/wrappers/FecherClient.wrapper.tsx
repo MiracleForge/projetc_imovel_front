@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createFetcher } from "@/src/utils/fetchData";
-import { HomeCardsType } from "@/src/contracts/types/cards/responses.type";
 import SectionCardSkeleton from "../layouts/cards/cardSections/HorizontalCardSection.skeleton";
 import { HorizontalCardSection } from "../layouts/cards/cardSections/HorizontalCardSection.layout";
+import { createPublicFetcher } from "@/src/utils/fetcher.public";
+import { homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 
 export default function FecherClient({
   query,
@@ -13,19 +13,18 @@ export default function FecherClient({
   query: string;
   hasFilter?: boolean;
 }) {
-  const [cards, setCards] = useState<HomeCardsType[] | null>(null);
+  const [cards, setCards] = useState<homeCardAdvertisement[] | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchCards = async () => {
-      const fetcher = createFetcher<undefined, HomeCardsType[]>(query, {
+      const fetcher = createPublicFetcher<undefined, homeCardAdvertisement[]>(query, {
         method: "GET",
         isPublic: true,
-        raw: true,
       });
 
       const data = await fetcher();
-      setCards(Array.isArray(data) ? data : []);
+      setCards(data.data);
       setLoading(false);
     };
 

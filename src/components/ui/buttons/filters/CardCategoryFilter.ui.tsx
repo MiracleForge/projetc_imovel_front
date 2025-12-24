@@ -1,9 +1,9 @@
-import { HomeCardsType } from "@/src/contracts/types/cards/responses.type";
+import { homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 import { useMemo, useState } from "react";
 
 type Props = {
-  itemsArray: HomeCardsType[];
-  onFilter?: (items: HomeCardsType[]) => void;
+  itemsArray: homeCardAdvertisement[];
+  onFilter?: (items: homeCardAdvertisement[]) => void;
 };
 
 export default function CardCategoryFilter({ itemsArray, onFilter }: Props) {

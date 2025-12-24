@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import { actionResponse } from "../contracts/types/responses.core";
 
 type FetcherOptions<Payload = any> = {
@@ -12,7 +11,7 @@ type FetcherOptions<Payload = any> = {
   body?: Payload;
 };
 
-export function createFetcher<Payload = unknown, Data = unknown>(
+export function createPublicFetcher<Payload = unknown, Data = unknown>(
   path: string,
   defaultOptions?: FetcherOptions
 ): {
@@ -20,7 +19,7 @@ export function createFetcher<Payload = unknown, Data = unknown>(
   (payload?: Payload, options?: FetcherOptions & { raw: true }): Promise<Data>;
   (payload?: Payload, options?: FetcherOptions): Promise<actionResponse<Data> | Data>;
 };
-export function createFetcher<Payload, Data>(
+export function createPublicFetcher<Payload, Data>(
   path: string,
   defaultOptions?: FetcherOptions
 ) {
@@ -104,10 +103,5 @@ export function createFetcher<Payload, Data>(
 
 const callAuthorization = async (): Promise<string> => {
   return "sk_19898bbec5782b5ddf6302d6a7515b55c2bdb0e49f2dfbd5"
-}
-async function getAuthenticatedUserBearer(): Promise<string | undefined> {
-  const session = await auth();
-
-  return session?.user?.apiRefreshToken ?? undefined;
 }
 

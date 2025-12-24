@@ -5,13 +5,13 @@ import Link from "next/link";
 import UserAvatar from "../avatars/UserAvatar.ui";
 import { Activity, useState } from "react";
 import CommumButton from "./CommumButton.ui";
-import { ItemInscriptionPanel } from "@/src/contracts/types/cards/responses.type";
-import { createFetcher } from "@/src/utils/fetchData";
+import { subscriptionGetById } from "@/src/app/actions/subscriptions.actions";
+import { subscriptionsDTO } from "@/src/contracts/DTOs/user/views/subscriptions.dto";
 
 export default function ExpandedInscriptionButton() {
   const [isExpanded, setExpanded] = useState(false);
   const [userSubscriptions, setUserInscriptions] =
-    useState<ItemInscriptionPanel[] | null>(null);
+    useState<subscriptionsDTO[] | null>(null);
   const [loading, setLoading] = useState(false);
 
   const openSubscription = async () => {
@@ -21,18 +21,8 @@ export default function ExpandedInscriptionButton() {
     if (nextExpanded && !userSubscriptions) {
       setLoading(true);
 
-      const inscriptionFetcher = createFetcher<
-        undefined,
-        ItemInscriptionPanel[]
-      >(
-        "/api/subscriptions",
-        { method: "GET", isPublic: false }
-      );
-
-      const result = await inscriptionFetcher(undefined, { raw: true });
-      if (Array.isArray(result)) {
-        setUserInscriptions(result);
-      }
+      const result = await subscriptionGetById();
+      setUserInscriptions(result);
 
       setLoading(false);
     }
@@ -91,7 +81,7 @@ function SubscriptionPanel({
   items,
   loading,
 }: {
-  items: ItemInscriptionPanel[] | null;
+  items: subscriptionsDTO[] | null;
   loading: boolean;
 }) {
   return (
@@ -136,13 +126,13 @@ function SubscriptionPanel({
               title={item.hasNewPublication ? "Nova Publicação" : ""}
             >
               <Link
-                href={`/meu-espaço/${item.spaceId}`}
+                href={`/meu-espaço/${item.id}`}
                 className="flex items-center gap-4 px-4 py-2"
               >
-                <UserAvatar size={28} image={item.advertiser.image} />
+                <UserAvatar size={28} image={item.studiosOwner.image} />
 
                 <p className="truncate font-medium text-sm">
-                  {item.advertiser.name}
+                  {item.studiosOwner.name}
                 </p>
 
                 {item.hasNewPublication && (

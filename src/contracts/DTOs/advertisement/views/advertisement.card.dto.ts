@@ -1,4 +1,4 @@
-import { Advertiser } from "@/src/contracts/types/cards/domain.types";
+import { userEntityDTO } from "../../user/user.entity.dto";
 import { adversetimentEntityDTO } from "../advertisement.entity.dto";
 
 
@@ -17,13 +17,16 @@ export type homeCardAdvertisement =
   Omit<
     adversetimentEntityDTO,
     | "description"
+    | "transactionMode"
+    | "subTitle"
     | "phone"
     | "whatsapp"
     | "updatedAt"
     | "address"
     | "options"
+    | "images"
   > & {
-    advertiser: Pick<Advertiser, "name" | "image" | "role">,
+    advertiser: Pick<userEntityDTO, "name" | "image">,
 
     address: Pick<
       adversetimentEntityDTO["address"],
@@ -33,5 +36,6 @@ export type homeCardAdvertisement =
     options: advertisementCardOptions;
 
     slugUrl: string;
+    images: string;
   };
 

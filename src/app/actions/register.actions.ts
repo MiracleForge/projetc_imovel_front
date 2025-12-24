@@ -1,13 +1,13 @@
 "use server";
 
-import { registerPayloadSchema } from "@/src/contracts/schemas/authentication/payloads.schemas";
-import { actionResponse } from "@/src/contracts/types/responses.core";
-import { registerPayload } from "@/src/contracts/types/user/payloads.types";
 import { MissingTurnstileToken } from "@/src/errors/constructors/factory.error";
-import { createFetcher } from "@/src/utils/fetchData";
+import { actionResponse } from "@/src/contracts/types/responses.core";
+import { createPublicFetcher } from "@/src/utils/fetcher.public";
 import { getTurnstileToken } from "@/src/utils/turnstile/turnstile.utils";
-import { validateTurnstileToken } from "@/src/utils/turnstile/validateTurnslideToken";
+import { registerPayload } from "@/src/contracts/types/user/payloads.types";
+import { registerPayloadSchema } from "@/src/contracts/schemas/authentication/payloads.schemas";
 import { validateFormData } from "@/src/utils/zod/validateFormData";
+import { validateTurnstileToken } from "@/src/utils/turnstile/validateTurnslideToken";
 
 export async function registerAction(_prevState: any, formData: FormData): Promise<actionResponse<undefined>> {
 
@@ -22,7 +22,7 @@ export async function registerAction(_prevState: any, formData: FormData): Promi
   await validateTurnstileToken(token);
 
   const path = "/auth/routes/access/register";
-  const fetchRegister = createFetcher<registerPayload, undefined>(path, { method: "POST" });
+  const fetchRegister = createPublicFetcher<registerPayload, undefined>(path, { method: "POST" });
 
   return await fetchRegister(payloadValided.data);
 }

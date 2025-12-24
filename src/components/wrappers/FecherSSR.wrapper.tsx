@@ -1,17 +1,18 @@
 
-import { HomeCardsType } from "@/src/contracts/types/cards/responses.type";
 import { HorizontalCardSection } from "../layouts/cards/cardSections/HorizontalCardSection.layout";
-import { createFetcher } from "@/src/utils/fetchData";
+import { createPublicFetcher } from "@/src/utils/fetcher.public";
+import { homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 
 export default async function FecherSSR() {
-  const fetchCardCategory = createFetcher<undefined, HomeCardsType[]>(
+  const fetchCardCategory = createPublicFetcher<undefined, homeCardAdvertisement[]>(
     "http://localhost:3000/api/cards",
-    { method: "GET", isPublic: true, raw: true }
+    { method: "GET", isPublic: true }
   );
 
   const cards = await fetchCardCategory();
-  if (!cards || !Array.isArray(cards)) return null;
+  console.log(cards)
+  if (!cards || !cards.data) return null;
 
-  return <HorizontalCardSection hasFilter cards={cards} />;
+  return <HorizontalCardSection hasFilter cards={cards.data} />;
 }
 

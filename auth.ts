@@ -6,9 +6,9 @@ import Credentials from "next-auth/providers/credentials";
 import Facebook from "next-auth/providers/facebook";
 import GitHubProvider from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
-import { createFetcher } from "@/src/utils/fetchData";
 import { loginPayload } from "@/src/contracts/types/payloads.authentication";
 import { NextAuthCustomError } from "./src/errors/constructors/core.erros";
+import { createPublicFetcher } from "./src/utils/fetcher.public";
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
@@ -33,7 +33,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!credentials.email || !credentials.password) return null;
 
         const path = "/auth/routes/access/login";
-        const fetchLogin = createFetcher<loginPayload, User>(path, { method: "POST" });
+        const fetchLogin = createPublicFetcher<loginPayload, User>(path, { method: "POST" });
 
         const response = await fetchLogin({
           email: credentials.email as string,

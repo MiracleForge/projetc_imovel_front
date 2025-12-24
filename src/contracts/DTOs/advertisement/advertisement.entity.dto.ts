@@ -3,8 +3,9 @@ import { adversetimentCategoriesData, transactionMode } from "@/src/data/global.
 
 export type adversetimentEntityDTO = z.infer<typeof adversetimentSchema>;
 export type adversetimentCategoryDTO = z.infer<typeof adversetizeCategorySchema>;
+export type adversetimentPlanDTO = z.infer<typeof AdvertiseTypeSchema>;
 
-
+export const AdvertiseTypeSchema = z.enum(["free", "paid", "studio"]);
 export const adversetizeCategorySchema = z.enum(adversetimentCategoriesData);
 export const TransactionModeSchema = z.enum(transactionMode);
 
@@ -12,6 +13,7 @@ export const TransactionModeSchema = z.enum(transactionMode);
 export const adversetimentSchema = z.object({
   id: z.cuid2(),
   advertiser_id: z.uuidv7(),
+  advertiser_type: AdvertiseTypeSchema,
 
   category: adversetizeCategorySchema,
 
@@ -36,8 +38,7 @@ export const adversetimentSchema = z.object({
   }, z.number()),
 
   phone: z.string(),
-  // images: z.array(z.instanceof(File)).min(1, "Ao menos uma imagem é necessária."),
-
+  images: z.array(z.url()).min(1, "Ao menos uma imagem é necessária."),
 
   whatsapp: z.string(),
 

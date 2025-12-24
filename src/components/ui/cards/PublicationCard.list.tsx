@@ -2,8 +2,8 @@ import Image from "next/image";
 import LikeButton from "../buttons/LikeButtons.ui";
 import Link from "next/link";
 import UserAvatar from "../avatars/UserAvatar.ui";
-import { formattedPrice } from "@/src/utils/formating.utils";
 import { advertisementCardOptions, homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
+import { formattedPrice } from "@/src/utils/formating.utils";
 
 interface PublicationCardProps {
   data: homeCardAdvertisement;
@@ -29,7 +29,7 @@ export default function PublicationCard({ data }: PublicationCardProps) {
         {/* Imagem do Imóvel */}
         <figure className="relative aspect-14/10 overflow-hidden rounded-2xl shadow-[4px_5px_5px_0px] shadow-shadow-blue/85 transition-transform group-hover:scale-[1.02]">
           <Image
-            src={data.imagesURL[0]}
+            src={data.images}
             alt={`Imóvel: ${data.title} - ${data.address.neighbourhood}, ${data.address.city}`}
             width={280}
             height={200}
@@ -96,7 +96,7 @@ export default function PublicationCard({ data }: PublicationCardProps) {
             </p>
             <span className="flex justify-between items-center">
               <p className="text-[10px] text-neutral-terciary">
-                {data.advertiser.role === "owner" ? 'Anunciante' : 'Corretor'}
+                {data.advertiser_type === "free" ? 'Anunciante' : 'Corretor'}
               </p>
               <p className="text-[10px] text-neutral-terciary">
                 {new Date(data.createdAt).toLocaleString("pt-BR")} </p>
@@ -120,17 +120,14 @@ export function OptionsGrid({ options }: { options: advertisementCardOptions }) 
 
   return (
     <dl className="absolute grid grid-cols-2 gap-2 z-10 top-1 left-1">
-      {Object.entries(options).map(([key, value]) => {
-
-        return (
-          <div key={key}>
-            <dt className="sr-only">{key}</dt>
-            <dd className="p-1 bg-white/60 rounded-full shrink-0" title={`${key.toUpperCase()}: ${value}`}>
-              <Image src={iconsMap[key] ?? "/icons/listings/default.svg"} className="size-4" alt="" width={16} height={16} />
-            </dd>
-          </div>
-        );
-      })}
+      {Object.entries(options.propertyMetrics || {}).map(([key, value]) => (
+        <div key={key}>
+          <dt className="sr-only">{key}</dt>
+          <dd className="p-1 bg-white/60 rounded-full shrink-0" title={`${key.toUpperCase()}: ${value}`}>
+            <Image src={iconsMap[key] ?? "/icons/listings/default.svg"} className="size-4" alt="" width={16} height={16} />
+          </dd>
+        </div>
+      ))}
     </dl>
   );
 }

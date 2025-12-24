@@ -3,17 +3,19 @@
 import { useState } from "react";
 import FilterCards from "@/src/components/ui/buttons/filters/CardCategoryFilter.ui";
 import HorizontalScroll from "@/src/components/wrappers/ResponsiveHorizontalScroll.wrapper";
-import { HomeCardsType } from "@/src/contracts/types/cards/responses.type";
 import PublicationCard from "@/src/components/ui/cards/PublicationCard.list";
+import { homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 
 export function HorizontalCardSection({
   cards,
   hasFilter = false,
 }: {
-  cards: HomeCardsType[];
+  cards: homeCardAdvertisement[];
   hasFilter?: boolean;
 }) {
   const [filtered, setFiltered] = useState(cards);
+
+  if (cards.length === 0) return null;
 
   return (
     <section className="wrapper-cards-container space-y-4">

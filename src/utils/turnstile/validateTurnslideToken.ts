@@ -4,8 +4,8 @@ import "server-only";
 
 import { turnsTilePayloadContract } from "../../contracts/types/payloads.authentication";
 import { actionResponse, TurnstileContract } from "../../contracts/types/responses.core";
-import { createFetcher } from "../fetchData";
 import { TurnstileTokenInvalid } from "@/src/errors/constructors/factory.error";
+import { createPublicFetcher } from "../fetcher.public";
 
 export const validateTurnstileToken = async (
   token: string
@@ -13,7 +13,7 @@ export const validateTurnstileToken = async (
 
   const externalApiPath = process.env.VALIDATION_TOKEN_URL!;
 
-  const validateCaptcha = createFetcher<
+  const validateCaptcha = createPublicFetcher<
     turnsTilePayloadContract,
     TurnstileContract
   >(externalApiPath, {

@@ -3,9 +3,9 @@ import UserAvatar from "@/src/components/ui/avatars/UserAvatar.ui";
 import Image from "next/image";
 import Link from "next/link";
 import CommumButton from "@/src/components/ui/buttons/CommumButton.ui";
-import { createFetcher } from "@/src/utils/fetchData";
 import SignOutButton from "@/src/components/ui/buttons/SignOutButton.ui";
 import ExpandedInscriptionButton from "@/src/components/ui/buttons/ExpandedInscriptions.button";
+import { createPublicFetcher } from "@/src/utils/fetcher.public";
 
 interface SlideNavbarProps {
   toggleId: string;
@@ -16,7 +16,7 @@ export default async function SlideMenu({ toggleId, user }: SlideNavbarProps) {
   const { name, email, image } = user ?? {};
   const isLogged = !!user;
 
-  const fetchBanner = createFetcher<undefined, bannerProps[]>(
+  const fetchBanner = createPublicFetcher<undefined, bannerProps[]>(
     "http://localhost:3000/api/banner",
     { method: "GET", isPublic: true }
   );
