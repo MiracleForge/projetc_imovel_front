@@ -2,7 +2,6 @@ import { z } from "zod";
 import { adversetimentSchema } from "./advertisement.entity.dto";
 
 export const adversetimentCreateSchema = adversetimentSchema.pick({
-  advertiser_id: true,
   title: true,
   subTitle: true,
   description: true,

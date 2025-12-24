@@ -1,3 +1,4 @@
+import { auth } from "@/auth";
 import { actionResponse } from "../contracts/types/responses.core";
 
 type FetcherOptions<Payload = any> = {
@@ -101,7 +102,12 @@ export function createFetcher<Payload, Data>(
 }
 
 
-
 const callAuthorization = async (): Promise<string> => {
   return "sk_19898bbec5782b5ddf6302d6a7515b55c2bdb0e49f2dfbd5"
 }
+async function getAuthenticatedUserBearer(): Promise<string | undefined> {
+  const session = await auth();
+
+  return session?.user?.apiRefreshToken ?? undefined;
+}
+
