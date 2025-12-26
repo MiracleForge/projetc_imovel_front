@@ -10,8 +10,9 @@ import { adversetimentCreateDTO } from "@/src/contracts/DTOs/advertisement/adver
 import { actionResponse, initialState } from "@/src/contracts/types/responses.core";
 import { createAdversetimentAction } from "@/src/app/actions/adversetiment.actions";
 import { StepNavigation } from "@/src/components/ui/steps/MultiStepController.ui";
+import FileInput from "@/src/components/ui/inputs/FileInputs.ui";
 
-type FormDataType = Partial<adversetimentCreateDTO>;
+type FormDataType = adversetimentCreateDTO;
 type InputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
 
 const selectBase =
@@ -40,7 +41,7 @@ const defaultFormData: FormDataType = {
   transactionMode: "",
   phone: "",
   whatsapp: "",
-  // images: [],
+  imagesFiles: [],
   address: { state: "", city: "", neighbourhood: "", street: "", number: "", cep: "" },
 };
 
@@ -83,7 +84,7 @@ export default function Page() {
         <ThirdStep step={step} formData={formData} handleInputChange={handleInputChange} />
         <FourthStep step={step} formData={formData} setFormData={setFormData} state={state} />
 
-        <StepNavigation step={step} lastStep={lastStep} onNext={nextStep} onPrev={prevStep} disabled={pending} />
+        <StepNavigation step={step} lastStep={lastStep} onNext={nextStep} onPrev={prevStep} disabled={pending || formData.phone === " "} />
       </form>
     </div>
   );
@@ -295,16 +296,14 @@ function FourthStep({
   setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
   state: actionResponse
 }) {
-  // const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-
-    // const files = Array.from(e.target.files);
-    // setSelectedFiles(files);
-
-    setFormData(prev => ({ ...prev }));
+  const handleFileChange = (e) => {
+    if (e.target.files) {
+      setFormData({ ...formData, imagesFiles: [...e.target.files] });
+    }
+    console.log("Update slider images", formData);
   };
+
+
 
   const summary = useMemo(
     () => ({
@@ -330,6 +329,19 @@ function FourthStep({
   return (
     <Step visible={step === 3}>
       <div className="mt-6 p-5 rounded-2xl border border-blue-100 bg-linear-to-br from-blue-50 to-white shadow-sm">
+
+        <FileInput onChange={handleFileChange} label="Imagens do anuncio" />
+
+        {formData.imagesFiles && (
+          <ul className="mt-3 space-y-1">
+            {formData.imagesFiles.map((file, i) => (
+              <li key={i} className="text-sm text-gray-600">
+                📄 {file.name}
+              </li>
+            ))}
+          </ul>
+        )}
+
         <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 mb-4">
           <img src="/logos/imobly-logo.svg" className="w-5 h-5" alt="Logo" />
           Resumo do Imóvel

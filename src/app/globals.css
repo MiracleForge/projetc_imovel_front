@@ -52,7 +52,7 @@
   }
 
  .wrapper-cards-container { @apply mt-16 space-y-3; }
-  .wrapper-cards-header { @apply flex justify-between; } /* só container flex */
+  .wrapper-cards-header { @apply flex justify-between; }
   .wrapper-cards-title { @apply text-gray-600 font-medium; }
   .wrapper-cards-subtitle { @apply uppercase font-bold text-terciary-blue items-center; }
   .wrapper-cards-badge { @apply bg-terciary-blue py-2 px-3 md:px-4 rounded-r-2xl ml-2 lg:ml-4; }

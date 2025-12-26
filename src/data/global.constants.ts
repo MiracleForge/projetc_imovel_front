@@ -12,7 +12,7 @@ export const adversetimentCategoriesData = [
 
 export const transactionMode = [
   "venda",
-  "aluguéis",
+  "aluguel",
   "temporada",
 ]
 

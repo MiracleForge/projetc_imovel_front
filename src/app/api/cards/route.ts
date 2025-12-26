@@ -33,6 +33,60 @@ export async function GET() {
           },
         },
         createdAt: new Date(),
+      }, {
+        id: "23",
+        slugUrl: "/apartamentos/1",
+        category: "condomínios",
+        title: "Apartamento Moderno atualizado",
+        images: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+        price: 350000,
+        advertiser_id: "122222",
+        advertiser_type: "studio",
+        advertiser: {
+          name: "João Silva",
+          image: "https://i.pravatar.cc/150?img=1",
+        },
+        address: {
+          city: "São Paulo",
+          neighbourhood: "Vila Madalena",
+          state: "Bahia",
+        },
+        options: {
+          propertyMetrics: {
+            area: 435454,
+            bathrooms: 4,
+            garage: 2,
+            rooms: 3,
+          },
+        },
+        createdAt: new Date(),
+      }, {
+        id: "23",
+        slugUrl: "/apartamentos/1",
+        category: "condomínios",
+        title: "Apartamento Moderno atualizado",
+        images: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+        price: 350000,
+        advertiser_id: "122222",
+        advertiser_type: "studio",
+        advertiser: {
+          name: "João Silva",
+          image: "https://i.pravatar.cc/150?img=1",
+        },
+        address: {
+          city: "São Paulo",
+          neighbourhood: "Vila Madalena",
+          state: "Bahia",
+        },
+        options: {
+          propertyMetrics: {
+            area: 435454,
+            bathrooms: 4,
+            garage: 2,
+            rooms: 3,
+          },
+        },
+        createdAt: new Date(),
       },
       {
         id: "1",
