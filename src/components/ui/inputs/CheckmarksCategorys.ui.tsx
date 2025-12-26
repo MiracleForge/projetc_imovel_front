@@ -15,12 +15,11 @@ export default function CheckMarkCategorys({ categoryName, description, isChecke
       <input
         type="radio"
         id={id}
-        value={categoryName}       // ✅ o valor correto do radio
-        checked={isCheckedValue}
+        name={props.name}
+        value={categoryName} checked={isCheckedValue}
         className="peer absolute opacity-0 w-0 h-0"
         {...props}
       />
-
       <div className="flex items-center gap-3 peer-checked:text-secundary-blue">
         <img
           src={`/icons/${decodeURI(categoryName)}-categoria.svg`}

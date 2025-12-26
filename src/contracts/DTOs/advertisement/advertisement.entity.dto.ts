@@ -15,7 +15,7 @@ export const adversetimentSchema = z.object({
   advertiser_id: z.uuidv7(),
   advertiser_type: AdvertiseTypeSchema,
 
-  category: adversetizeCategorySchema,
+  category: adversetizeCategorySchema.nullable(),
 
   title: z
     .string()

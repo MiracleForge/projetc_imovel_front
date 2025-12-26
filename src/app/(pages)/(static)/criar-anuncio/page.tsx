@@ -12,6 +12,7 @@ import { createAdversetimentAction } from "@/src/app/actions/adversetiment.actio
 import { StepNavigation } from "@/src/components/ui/steps/MultiStepController.ui";
 import FileInput from "@/src/components/ui/inputs/FileInputs.ui";
 import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.ui";
+import { adversetimentCategoryDTO, adversetizeCategorySchema } from "@/src/contracts/DTOs/advertisement/advertisement.entity.dto";
 
 type FormDataType = adversetimentCreateDTO;
 type InputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
@@ -32,25 +33,33 @@ const FormField = ({ label, srOnly, children }: { label: string; srOnly?: boolea
     {children}
   </div>
 );
-
-const defaultFormData: FormDataType = {
-  category: "apartamentos",
-  title: "",
-  subTitle: "",
-  description: "",
-  price: 0,
-  transactionMode: "",
-  phone: "",
-  whatsapp: "",
-  imagesFiles: [],
-  address: { state: "", city: "", neighbourhood: "", street: "", number: "", cep: "" },
-};
-
 export default function Page() {
+  const searchParams = useSearchParams();
+  const urlCategory = searchParams.get("category");
+
+  // valida e transforma a URL em CategoryType | null
+  const categoryFromUrl: adversetimentCategoryDTO | null = urlCategory && adversetizeCategorySchema.safeParse(urlCategory).success
+    ? (urlCategory as adversetimentCategoryDTO)
+    : null;
+  const defaultFormData: FormDataType = {
+    category: categoryFromUrl,
+    title: "",
+    subTitle: "",
+    description: "",
+    price: 0,
+    transactionMode: "",
+    phone: "",
+    whatsapp: "",
+    imagesFiles: [],
+    address: { state: "", city: "", neighbourhood: "", street: "", number: "", cep: "" },
+  };
+
+
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<FormDataType>(defaultFormData);
   const [state, formAction, pending] = useActionState(createAdversetimentAction, initialState);
   const router = useRouter();
+
   const totalSteps = 4;
   const lastStep = useMemo(() => step === totalSteps - 1, [step]);
 
@@ -72,8 +81,8 @@ export default function Page() {
       return;
     }
 
-    router.push(`?category=${formData.category}`);
     setFormData(prev => ({ ...prev, [name]: value }));
+    router.push(`?category=${value}`);
   };
 
   return (
@@ -102,32 +111,9 @@ function FirstStep({
   formData: FormDataType;
   handleInputChange: (e: InputChangeEvent) => void;
 }) {
-
-  const searchParams = useSearchParams();
-  const categoryFromUrl = searchParams.get("category") || "";
   return (
     <Step visible={step === 0}>
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Informações Básicas</h2>
-
-      <FormField label="Categoria do anúncio" srOnly>
-        <ul
-          role="listbox"
-          aria-label="Categorias do anúncio"
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 py-3 w-full"
-        >
-          {adversetimentCategoriesData.map((cat) => (
-            <CheckMarkCategorys
-              key={cat}
-              id={`category-${cat}`}
-              name="category"
-              categoryName={cat}
-              value={categoryFromUrl}
-              isCheckedValue={cat === formData.category}
-              onChange={handleInputChange}
-            />
-          ))}
-        </ul>
-      </FormField>
 
       <CommumInput
         topLabel="Título"
@@ -148,6 +134,26 @@ function FirstStep({
         placeholder="Digite um subtítulo atrativo"
         required
       />
+
+      <FormField label="Categoria do anúncio" srOnly>
+        <ul
+          role="listbox"
+          aria-label="Categorias do anúncio"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 py-3 w-full"
+        >
+          {adversetimentCategoriesData.map((cat) => (
+            <CheckMarkCategorys
+              key={cat}
+              id={`category-${cat}`}
+              name="category"
+              categoryName={cat}
+              value={cat}
+              isCheckedValue={cat === formData.category}
+              onChange={handleInputChange}
+            />
+          ))}
+        </ul>
+      </FormField>
 
       <FormField label="Descrição">
         <textarea
