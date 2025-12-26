@@ -5,7 +5,7 @@
 export const adversetimentCategoriesData = [
   "apartamentos",
   "casas-e-sobrados",
-  "terrenos-sítios-fazendas",
+  "terrenos-sítios",
   "salas-comerciais",
   "condomínios",
 ] as const;

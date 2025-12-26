@@ -11,6 +11,7 @@ import { actionResponse, initialState } from "@/src/contracts/types/responses.co
 import { createAdversetimentAction } from "@/src/app/actions/adversetiment.actions";
 import { StepNavigation } from "@/src/components/ui/steps/MultiStepController.ui";
 import FileInput from "@/src/components/ui/inputs/FileInputs.ui";
+import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.ui";
 
 type FormDataType = adversetimentCreateDTO;
 type InputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
@@ -49,7 +50,7 @@ export default function Page() {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState<FormDataType>(defaultFormData);
   const [state, formAction, pending] = useActionState(createAdversetimentAction, initialState);
-
+  const router = useRouter();
   const totalSteps = 4;
   const lastStep = useMemo(() => step === totalSteps - 1, [step]);
 
@@ -71,6 +72,7 @@ export default function Page() {
       return;
     }
 
+    router.push(`?category=${formData.category}`);
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -94,36 +96,37 @@ export default function Page() {
 function FirstStep({
   step,
   formData,
-  handleInputChange
+  handleInputChange,
 }: {
   step: number;
   formData: FormDataType;
   handleInputChange: (e: InputChangeEvent) => void;
 }) {
-  const router = useRouter();
+
   const searchParams = useSearchParams();
   const categoryFromUrl = searchParams.get("category") || "";
-
-  const handleUrlChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const category = e.target.value;
-    if (category) router.push(`?category=${category}`);
-  };
-
   return (
     <Step visible={step === 0}>
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Informações Básicas</h2>
 
       <FormField label="Categoria do anúncio" srOnly>
-        <select className={selectBase} name="category" value={categoryFromUrl} onChange={handleUrlChange} required>
-          <option value="" disabled>
-            Categoria do anúncio
-          </option>
-          {adversetimentCategoriesData.map(cat => (
-            <option key={cat} value={cat}>
-              {pretty(cat)}
-            </option>
+        <ul
+          role="listbox"
+          aria-label="Categorias do anúncio"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 py-3 w-full"
+        >
+          {adversetimentCategoriesData.map((cat) => (
+            <CheckMarkCategorys
+              key={cat}
+              id={`category-${cat}`}
+              name="category"
+              categoryName={cat}
+              value={categoryFromUrl}
+              isCheckedValue={cat === formData.category}
+              onChange={handleInputChange}
+            />
           ))}
-        </select>
+        </ul>
       </FormField>
 
       <CommumInput
@@ -296,13 +299,16 @@ function FourthStep({
   setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
   state: actionResponse
 }) {
-  const handleFileChange = (e) => {
-    if (e.target.files) {
-      setFormData({ ...formData, imagesFiles: [...e.target.files] });
-    }
-    console.log("Update slider images", formData);
-  };
+  const handleFileChange = (files: FileList | null) => {
+    if (!files) return;
 
+    const newFiles = Array.from(files);
+
+    setFormData(prev => ({
+      ...prev,
+      imagesFiles: [...(prev.imagesFiles || []), ...newFiles],
+    }));
+  };
 
 
   const summary = useMemo(
