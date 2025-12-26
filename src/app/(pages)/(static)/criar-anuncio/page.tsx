@@ -4,69 +4,87 @@ import { useState, useCallback, useMemo, Activity } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useActionState } from "react";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
-import { adversetimentCategoriesData, transactionMode } from "@/src/data/global.constants";
+import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.ui";
+import FileInput from "@/src/components/ui/inputs/FileInputs.ui";
 import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
+import { StepNavigation } from "@/src/components/ui/steps/MultiStepController.ui";
+import { adversetimentCategoriesData, transactionMode } from "@/src/data/global.constants";
 import { adversetimentCreateDTO } from "@/src/contracts/DTOs/advertisement/advertisement.create.dto";
+import { adversetimentCategoryDTO, adversetizeCategorySchema } from "@/src/contracts/DTOs/advertisement/advertisement.entity.dto";
 import { actionResponse, initialState } from "@/src/contracts/types/responses.core";
 import { createAdversetimentAction } from "@/src/app/actions/adversetiment.actions";
-import { StepNavigation } from "@/src/components/ui/steps/MultiStepController.ui";
-import FileInput from "@/src/components/ui/inputs/FileInputs.ui";
-import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.ui";
-import { adversetimentCategoryDTO, adversetizeCategorySchema } from "@/src/contracts/DTOs/advertisement/advertisement.entity.dto";
+
 
 type FormDataType = adversetimentCreateDTO;
 type InputChangeEvent = React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>;
 
-const selectBase =
-  "border p-3 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-600 outline-none bg-gray-50 hover:bg-gray-100 duration-150";
+interface SummaryData {
+  category: string;
+  title: string;
+  location: string;
+  transaction: string;
+  price: string;
+}
 
-const pretty = (s: string) =>
-  s.replace(/-/g, " ").replace(/^./, c => c.toUpperCase());
 
-const Step = ({ visible, children }: { visible: boolean; children: React.ReactNode }) => (
-  <Activity mode={visible ? "visible" : "hidden"}>{children}</Activity>
-);
+const SELECT_BASE = "border p-3 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-600 outline-none bg-gray-50 hover:bg-gray-100 duration-150";
 
-const FormField = ({ label, srOnly, children }: { label: string; srOnly?: boolean; children: React.ReactNode }) => (
-  <div className="flex flex-col gap-2">
-    <label className={srOnly ? "sr-only" : "text-lg font-semibold text-gray-800 tracking-tight"}>{label}</label>
-    {children}
-  </div>
-);
+const ADDRESS_FIELDS = [
+  ["state", "Estado"],
+  ["city", "Cidade"],
+  ["neighbourhood", "Bairro"],
+  ["street", "Rua"],
+  ["number", "Número"],
+  ["cep", "CEP"],
+] as const;
+
+
+const pretty = (s: string) => s.replace(/-/g, " ").replace(/^./, c => c.toUpperCase());
+
+const getDefaultFormData = (category: adversetimentCategoryDTO | null): FormDataType => ({
+  category,
+  title: "",
+  subTitle: "",
+  description: "",
+  price: 0,
+  transactionMode: "",
+  phone: "",
+  whatsapp: "",
+  imagesFiles: [],
+  address: {
+    state: "",
+    city: "",
+    neighbourhood: "",
+    street: "",
+    number: "",
+    cep: ""
+  },
+});
+
+
+
 export default function Page() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const urlCategory = searchParams.get("category");
-
-  // valida e transforma a URL em CategoryType | null
-  const categoryFromUrl: adversetimentCategoryDTO | null = urlCategory && adversetizeCategorySchema.safeParse(urlCategory).success
-    ? (urlCategory as adversetimentCategoryDTO)
-    : null;
-  const defaultFormData: FormDataType = {
-    category: categoryFromUrl,
-    title: "",
-    subTitle: "",
-    description: "",
-    price: 0,
-    transactionMode: "",
-    phone: "",
-    whatsapp: "",
-    imagesFiles: [],
-    address: { state: "", city: "", neighbourhood: "", street: "", number: "", cep: "" },
-  };
-
+  const categoryFromUrl = validateCategoryFromUrl(urlCategory);
 
   const [step, setStep] = useState(0);
-  const [formData, setFormData] = useState<FormDataType>(defaultFormData);
+  const [formData, setFormData] = useState<FormDataType>(() => getDefaultFormData(categoryFromUrl));
   const [state, formAction, pending] = useActionState(createAdversetimentAction, initialState);
-  const router = useRouter();
 
   const totalSteps = 4;
   const lastStep = useMemo(() => step === totalSteps - 1, [step]);
 
-  const nextStep = useCallback(() => setStep(prev => Math.min(prev + 1, totalSteps - 1)), []);
-  const prevStep = useCallback(() => setStep(prev => Math.max(prev - 1, 0)), []);
+  const nextStep = useCallback(() => {
+    setStep(prev => Math.min(prev + 1, totalSteps - 1));
+  }, []);
 
-  const handleInputChange = ({ target }: InputChangeEvent) => {
+  const prevStep = useCallback(() => {
+    setStep(prev => Math.max(prev - 1, 0));
+  }, []);
+
+  const handleInputChange = useCallback(({ target }: InputChangeEvent) => {
     const { name, value } = target;
 
     if (name.includes(".")) {
@@ -82,24 +100,108 @@ export default function Page() {
     }
 
     setFormData(prev => ({ ...prev, [name]: value }));
-    router.push(`?category=${value}`);
-  };
+
+    if (name === "category") {
+      router.push(`?category=${value}`);
+    }
+  }, [router]);
+
+  const isFormDisabled = pending || formData.phone === " ";
 
   return (
     <div className="space-y-3">
       <MultiStepIndicator totalSteps={totalSteps} currentStep={step} />
 
       <form action={formAction} className="gap-px space-y-3">
-        <FirstStep step={step} formData={formData} handleInputChange={handleInputChange} />
-        <SecondStep step={step} formData={formData} handleInputChange={handleInputChange} />
-        <ThirdStep step={step} formData={formData} handleInputChange={handleInputChange} />
-        <FourthStep step={step} formData={formData} setFormData={setFormData} state={state} />
+        <FirstStep
+          step={step}
+          formData={formData}
+          handleInputChange={handleInputChange}
+        />
 
-        <StepNavigation step={step} lastStep={lastStep} onNext={nextStep} onPrev={prevStep} disabled={pending || formData.phone === " "} />
+        <SecondStep
+          step={step}
+          formData={formData}
+          handleInputChange={handleInputChange}
+        />
+
+        <ThirdStep
+          step={step}
+          formData={formData}
+          handleInputChange={handleInputChange}
+        />
+
+        <FourthStep
+          step={step}
+          formData={formData}
+          setFormData={setFormData}
+          state={state}
+        />
+
+        <StepNavigation
+          step={step}
+          lastStep={lastStep}
+          onNext={nextStep}
+          onPrev={prevStep}
+          disabled={isFormDisabled}
+        />
       </form>
     </div>
   );
 }
+
+
+const validateCategoryFromUrl = (urlCategory: string | null): adversetimentCategoryDTO | null => {
+  if (!urlCategory) return null;
+  const validation = adversetizeCategorySchema.safeParse(urlCategory);
+  return validation.success ? (urlCategory as adversetimentCategoryDTO) : null;
+};
+
+
+const FormField = ({
+  label,
+  srOnly,
+  children
+}: {
+  label: string;
+  srOnly?: boolean;
+  children: React.ReactNode;
+}) => (
+  <div className="flex flex-col gap-2">
+    <label className={srOnly ? "sr-only" : "text-lg font-semibold text-gray-800 tracking-tight"}>
+      {label}
+    </label>
+    {children}
+  </div>
+);
+
+const SummaryItem = ({ label, value }: { label: string; value: string }) => (
+  <div className="space-y-0.5">
+    <p className="text-xs text-gray-500">{label}</p>
+    <p className="font-medium">{value || "Não informado"}</p>
+  </div>
+);
+
+const SummaryCard = ({ summary }: { summary: SummaryData }) => (
+  <>
+    <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 mb-4">
+      <img src="/logos/imobly-logo.svg" className="w-5 h-5" alt="Logo" />
+      Resumo do Imóvel
+    </h3>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700">
+      <SummaryItem label="Categoria" value={summary.category} />
+      <SummaryItem label="Título do anúncio" value={summary.title} />
+      <SummaryItem label="Localização" value={summary.location} />
+      <SummaryItem label="Tipo de Transação" value={summary.transaction} />
+    </div>
+
+    <div className="mt-4 p-3 bg-blue-100 rounded-lg text-center">
+      <p className="text-xs text-blue-700">Preço estimado</p>
+      <p className="text-xl font-bold text-blue-900">{summary.price}</p>
+    </div>
+  </>
+);
 
 
 function FirstStep({
@@ -112,7 +214,7 @@ function FirstStep({
   handleInputChange: (e: InputChangeEvent) => void;
 }) {
   return (
-    <Step visible={step === 0}>
+    <Activity mode={step === 0 ? "visible" : "hidden"}>
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Informações Básicas</h2>
 
       <CommumInput
@@ -160,14 +262,13 @@ function FirstStep({
           name="description"
           placeholder="Descreva seu anúncio em detalhes"
           rows={4}
-          className={selectBase}
+          className={SELECT_BASE}
           onChange={handleInputChange}
         />
       </FormField>
-    </Step>
+    </Activity>
   );
 }
-
 
 function SecondStep({
   step,
@@ -178,21 +279,12 @@ function SecondStep({
   formData: FormDataType;
   handleInputChange: (e: InputChangeEvent) => void;
 }) {
-  const addressFields = [
-    ["state", "Estado"],
-    ["city", "Cidade"],
-    ["neighbourhood", "Bairro"],
-    ["street", "Rua"],
-    ["number", "Número"],
-    ["cep", "CEP"],
-  ] as const;
-
   return (
-    <Step visible={step === 1}>
+    <Activity mode={step === 1 ? "visible" : "hidden"}>
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Localização</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {addressFields.slice(0, 2).map(([field, label]) => (
+        {ADDRESS_FIELDS.slice(0, 2).map(([field, label]) => (
           <CommumInput
             key={field}
             topLabel={label}
@@ -204,7 +296,7 @@ function SecondStep({
         ))}
       </div>
 
-      {addressFields.slice(2, 4).map(([field, label]) => (
+      {ADDRESS_FIELDS.slice(2, 4).map(([field, label]) => (
         <CommumInput
           key={field}
           topLabel={label}
@@ -216,7 +308,7 @@ function SecondStep({
       ))}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {addressFields.slice(4).map(([field, label]) => (
+        {ADDRESS_FIELDS.slice(4).map(([field, label]) => (
           <CommumInput
             key={field}
             topLabel={label}
@@ -227,10 +319,9 @@ function SecondStep({
           />
         ))}
       </div>
-    </Step>
+    </Activity>
   );
 }
-
 
 function ThirdStep({
   step,
@@ -242,7 +333,7 @@ function ThirdStep({
   handleInputChange: (e: InputChangeEvent) => void;
 }) {
   return (
-    <Step visible={step === 2}>
+    <Activity mode={step === 2 ? "visible" : "hidden"}>
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Detalhes da Transação</h2>
 
       <FormField label="Tipo de Transação" srOnly>
@@ -251,7 +342,7 @@ function ThirdStep({
           value={formData.transactionMode}
           onChange={handleInputChange}
           required
-          className={selectBase}
+          className={SELECT_BASE}
         >
           <option value="">Selecione...</option>
           {transactionMode.map(m => (
@@ -289,10 +380,9 @@ function ThirdStep({
         value={formData.whatsapp}
         onChange={handleInputChange}
       />
-    </Step>
+    </Activity>
   );
 }
-
 
 function FourthStep({
   step,
@@ -303,7 +393,7 @@ function FourthStep({
   step: number;
   formData: FormDataType;
   setFormData: React.Dispatch<React.SetStateAction<FormDataType>>;
-  state: actionResponse
+  state: actionResponse;
 }) {
   const handleFileChange = (files: FileList | null) => {
     if (!files) return;
@@ -315,7 +405,6 @@ function FourthStep({
       imagesFiles: [...(prev.imagesFiles || []), ...newFiles],
     }));
   };
-
 
   const summary = useMemo(
     () => ({
@@ -331,20 +420,12 @@ function FourthStep({
     [formData]
   );
 
-  const SummaryItem = ({ label, value }: { label: string; value: string }) => (
-    <div className="space-y-0.5">
-      <p className="text-xs text-gray-500">{label}</p>
-      <p className="font-medium">{value || "Não informado"}</p>
-    </div>
-  );
-
   return (
-    <Step visible={step === 3}>
+    <Activity mode={step === 3 ? "visible" : "hidden"}>
       <div className="mt-6 p-5 rounded-2xl border border-blue-100 bg-linear-to-br from-blue-50 to-white shadow-sm">
-
         <FileInput onChange={handleFileChange} label="Imagens do anuncio" />
 
-        {formData.imagesFiles && (
+        {formData.imagesFiles && formData.imagesFiles.length > 0 && (
           <ul className="mt-3 space-y-1">
             {formData.imagesFiles.map((file, i) => (
               <li key={i} className="text-sm text-gray-600">
@@ -354,22 +435,7 @@ function FourthStep({
           </ul>
         )}
 
-        <h3 className="text-lg font-semibold text-gray-800 flex items-center gap-2 mb-4">
-          <img src="/logos/imobly-logo.svg" className="w-5 h-5" alt="Logo" />
-          Resumo do Imóvel
-        </h3>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700">
-          <SummaryItem label="Categoria" value={summary.category} />
-          <SummaryItem label="Título do anúncio" value={summary.title} />
-          <SummaryItem label="Localização" value={summary.location} />
-          <SummaryItem label="Tipo de Transação" value={summary.transaction} />
-        </div>
-
-        <div className="mt-4 p-3 bg-blue-100 rounded-lg text-center">
-          <p className="text-xs text-blue-700">Preço estimado</p>
-          <p className="text-xl font-bold text-blue-900">{summary.price}</p>
-        </div>
+        <SummaryCard summary={summary} />
 
         {state.error && (
           <ul className="text-red-500 text-sm pt-0.5 list-disc list-inside">
@@ -378,10 +444,7 @@ function FourthStep({
             ))}
           </ul>
         )}
-
-
       </div>
-    </Step>
-
+    </Activity>
   );
 }
