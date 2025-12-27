@@ -8,11 +8,12 @@ import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.u
 import FileInput from "@/src/components/ui/inputs/FileInputs.ui";
 import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
 import { StepNavigation } from "@/src/components/ui/steps/MultiStepController.ui";
-import { adversetimentCategoriesData, transactionMode } from "@/src/data/global.constants";
+import { adversetimentCategoriesData, metricsIconsMap, transactionMode } from "@/src/data/global.constants";
 import { adversetimentCreateDTO } from "@/src/contracts/DTOs/advertisement/advertisement.create.dto";
 import { adversetimentCategoryDTO, adversetizeCategorySchema } from "@/src/contracts/DTOs/advertisement/advertisement.entity.dto";
 import { actionResponse, initialState } from "@/src/contracts/types/responses.core";
 import { createAdversetimentAction } from "@/src/app/actions/adversetiment.actions";
+import { InputNumeric } from "@/src/components/ui/inputs/InputNumeric.ui";
 
 
 type FormDataType = adversetimentCreateDTO;
@@ -38,6 +39,13 @@ const ADDRESS_FIELDS = [
   ["cep", "CEP"],
 ] as const;
 
+const OPTIONS_METRICS = [
+  ["area", "Área"],
+  ["rooms", "Quartos"],
+  ["bathrooms", "Banheiros"],
+  ["garage", "Vagas garagem"],
+] as const;
+
 
 const pretty = (s: string) => s.replace(/-/g, " ").replace(/^./, c => c.toUpperCase());
 
@@ -51,6 +59,14 @@ const getDefaultFormData = (category: adversetimentCategoryDTO | null): FormData
   phone: "",
   whatsapp: "",
   imagesFiles: [],
+  options: {
+    propertyMetrics: {
+      area: 0,
+      rooms: 0,
+      bathrooms: 0,
+      garage: 0
+    }
+  },
   address: {
     state: "",
     city: "",
@@ -73,7 +89,7 @@ export default function Page() {
   const [formData, setFormData] = useState<FormDataType>(() => getDefaultFormData(categoryFromUrl));
   const [state, formAction, pending] = useActionState(createAdversetimentAction, initialState);
 
-  const totalSteps = 4;
+  const totalSteps = 6;
   const lastStep = useMemo(() => step === totalSteps - 1, [step]);
 
   const nextStep = useCallback(() => {
@@ -86,25 +102,29 @@ export default function Page() {
 
   const handleInputChange = useCallback(({ target }: InputChangeEvent) => {
     const { name, value } = target;
+    const keys = name.split(".");
 
-    if (name.includes(".")) {
-      const [parent, child] = name.split(".");
-      setFormData(prev => ({
-        ...prev,
-        [parent]: {
-          ...(prev[parent as keyof FormDataType] as object),
-          [child]: value,
-        },
-      }));
-      return;
-    }
+    setFormData(prev => {
+      const updated = { ...prev };
+      let curr: any = updated;
 
-    setFormData(prev => ({ ...prev, [name]: value }));
+      for (let i = 0; i < keys.length - 1; i++) {
+        curr[keys[i]] = { ...curr[keys[i]] };
+        curr = curr[keys[i]];
+      }
+
+      curr[keys[keys.length - 1]] = value;
+
+      return updated;
+    });
 
     if (name === "category") {
       router.push(`?category=${value}`);
     }
   }, [router]);
+
+
+
 
   const isFormDisabled = pending || formData.phone === " ";
 
@@ -134,16 +154,23 @@ export default function Page() {
         <FourthStep
           step={step}
           formData={formData}
-          setFormData={setFormData}
-          state={state}
+          handleInputChange={handleInputChange}
         />
+
+        <FithStep
+          step={step}
+          handleInputChange={handleInputChange}
+          formData={formData}
+        />
+
+        <SixthStep step={step} formData={formData} setFormData={setFormData} state={state} />
 
         <StepNavigation
           step={step}
           lastStep={lastStep}
           onNext={nextStep}
           onPrev={prevStep}
-          disabled={isFormDisabled}
+        // disabled={isFormDisabled}
         />
       </form>
     </div>
@@ -161,7 +188,7 @@ const validateCategoryFromUrl = (urlCategory: string | null): adversetimentCateg
 const FormField = ({
   label,
   srOnly,
-  children
+  children,
 }: {
   label: string;
   srOnly?: boolean;
@@ -213,30 +240,10 @@ function FirstStep({
   formData: FormDataType;
   handleInputChange: (e: InputChangeEvent) => void;
 }) {
+
   return (
     <Activity mode={step === 0 ? "visible" : "hidden"}>
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Informações Básicas</h2>
-
-      <CommumInput
-        topLabel="Título"
-        type="text"
-        name="title"
-        value={formData.title}
-        onChange={handleInputChange}
-        placeholder="Título do seu anúncio"
-        required
-      />
-
-      <CommumInput
-        topLabel="Subtítulo do anúncio"
-        type="text"
-        name="subTitle"
-        value={formData.subTitle}
-        onChange={handleInputChange}
-        placeholder="Digite um subtítulo atrativo"
-        required
-      />
-
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">Categoria do Anúncio</h2>
       <FormField label="Categoria do anúncio" srOnly>
         <ul
           role="listbox"
@@ -257,6 +264,70 @@ function FirstStep({
         </ul>
       </FormField>
 
+      <FormField label="Modalidade do Anúncio">
+        <ul
+          role="listbox"
+          aria-label="Modalidade do Anúncio"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 py-3 w-full"
+        >
+          {transactionMode
+            .filter((mode) =>
+              formData.category === "terrenos-sítios"
+                ? mode !== "temporada"
+                : true
+            )
+            .map((mode) => (
+              <CheckMarkCategorys
+                key={mode}
+                id={`transaction-${mode}`}
+                name="transactionMode"
+                categoryName={mode}
+                value={mode}
+                isCheckedValue={mode === formData.transactionMode}
+                onChange={handleInputChange}
+              />
+            ))}
+        </ul>
+      </FormField>
+
+    </Activity>
+  );
+}
+
+
+function SecondStep({
+  step,
+  formData,
+  handleInputChange,
+}: {
+  step: number;
+  formData: FormDataType;
+  handleInputChange: (e: InputChangeEvent) => void;
+}) {
+  return (
+    <Activity mode={step === 1 ? "visible" : "hidden"}>
+
+      <h2 className="text-2xl font-bold text-gray-800 mb-4">Informações Básicas</h2>
+      <CommumInput
+        topLabel="Título"
+        type="text"
+        name="title"
+        value={formData.title}
+        onChange={handleInputChange}
+        placeholder="Título do seu anúncio"
+        required
+      />
+
+      <CommumInput
+        topLabel="Subtítulo do anúncio"
+        type="text"
+        name="subTitle"
+        value={formData.subTitle}
+        onChange={handleInputChange}
+        placeholder="Digite um subtítulo atrativo"
+        required
+      />
+
       <FormField label="Descrição">
         <textarea
           name="description"
@@ -270,7 +341,9 @@ function FirstStep({
   );
 }
 
-function SecondStep({
+
+function ThirdStep({
+
   step,
   formData,
   handleInputChange,
@@ -280,7 +353,7 @@ function SecondStep({
   handleInputChange: (e: InputChangeEvent) => void;
 }) {
   return (
-    <Activity mode={step === 1 ? "visible" : "hidden"}>
+    <Activity mode={step === 2 ? "visible" : "hidden"}>
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Localização</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -323,7 +396,7 @@ function SecondStep({
   );
 }
 
-function ThirdStep({
+function FourthStep({
   step,
   formData,
   handleInputChange,
@@ -333,25 +406,9 @@ function ThirdStep({
   handleInputChange: (e: InputChangeEvent) => void;
 }) {
   return (
-    <Activity mode={step === 2 ? "visible" : "hidden"}>
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Detalhes da Transação</h2>
+    <Activity mode={step === 3 ? "visible" : "hidden"}>
+      <h2 className="text-2xl font-bold text-neutral-secondary mb-4">Detalhes da Transação</h2>
 
-      <FormField label="Tipo de Transação" srOnly>
-        <select
-          name="transactionMode"
-          value={formData.transactionMode}
-          onChange={handleInputChange}
-          required
-          className={SELECT_BASE}
-        >
-          <option value="">Selecione...</option>
-          {transactionMode.map(m => (
-            <option key={m} value={m}>
-              {pretty(m)}
-            </option>
-          ))}
-        </select>
-      </FormField>
 
       <CommumInput
         topLabel="Preço (R$)"
@@ -369,6 +426,7 @@ function ThirdStep({
         name="phone"
         placeholder="(11) 98765-4321"
         value={formData.phone}
+        required
         onChange={handleInputChange}
       />
 
@@ -384,7 +442,45 @@ function ThirdStep({
   );
 }
 
-function FourthStep({
+
+function FithStep({
+  step,
+  formData,
+  handleInputChange
+}: {
+  step: number,
+  formData: FormDataType,
+  handleInputChange: (e: InputChangeEvent) => void;
+}) {
+
+  return (
+    <Activity mode={step === 4 ? "visible" : "hidden"}>
+      <FormField label="Características do Imóvel">
+        <div className="flex flex-col gap-4">
+          {OPTIONS_METRICS
+            .filter(([key]) =>
+              formData.category === "terrenos-sítios" ? key === "area" : true
+            )
+            .map(([key, label]) => (
+              <InputNumeric
+                key={key}
+                id={`metric-${key}`}
+                label={label}
+                iconKey={key}
+                iconsMap={metricsIconsMap}
+                required
+                name={`options.propertyMetrics.${key}`}
+                value={formData.options.propertyMetrics[key] ?? 0}
+                onChange={handleInputChange}
+              />
+            ))}
+        </div>
+      </FormField>
+    </Activity>
+  );
+}
+
+function SixthStep({
   step,
   formData,
   setFormData,
@@ -421,7 +517,7 @@ function FourthStep({
   );
 
   return (
-    <Activity mode={step === 3 ? "visible" : "hidden"}>
+    <Activity mode={step === 5 ? "visible" : "hidden"}>
       <div className="mt-6 p-5 rounded-2xl border border-blue-100 bg-linear-to-br from-blue-50 to-white shadow-sm">
         <FileInput onChange={handleFileChange} label="Imagens do anuncio" />
 
@@ -448,3 +544,6 @@ function FourthStep({
     </Activity>
   );
 }
+
+
+

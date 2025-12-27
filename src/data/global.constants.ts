@@ -25,3 +25,13 @@ export const marketingCategoriesData = [
 export const allCategoriesData = [
   ...marketingCategoriesData, ...adversetimentCategoriesData, ...transactionMode
 ] as const;
+
+
+export const metricsIconsMap: Record<string, string> = {
+  rooms: "/icons/metrics/quartos-icon.svg",
+  bathrooms: "/icons/metrics/banheiros-icon.svg",
+  garage: "/icons/metrics/garagem-icon.svg",
+  area: "/icons/metrics/area-icon.svg",
+};
+
+

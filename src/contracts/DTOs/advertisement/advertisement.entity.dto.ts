@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { adversetimentCategoriesData, transactionMode } from "@/src/data/global.constants";
+import { processToNumber } from "../cores/validations/validations.cores.schemas";
 
 export type adversetimentEntityDTO = z.infer<typeof adversetimentSchema>;
 export type adversetimentCategoryDTO = z.infer<typeof adversetizeCategorySchema>;
@@ -32,10 +33,7 @@ export const adversetimentSchema = z.object({
     .max(1000, "Você atingiu o limite máximo de caracteres.")
     .optional(),
 
-  price: z.preprocess((val) => {
-    if (typeof val === "string") return Number(val);
-    return val;
-  }, z.number()),
+  price: processToNumber,
 
   phone: z.string(),
   images: z.array(z.url()).min(1, "Ao menos uma imagem é necessária."),
@@ -55,10 +53,10 @@ export const adversetimentSchema = z.object({
 
   options: z.object({
     propertyMetrics: z.object({
-      rooms: z.number().optional(),
-      bathrooms: z.number().optional(),
-      garage: z.number().optional(),
-      area: z.number(),
+      area: processToNumber,
+      rooms: processToNumber.optional(),
+      bathrooms: processToNumber.optional(),
+      garage: processToNumber.optional(),
     }),
 
     amenities: z.object({
@@ -67,7 +65,8 @@ export const adversetimentSchema = z.object({
       service_area: z.boolean().optional(),
       pool: z.boolean().optional(),
       balcony: z.boolean().optional(),
-    }),
+    })
+      .optional(),
 
     condominion: z
       .object({
@@ -86,7 +85,7 @@ export const adversetimentSchema = z.object({
   updatedAt: z.date().optional(),
 })
   .superRefine((data, ctx) => {
-    if (data.category === "terrenos-sítios-fazendas") {
+    if (data.category === "terrenos-sítios") {
       const metrics = data.options.propertyMetrics;
 
       if (metrics.rooms) {

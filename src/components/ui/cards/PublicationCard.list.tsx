@@ -4,6 +4,7 @@ import Link from "next/link";
 import UserAvatar from "../avatars/UserAvatar.ui";
 import { advertisementCardOptions, homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 import { formattedPrice } from "@/src/utils/formating.utils";
+import { metricsIconsMap } from "@/src/data/global.constants";
 
 interface PublicationCardProps {
   data: homeCardAdvertisement;
@@ -109,13 +110,6 @@ export default function PublicationCard({ data }: PublicationCardProps) {
 }
 
 
-const iconsMap: Record<string, string> = {
-  rooms: "/icons/listings/quartos-icon.svg",
-  bathrooms: "/icons/listings/banheiros-icon.svg",
-  garage: "/icons/listings/garagem-icon.svg",
-  area: "/icons/listings/area-icon.svg",
-};
-
 export function OptionsGrid({ options }: { options: advertisementCardOptions }) {
 
   return (
@@ -124,7 +118,7 @@ export function OptionsGrid({ options }: { options: advertisementCardOptions }) 
         <div key={key}>
           <dt className="sr-only">{key}</dt>
           <dd className="p-1 bg-white/60 rounded-full shrink-0" title={`${key.toUpperCase()}: ${value}`}>
-            <Image src={iconsMap[key] ?? "/icons/listings/default.svg"} className="size-4" alt="" width={16} height={16} />
+            <Image src={metricsIconsMap[key] ?? "/icons/listings/default.svg"} className="size-4" alt="" width={16} height={16} />
           </dd>
         </div>
       ))}

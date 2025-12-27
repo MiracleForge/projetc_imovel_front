@@ -12,6 +12,7 @@ export const adversetimentCreateSchema = adversetimentSchema
     price: true,
     category: true,
     address: true,
+    options: true,
     transactionMode: true,
   })
   .extend({
