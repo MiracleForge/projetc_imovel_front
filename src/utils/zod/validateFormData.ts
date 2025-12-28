@@ -3,13 +3,13 @@ import { actionResponse } from "@/src/contracts/types/responses.core";
 import { formDataToObject } from "./converts";
 
 export async function validateFormData<T>(
-  formData: FormData | Record<string, any>,
-  schema: ZodSchema<T>
+  formData: FormData | Record<string, unknown>,
+  schema: ZodSchema<T>,
 ): Promise<
   | { success: true; data: T }
-  | { success: false; error: actionResponse<any> }
+  | { success: false; error: actionResponse<unknown> }
 > {
-  let data: Record<string, any>;
+  let data: Record<string, unknown>;
 
   if (formData instanceof FormData) {
     data = formDataToObject(formData);
@@ -24,7 +24,7 @@ export async function validateFormData<T>(
 
   if (!parsed.success) {
     const formattedMessages = parsed.error.issues
-      .map(issue => issue.message)
+      .map((issue) => issue.message)
       .join("\n");
 
     return {
@@ -32,33 +32,35 @@ export async function validateFormData<T>(
       error: {
         message: formattedMessages,
         error: formattedMessages,
-        data: { values: data }
-      }
+        data: { values: data },
+      },
     };
   }
 
   return { success: true, data: parsed.data };
 }
 
-export function unflatten(obj: Record<string, any>) {
-  const result: any = {};
+export function unflatten(
+  obj: Record<string, unknown>,
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
   for (const key in obj) {
-    const keys = key.split('.');
-    keys.reduce((acc, k, i) => {
+    const keys = key.split(".");
+    keys.reduce((acc: Record<string, unknown>, k: string, i: number) => {
       if (i === keys.length - 1) {
         acc[k] = obj[key];
       } else {
         acc[k] = acc[k] || {};
       }
-      return acc[k];
+      return acc[k] as Record<string, unknown>;
     }, result);
   }
   return result;
 }
 
 // Helper para transformar chaves planas em objetos aninhados
-function nestFlatKeys(obj: Record<string, any>): Record<string, any> {
-  const result: Record<string, any> = {};
+function nestFlatKeys(obj: Record<string, unknown>): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
 
   for (const key in obj) {
     if (key.includes(".")) {
@@ -70,7 +72,7 @@ function nestFlatKeys(obj: Record<string, any>): Record<string, any> {
           cur[part] = obj[key]; // valor final
         } else {
           if (!cur[part]) cur[part] = {};
-          cur = cur[part];
+          cur = cur[part] as Record<string, unknown>;
         }
       });
     } else {
@@ -80,4 +82,3 @@ function nestFlatKeys(obj: Record<string, any>): Record<string, any> {
 
   return result;
 }
-

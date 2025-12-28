@@ -11,10 +11,9 @@ import { unflatten } from "@/src/utils/zod/validateFormData";
 import { redirect } from "next/navigation";
 
 export async function createAdversetimentAction(
-  _prevState: any,
-  formData: FormData
+  _prevState: actionResponse,
+  formData: FormData,
 ): Promise<actionResponse<undefined>> {
-
   console.log("═══════════════════════");
   console.log("📥 RECEIVED FORM DATA");
   console.log("═══════════════════════");
@@ -58,10 +57,12 @@ export async function createAdversetimentAction(
   console.log("Images received:", payloadValidated.data.imagesFiles);
 
   const path = `public-create-adversetiment/${payloadValidated.data.category}`;
-  const fetchAdversetiment =
-    createPrivateFecher<adversetimentCreateDTO, undefined>(path, {
-      method: "POST",
-    });
+  const fetchAdversetiment = createPrivateFecher<
+    adversetimentCreateDTO,
+    undefined
+  >(path, {
+    method: "POST",
+  });
 
   console.log("\n═══════════════════════");
   console.log("🚀 SENDING PAYLOAD TO API");
@@ -80,4 +81,3 @@ export async function createAdversetimentAction(
   console.log("✅ CREATED SUCCESSFULLY — Redirecting...");
   redirect("/");
 }
-

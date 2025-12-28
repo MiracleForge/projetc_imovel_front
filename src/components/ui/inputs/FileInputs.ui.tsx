@@ -3,7 +3,10 @@ interface FileInputProps {
   onChange: (files: FileList | null) => void;
 }
 
-export default function FileInput({ label = "Selecione as imagens", onChange }: FileInputProps) {
+export default function FileInput({
+  label = "Selecione as imagens",
+  onChange,
+}: FileInputProps) {
   return (
     <label className="flex flex-col items-center justify-center gap-2 w-full p-5 bg-white border border-neutral-200 rounded-xl shadow-sm cursor-pointer hover:bg-neutral-50 transition">
       <svg
@@ -21,19 +24,17 @@ export default function FileInput({ label = "Selecione as imagens", onChange }: 
         />
       </svg>
 
-      <span className="text-neutral-700 text-sm">
-        {label}
-      </span>
+      <span className="text-neutral-700 text-sm">{label}</span>
 
       <input
         type="file"
-        name="imagesFile"
-        id="imagesFile"
+        name="imagesFiles"
+        id="imagesFiles"
         accept="image/*"
+        multiple
         onChange={(e) => onChange(e.target.files)}
         className="hidden"
       />
     </label>
   );
 }
-
