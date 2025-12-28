@@ -4,16 +4,17 @@ interface CheckmarkCategoryProps extends InputHTMLAttributes<HTMLInputElement> {
   categoryName: string;
   description?: string;
   isCheckedValue: boolean;
+  type: "radio" | "checkbox";
 }
 
-export default function CheckMarkCategorys({ categoryName, description, isCheckedValue, id, value, ...props }: CheckmarkCategoryProps) {
+export default function CheckMarkCategorys({ categoryName, description, isCheckedValue, id, value, type, ...props }: CheckmarkCategoryProps) {
   return (
     <label className={` 
       flex items-center gap-4 w-full p-4 border border-foreground rounded-lg cursor-pointer transition-all duration-300
       hover:bg-blue-50 hover:border-secundary-blue bg-[#F3F5FF] ${isCheckedValue ? "border-secundary-blue" : ""}
     `}>
       <input
-        type="radio"
+        type={type}
         id={id}
         name={props.name}
         value={categoryName} checked={isCheckedValue}

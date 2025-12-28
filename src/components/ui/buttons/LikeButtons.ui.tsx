@@ -32,7 +32,7 @@ export default function LikeButton({ initialState }: LikeButtonProps) {
       onMouseUp={() => setPressed(false)}
       onMouseLeave={() => setPressed(false)}
       className={`absolute top-1 right-1 bg-white/40 p-2 rounded-full transition-transform z-10 ${pressed ? 'scale-[1.5]' : ''}`}
-      title="Favoritar"
+      title={liked ? "Remover Favoritar" : "Favoritar"}
       aria-pressed={liked}
       onClick={handleClick}
     >

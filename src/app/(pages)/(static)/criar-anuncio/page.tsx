@@ -46,6 +46,21 @@ const OPTIONS_METRICS = [
   ["garage", "Vagas garagem"],
 ] as const;
 
+const OPTIONS_AMENTIES = [
+  ["academy", "Academia"],
+  ["balcony", "Sacada"],
+  ["pool", "Piscina"],
+  ["service_area", "Área de Serviço"],
+  ["service_room", "Quarto de Serviço"],
+] as const;
+
+const OPTIONS_COMDOMINION = [
+  ["academy", "Academia"],
+  ["allow_animals", "Permite animais"],
+  ["close_condominion", "Condominio fechado"],
+  ["elevator", "Elevador"],
+  ["gate_house", "Portaria"],
+] as const;
 
 const pretty = (s: string) => s.replace(/-/g, " ").replace(/^./, c => c.toUpperCase());
 
@@ -60,13 +75,33 @@ const getDefaultFormData = (category: adversetimentCategoryDTO | null): FormData
   whatsapp: "",
   imagesFiles: [],
   options: {
+
     propertyMetrics: {
       area: 0,
       rooms: 0,
       bathrooms: 0,
       garage: 0
+    },
+
+    amenities: {
+      academy: false,
+      balcony: false,
+      pool: false,
+      service_area: false,
+      service_room: false
+    },
+
+    condominion: {
+      academy: false,
+      allow_animals: false,
+      close_condominion: false,
+      elevator: false,
+      gate_house: false,
+      party_saloon: false,
+      security: false
     }
   },
+
   address: {
     state: "",
     city: "",
@@ -101,7 +136,13 @@ export default function Page() {
   }, []);
 
   const handleInputChange = useCallback(({ target }: InputChangeEvent) => {
-    const { name, value } = target;
+    const { name, type, value } = target;
+
+    const finalValue =
+      target instanceof HTMLInputElement && type === "checkbox"
+        ? target.checked
+        : value;
+
     const keys = name.split(".");
 
     setFormData(prev => {
@@ -113,7 +154,7 @@ export default function Page() {
         curr = curr[keys[i]];
       }
 
-      curr[keys[keys.length - 1]] = value;
+      curr[keys[keys.length - 1]] = finalValue;
 
       return updated;
     });
@@ -122,9 +163,6 @@ export default function Page() {
       router.push(`?category=${value}`);
     }
   }, [router]);
-
-
-
 
   const isFormDisabled = pending || formData.phone === " ";
 
@@ -194,12 +232,12 @@ const FormField = ({
   srOnly?: boolean;
   children: React.ReactNode;
 }) => (
-  <div className="flex flex-col gap-2">
-    <label className={srOnly ? "sr-only" : "text-lg font-semibold text-gray-800 tracking-tight"}>
+  <fieldset role="group" className="flex flex-col gap-2">
+    <legend className={srOnly ? "sr-only" : "text-lg mx-auto font-semibold text-gray-800 tracking-tight"}>
       {label}
-    </label>
+    </legend>
     {children}
-  </div>
+  </fieldset>
 );
 
 const SummaryItem = ({ label, value }: { label: string; value: string }) => (
@@ -252,6 +290,7 @@ function FirstStep({
         >
           {adversetimentCategoriesData.map((cat) => (
             <CheckMarkCategorys
+              type="radio"
               key={cat}
               id={`category-${cat}`}
               name="category"
@@ -278,6 +317,7 @@ function FirstStep({
             )
             .map((mode) => (
               <CheckMarkCategorys
+                type="radio"
                 key={mode}
                 id={`transaction-${mode}`}
                 name="transactionMode"
@@ -290,6 +330,42 @@ function FirstStep({
         </ul>
       </FormField>
 
+
+      <FormField label="Opções" >
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 py-3 w-full">
+
+          {OPTIONS_AMENTIES.slice(0, OPTIONS_AMENTIES.length).map(([field, label]) => (
+            <CheckMarkCategorys
+              type="checkbox"
+              key={field}
+              id={`amenity-${field}`}
+              name={`options.amenities.${field}`}
+              categoryName={label}
+              value="true"
+              isCheckedValue={Boolean(formData.options.amenities?.[field])}
+              onChange={handleInputChange}
+            />
+          ))}
+        </ul>
+      </FormField>
+
+      <FormField label="Condominio" >
+        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 py-3 w-full">
+
+          {OPTIONS_COMDOMINION.slice(0, OPTIONS_AMENTIES.length).map(([field, label]) => (
+            <CheckMarkCategorys
+              type="checkbox"
+              key={field}
+              id={`condominion-${field}`}
+              name={`options.condominion.${field}`}
+              categoryName={label}
+              value="true"
+              isCheckedValue={Boolean(formData.options.condominion?.[field])}
+              onChange={handleInputChange}
+            />
+          ))}
+        </ul>
+      </FormField>
     </Activity>
   );
 }
@@ -408,7 +484,6 @@ function FourthStep({
   return (
     <Activity mode={step === 3 ? "visible" : "hidden"}>
       <h2 className="text-2xl font-bold text-neutral-secondary mb-4">Detalhes da Transação</h2>
-
 
       <CommumInput
         topLabel="Preço (R$)"
