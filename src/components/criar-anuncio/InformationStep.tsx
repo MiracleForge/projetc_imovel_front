@@ -2,23 +2,10 @@
 
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
+import FormField from "../wrappers/FormField.wrapper";
+import StepField from "../wrappers/StepField.wrapper";
 
 const SELECT_BASE = "border p-3 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-600 outline-none bg-gray-50 hover:bg-gray-100 duration-150";
-
-const FormField = ({
-  label,
-  children,
-}: {
-  label: string;
-  children: React.ReactNode;
-}) => (
-  <fieldset role="group" className="flex flex-col gap-2">
-    <legend className="text-lg mx-auto font-semibold text-gray-800 tracking-tight">
-      {label}
-    </legend>
-    {children}
-  </fieldset>
-);
 
 export function InformationStep() {
   const { formData, updateField } = useAdvertisementFormStore();
@@ -31,9 +18,7 @@ export function InformationStep() {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Informações Básicas</h2>
-
+    <StepField label="Informações Básicas">
       <CommumInput
         topLabel="Título"
         type="text"
@@ -64,6 +49,6 @@ export function InformationStep() {
           onChange={handleInputChange}
         />
       </FormField>
-    </div>
+    </StepField>
   );
 }

@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 
 const AUTH_SECRET = process.env.AUTH_SECRET!;
 
-const PROTECTED_ROUTES = ["/dashboard", "/profile", "/criar-anuncio"];
+const PROTECTED_ROUTES = ["/dashboard", "/profile"];
 const GUEST_ONLY_ROUTES = ["/auth"];
 
 export async function proxy(req: NextRequest) {

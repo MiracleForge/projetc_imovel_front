@@ -6,12 +6,15 @@ import { adversetimentCategoryDTO } from "@/src/contracts/DTOs/advertisement/adv
 interface AdvertisementFormState {
   formData: adversetimentCreateDTO;
   currentStep: number;
+  lastUpdated: number | null;
   setFormData: (data: Partial<adversetimentCreateDTO>) => void;
   setCurrentStep: (step: number) => void;
   resetForm: () => void;
   updateField: (field: string, value: unknown) => void;
   setCategory: (category: adversetimentCategoryDTO | null) => void;
 }
+
+const EXPIRATION_TIME = 24 * 60 * 60 * 1000;
 
 const getDefaultFormData = (): adversetimentCreateDTO => ({
   category: null,
@@ -62,18 +65,22 @@ export const useAdvertisementFormStore = create<AdvertisementFormState>()(
     (set) => ({
       formData: getDefaultFormData(),
       currentStep: 0,
+      lastUpdated: null,
 
       setFormData: (data) =>
         set((state) => ({
           formData: { ...state.formData, ...data },
+          lastUpdated: Date.now(),
         })),
 
-      setCurrentStep: (step) => set({ currentStep: step }),
+      setCurrentStep: (step) =>
+        set({ currentStep: step, lastUpdated: Date.now() }),
 
       resetForm: () =>
         set({
           formData: getDefaultFormData(),
           currentStep: 0,
+          lastUpdated: null,
         }),
 
       updateField: (field, value) =>
@@ -94,19 +101,37 @@ export const useAdvertisementFormStore = create<AdvertisementFormState>()(
 
           current[keys[keys.length - 1]] = value;
 
-          return { formData: newFormData };
+          return { formData: newFormData, lastUpdated: Date.now() };
         }),
 
       setCategory: (category) =>
         set((state) => ({
           formData: { ...state.formData, category },
+          lastUpdated: Date.now(),
         })),
     }),
     {
       name: "advertisement-form-storage",
       partialize: (state) => ({
-        formData: state.formData,
+        formData: {
+          ...state.formData,
+          imagesFiles: [],
+        },
+        lastUpdated: state.lastUpdated,
       }),
+      onRehydrateStorage: () => (state) => {
+        if (state?.lastUpdated) {
+          const now = Date.now();
+          const timePassed = now - state.lastUpdated;
+
+          if (timePassed > EXPIRATION_TIME) {
+            state.formData = getDefaultFormData();
+            state.currentStep = 0;
+            state.lastUpdated = null;
+            console.log("📦 Rascunho expirado (24h). Dados limpos.");
+          }
+        }
+      },
     },
   ),
 );

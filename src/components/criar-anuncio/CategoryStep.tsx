@@ -4,23 +4,8 @@ import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store"
 import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.ui";
 import { adversetimentCategoriesData, transactionMode } from "@/src/data/global.constants";
 import { adversetimentCategoryDTO } from "@/src/contracts/DTOs/advertisement/advertisement.entity.dto";
-
-const FormField = ({
-  label,
-  srOnly,
-  children,
-}: {
-  label: string;
-  srOnly?: boolean;
-  children: React.ReactNode;
-}) => (
-  <fieldset role="group" className="flex flex-col gap-2">
-    <legend className={srOnly ? "sr-only" : "text-lg mx-auto font-semibold text-gray-800 tracking-tight"}>
-      {label}
-    </legend>
-    {children}
-  </fieldset>
-);
+import FormField from "../wrappers/FormField.wrapper";
+import StepField from "../wrappers/StepField.wrapper";
 
 export function CategoryStep() {
   const { formData, updateField, setCategory } = useAdvertisementFormStore();
@@ -38,9 +23,7 @@ export function CategoryStep() {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Categoria do Anúncio</h2>
-
+    <StepField label="Categoria do Anúncio" >
       <FormField label="Categoria do anúncio" srOnly>
         <ul
           role="listbox"
@@ -134,6 +117,6 @@ export function CategoryStep() {
           ))}
         </ul>
       </FormField>
-    </div>
+    </StepField>
   );
 }

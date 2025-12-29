@@ -2,6 +2,7 @@
 
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
+import StepField from "../wrappers/StepField.wrapper";
 
 const ADDRESS_FIELDS = [
   ["state", "Estado"],
@@ -21,9 +22,7 @@ export function LocationStep() {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Localização</h2>
-
+    <StepField label="Localização" >
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {ADDRESS_FIELDS.slice(0, 2).map(([field, label]) => (
           <CommumInput
@@ -60,6 +59,6 @@ export function LocationStep() {
           />
         ))}
       </div>
-    </div>
+    </StepField>
   );
 }

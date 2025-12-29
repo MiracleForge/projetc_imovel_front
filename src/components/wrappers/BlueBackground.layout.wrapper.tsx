@@ -33,7 +33,7 @@ export function BlueLayout({
 
           <div
             className={`
-              mx-5 border text-center bg-gray-50 
+              mx-1 lg:mx-5 border text-center bg-gray-50 
               border-foreground/80 lg:p-8 shadow-[20px_0_20px_20px] shadow-slate-500/10
               ${cardClassName}
             `}

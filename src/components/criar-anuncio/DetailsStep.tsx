@@ -2,6 +2,7 @@
 
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
+import StepField from "../wrappers/StepField.wrapper";
 
 export function DetailsStep() {
   const { formData, updateField } = useAdvertisementFormStore();
@@ -12,10 +13,7 @@ export function DetailsStep() {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold text-neutral-secondary mb-4">
-        Detalhes da Transação
-      </h2>
+    <StepField label="Detalhes da Transação">
 
       <CommumInput
         topLabel="Preço (R$)"
@@ -45,6 +43,6 @@ export function DetailsStep() {
         value={formData.whatsapp}
         onChange={handleInputChange}
       />
-    </div>
+    </StepField>
   );
 }

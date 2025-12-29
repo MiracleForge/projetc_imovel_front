@@ -10,6 +10,7 @@ import {
 } from "@/src/contracts/types/responses.core";
 import { useEffect } from "react";
 import SubmitButton from "@/src/components/ui/buttons/Submit.button";
+import StepField from "@/src/components/wrappers/StepField.wrapper";
 
 interface SubmitPageProps {
   submitAction: (
@@ -92,7 +93,7 @@ export function SubmitPage({ submitAction }: SubmitPageProps) {
   }, [state.data, state.error, resetForm]);
 
   return (
-    <div>
+    <StepField label="Revisão">
       <form onSubmit={handleSubmit}>
         {/* Images via ReviewStep */}
         <ReviewStep />
@@ -105,11 +106,11 @@ export function SubmitPage({ submitAction }: SubmitPageProps) {
           </ul>
         )}
 
-        <div className="flex justify-between gap-4 pt-4">
+        <div className="flex justify-between items-center gap-4 pt-4">
           <button
             type="button"
             onClick={() => router.push("/criar-anuncio/caracteristicas")}
-            className="h-12 font-medium transition duration-300 inline-flex items-center justify-center text-xl px-6 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 hover:ring hover:ring-gray-400 cursor-pointer"
+            className="font-medium transition duration-300 inline-flex items-center justify-center text-xl px-6 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 hover:ring hover:ring-gray-400 cursor-pointer"
           >
             Voltar
           </button>
@@ -121,6 +122,6 @@ export function SubmitPage({ submitAction }: SubmitPageProps) {
           />
         </div>
       </form>
-    </div>
+    </StepField>
   );
 }

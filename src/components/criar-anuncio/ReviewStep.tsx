@@ -51,7 +51,6 @@ export function ReviewStep() {
 
     updateField("imagesFiles", [...currentFiles, ...newFiles]);
 
-    // Limpa o input para permitir adicionar a mesma imagem novamente
     e.target.value = "";
   };
 
@@ -144,7 +143,6 @@ export function ReviewStep() {
   );
 }
 
-// Componente separado para preview de imagem individual
 function ImagePreview({
   file,
   index,
@@ -154,7 +152,17 @@ function ImagePreview({
   index: number;
   onRemove: (index: number) => void;
 }) {
-  const imageUrl = useMemo(() => URL.createObjectURL(file), [file]);
+  const imageUrl = useMemo(() => {
+    if (file instanceof File && file.size > 0) {
+      try {
+        return URL.createObjectURL(file);
+      } catch (error) {
+        console.error("Erro ao criar URL do arquivo:", error);
+        return null;
+      }
+    }
+    return null;
+  }, [file]);
 
   return (
     <div className="relative group aspect-square rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
@@ -166,7 +174,7 @@ function ImagePreview({
         />
       ) : (
         <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-          <span className="text-gray-400">Carregando...</span>
+          <span className="text-gray-400">Arquivo inválido</span>
         </div>
       )}
 
