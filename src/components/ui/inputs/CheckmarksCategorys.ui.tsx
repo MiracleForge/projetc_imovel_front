@@ -10,7 +10,9 @@ interface CheckmarkCategoryProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 export default function CheckMarkCategorys({ categoryName, description, isCheckedValue, id, value, type, iconKey, iconsMap, ...props }: CheckmarkCategoryProps) {
-  const iconSrc = iconsMap ? iconsMap[iconKey] ?? iconsMap["default"] : ` /icons/${decodeURI(categoryName)}-categoria.svg`;
+  const iconSrc = iconsMap
+    ? iconsMap[iconKey]
+    : `/icons/${decodeURI(categoryName)}-categoria.svg`;
 
   return (
     <label className={` 

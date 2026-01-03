@@ -5,7 +5,7 @@ import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.u
 import { adversetimentCategoryDTO } from "@/src/contracts/DTOs/advertisement/advertisement.entity.dto";
 import FormField from "../wrappers/FormField.wrapper";
 import StepField from "../wrappers/StepField.wrapper";
-import { amenityIconsMap } from "@/src/data/global.constants";
+import { amenityIconsMap, condominionIconsMap } from "@/src/data/global.constants";
 
 export function OptionsStep() {
   const { formData, updateField, setCategory } = useAdvertisementFormStore();
@@ -56,7 +56,7 @@ export function OptionsStep() {
               name={`options.amenities.${field}`}
               categoryName={label}
               aria-label={amenityAriaLabels[field]}
-              iconKey={label}
+              iconKey={field}
               iconsMap={amenityIconsMap}
               value="true"
               isCheckedValue={Boolean(
@@ -89,6 +89,8 @@ export function OptionsStep() {
                 categoryName={label}
                 aria-label={condominionAriaLabels[field]}
                 value="true"
+                iconKey={field}
+                iconsMap={condominionIconsMap}
                 isCheckedValue={Boolean(
                   formData.options.condominion?.[
                   field as keyof typeof formData.options.condominion

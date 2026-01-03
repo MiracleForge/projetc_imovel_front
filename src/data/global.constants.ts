@@ -49,5 +49,3 @@ export const condominionIconsMap: Record<string, string> = {
   elevator: "/icons/options/elevator-options.svg",
   gate_house: "/icons/options/gate-house-options.svg",
 };
-
-
