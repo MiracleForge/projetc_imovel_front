@@ -105,10 +105,32 @@ export const useAdvertisementFormStore = create<AdvertisementFormState>()(
         }),
 
       setCategory: (category) =>
-        set((state) => ({
-          formData: { ...state.formData, category },
-          lastUpdated: Date.now(),
-        })),
+        set((state) => {
+          const newState = { ...state.formData, category };
+
+          if (category !== "condomínios") {
+            newState.options = {
+              ...newState.options,
+              condominion: {},
+            };
+          }
+
+          if (category === "terrenos-sítios") {
+            const areaValue = newState.options.propertyMetrics?.area || 0;
+
+            newState.options = {
+              ...newState.options,
+              propertyMetrics: {
+                area: areaValue,
+              },
+            };
+          }
+
+          return {
+            formData: newState,
+            lastUpdated: Date.now(),
+          };
+        }),
     }),
     {
       name: "advertisement-form-storage",

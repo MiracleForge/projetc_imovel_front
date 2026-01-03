@@ -34,4 +34,20 @@ export const metricsIconsMap: Record<string, string> = {
   area: "/icons/metrics/area-icon.svg",
 };
 
+export const amenityIconsMap: Record<string, string> = {
+  academy: "/icons/options/academy-options.svg",
+  balcony: "/icons/options/balcony-options.svg",
+  pool: "/icons/options/pool-options.svg",
+  service_area: "/icons/options/service-area-options.svg",
+  service_room: "/icons/options/service-room-options.svg",
+};
+
+export const condominionIconsMap: Record<string, string> = {
+  academy: "/icons/options/academy-options.svg",
+  allow_animals: "/icons/options/allow-animals-options.svg",
+  close_condominion: "/icons/options/close_condominion-options.svg",
+  elevator: "/icons/options/elevator-options.svg",
+  gate_house: "/icons/options/gate-house-options.svg",
+};
+
 

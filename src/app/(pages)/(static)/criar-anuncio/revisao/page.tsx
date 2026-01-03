@@ -5,7 +5,7 @@ import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
 export default function RevisaoPage() {
   return (
     <div className="space-y-3">
-      <MultiStepIndicator totalSteps={6} currentStep={5} />
+      <MultiStepIndicator totalSteps={7} currentStep={6} />
       <SubmitPage submitAction={createAdversetimentAction} />
     </div>
   );

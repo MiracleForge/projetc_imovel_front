@@ -4,10 +4,14 @@ interface CheckmarkCategoryProps extends InputHTMLAttributes<HTMLInputElement> {
   categoryName: string;
   description?: string;
   isCheckedValue: boolean;
+  iconKey: string,
+  iconsMap?: Record<string, string>;
   type: "radio" | "checkbox";
 }
 
-export default function CheckMarkCategorys({ categoryName, description, isCheckedValue, id, value, type, ...props }: CheckmarkCategoryProps) {
+export default function CheckMarkCategorys({ categoryName, description, isCheckedValue, id, value, type, iconKey, iconsMap, ...props }: CheckmarkCategoryProps) {
+  const iconSrc = iconsMap ? iconsMap[iconKey] ?? iconsMap["default"] : ` /icons/${decodeURI(categoryName)}-categoria.svg`;
+
   return (
     <label className={` 
       flex items-center gap-4 w-full p-4 border border-foreground rounded-lg cursor-pointer transition-all duration-300
@@ -23,7 +27,8 @@ export default function CheckMarkCategorys({ categoryName, description, isChecke
       />
       <div className="flex items-center gap-3 peer-checked:text-secundary-blue">
         <img
-          src={`/icons/${decodeURI(categoryName)}-categoria.svg`}
+          src={iconSrc}
+
           alt={categoryName}
           className="w-8 h-8 object-contain"
         />

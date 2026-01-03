@@ -71,52 +71,6 @@ export function CategoryStep() {
             ))}
         </ul>
       </FormField>
-
-      <FormField label="Opções">
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 py-3 w-full">
-          {[
-            ["academy", "Academia"],
-            ["balcony", "Sacada"],
-            ["pool", "Piscina"],
-            ["service_area", "Área de Serviço"],
-            ["service_room", "Quarto de Serviço"],
-          ].map(([field, label]) => (
-            <CheckMarkCategorys
-              type="checkbox"
-              key={field}
-              id={`amenity-${field}`}
-              name={`options.amenities.${field}`}
-              categoryName={label}
-              value="true"
-              isCheckedValue={Boolean(formData.options.amenities?.[field as keyof typeof formData.options.amenities])}
-              onChange={handleInputChange}
-            />
-          ))}
-        </ul>
-      </FormField>
-
-      <FormField label="Condominio">
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 py-3 w-full">
-          {[
-            ["academy", "Academia"],
-            ["allow_animals", "Permite animais"],
-            ["close_condominion", "Condominio fechado"],
-            ["elevator", "Elevador"],
-            ["gate_house", "Portaria"],
-          ].map(([field, label]) => (
-            <CheckMarkCategorys
-              type="checkbox"
-              key={field}
-              id={`condominion-${field}`}
-              name={`options.condominion.${field}`}
-              categoryName={label}
-              value="true"
-              isCheckedValue={Boolean(formData.options.condominion?.[field as keyof typeof formData.options.condominion])}
-              onChange={handleInputChange}
-            />
-          ))}
-        </ul>
-      </FormField>
     </StepField>
   );
 }

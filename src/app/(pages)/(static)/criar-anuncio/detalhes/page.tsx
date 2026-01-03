@@ -5,11 +5,11 @@ import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
 export default function DetalhesPage() {
   return (
     <div className="space-y-3">
-      <MultiStepIndicator totalSteps={6} currentStep={3} />
+      <MultiStepIndicator totalSteps={7} currentStep={3} />
 
       <Form
         currentStep={3}
-        totalSteps={6}
+        totalSteps={7}
         nextRoute="/criar-anuncio/caracteristicas"
         prevRoute="/criar-anuncio/localizacao"
       >

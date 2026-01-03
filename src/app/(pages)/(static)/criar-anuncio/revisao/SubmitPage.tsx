@@ -30,7 +30,6 @@ export function SubmitPage({ submitAction }: SubmitPageProps) {
 
     const formDataToSend = new FormData();
 
-    // Add all form fields to FormData
     if (formData.category) {
       formDataToSend.append("category", formData.category);
     }
@@ -42,14 +41,12 @@ export function SubmitPage({ submitAction }: SubmitPageProps) {
     formDataToSend.append("phone", formData.phone || "");
     formDataToSend.append("whatsapp", formData.whatsapp || "");
 
-    // Add address fields
     if (formData.address) {
       Object.entries(formData.address).forEach(([key, value]) => {
         formDataToSend.append(`address.${key}`, value);
       });
     }
 
-    // Add property metrics
     if (formData.options?.propertyMetrics) {
       Object.entries(formData.options.propertyMetrics).forEach(
         ([key, value]) => {
@@ -61,26 +58,22 @@ export function SubmitPage({ submitAction }: SubmitPageProps) {
       );
     }
 
-    // Add amenities
     if (formData.options?.amenities) {
       Object.entries(formData.options.amenities).forEach(([key, value]) => {
         formDataToSend.append(`options.amenities.${key}`, value.toString());
       });
     }
 
-    // Add condominion options
     if (formData.options?.condominion) {
       Object.entries(formData.options.condominion).forEach(([key, value]) => {
         formDataToSend.append(`options.condominion.${key}`, value.toString());
       });
     }
 
-    // Add image files directly from store
     formData.imagesFiles.forEach((file) => {
       formDataToSend.append("imagesFiles", file);
     });
 
-    // Call the server action inside a transition
     startTransition(() => {
       formAction(formDataToSend);
     });
@@ -95,7 +88,6 @@ export function SubmitPage({ submitAction }: SubmitPageProps) {
   return (
     <StepField label="Revisão">
       <form onSubmit={handleSubmit}>
-        {/* Images via ReviewStep */}
         <ReviewStep />
 
         {state.error && (
@@ -109,7 +101,7 @@ export function SubmitPage({ submitAction }: SubmitPageProps) {
         <div className="flex justify-between items-center gap-4 pt-4">
           <button
             type="button"
-            onClick={() => router.push("/criar-anuncio/caracteristicas")}
+            onClick={() => router.push("/criar-anuncio/opcoes")}
             className="font-medium transition duration-300 inline-flex items-center justify-center text-xl px-6 py-2 bg-gray-200 text-gray-700 hover:bg-gray-300 hover:ring hover:ring-gray-400 cursor-pointer"
           >
             Voltar
