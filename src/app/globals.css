@@ -38,6 +38,10 @@
     left: 0;
   }
 
+  .formGridContainer {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 py-3 w-full;
+  }
+
   /* espaçamentos */
   .space-component-to-component {
     @apply my-8 lg:my-12;

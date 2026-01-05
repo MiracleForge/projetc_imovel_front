@@ -45,7 +45,6 @@ export const adversetimentSchema = z.object({
     city: z.string().min(1, "Digite a cidade."),
     neighbourhood: z.string().min(1, "Digite o bairro."),
     street: z.string().min(1, "Digite o bairro."),
-    number: z.string().min(1, "Digite o bairro."),
     cep: z.string().min(1)
   }),
 

@@ -1,13 +1,15 @@
 import { homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 
 type Props = {
   itemsArray: homeCardAdvertisement[];
   onFilter?: (items: homeCardAdvertisement[]) => void;
 };
 
+
 export default function CardCategoryFilter({ itemsArray, onFilter }: Props) {
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition();
 
   if (!itemsArray?.length) return null;
 
@@ -24,13 +26,16 @@ export default function CardCategoryFilter({ itemsArray, onFilter }: Props) {
 
   function handleFilter(category: string) {
     const isToggleOff = activeCategory === category;
-
     setActiveCategory(isToggleOff ? null : category);
-    onFilter?.(
-      isToggleOff
-        ? itemsArray
-        : itemsArray.filter(item => item.category === category)
-    );
+
+    startTransition(() => {
+      // marca a atualização como não urgente
+      onFilter?.(
+        isToggleOff
+          ? itemsArray
+          : itemsArray.filter(item => item.category === category)
+      );
+    });
   }
 
   return (
@@ -43,9 +48,14 @@ export default function CardCategoryFilter({ itemsArray, onFilter }: Props) {
           onClick={() => handleFilter(category)}
         />
       ))}
+
+      {isPending && (
+        <span className="ml-2 text-sm text-gray-500">Atualizando...</span>
+      )}
     </div>
   );
 }
+
 
 
 type ButtonProps = {

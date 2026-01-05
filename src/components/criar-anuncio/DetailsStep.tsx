@@ -1,16 +1,13 @@
 "use client";
 
-import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
 import StepField from "../wrappers/StepField.wrapper";
+import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
+import { useFormInput } from "@/src/hooks/forms/useFormInput.hook";
 
 export function DetailsStep() {
   const { formData, updateField } = useAdvertisementFormStore();
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    updateField(name, value);
-  };
+  const { handleInputChange } = useFormInput({ updateField })
 
   return (
     <StepField label="Detalhes da Transação">

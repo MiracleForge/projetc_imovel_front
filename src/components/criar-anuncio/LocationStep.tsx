@@ -1,64 +1,85 @@
 "use client";
 
-import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
+import AdressInput from "../ui/inputs/AddressInputs.ui";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
 import StepField from "../wrappers/StepField.wrapper";
-
-const ADDRESS_FIELDS = [
-  ["state", "Estado"],
-  ["city", "Cidade"],
-  ["neighbourhood", "Bairro"],
-  ["street", "Rua"],
-  ["number", "Número"],
-  ["cep", "CEP"],
-] as const;
+import { brazilStates } from "@/src/data/global.constants";
+import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
+import { InputSpinner } from "../ui/spinners/InputSpinners";
+import { DividerWithText, HelperText } from "../ui/separatores/FormSeparator.ui";
+import { useCepLookup } from "@/src/hooks/forms/useCepLookUp";
+import { useFormInput } from "@/src/hooks/forms/useFormInput.hook";
 
 export function LocationStep() {
   const { formData, updateField } = useAdvertisementFormStore();
+  const { handleInputChange } = useFormInput({ updateField })
+  const { isLoadingCep, handleCepBlur } = useCepLookup();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    updateField(name, value);
-  };
+  const stateOptions = brazilStates.map((state) => ({
+    value: state.code,
+    label: state.name
+  }));
+
 
   return (
-    <StepField label="Localização" >
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {ADDRESS_FIELDS.slice(0, 2).map(([field, label]) => (
-          <CommumInput
-            key={field}
-            topLabel={label}
-            type="text"
-            name={`address.${field}`}
-            value={formData.address?.[field]}
-            onChange={handleInputChange}
-          />
-        ))}
-      </div>
+    <StepField label="Localização">
+      <CommumInput
+        topLabel="CEP"
+        type="text"
+        name="address.cep"
+        value={formData.address?.cep || ""}
+        onChange={handleInputChange}
+        onBlur={handleCepBlur}
+        placeholder="00000-000"
+        maxLength={9}
+        disabled={isLoadingCep}
+      />
 
-      {ADDRESS_FIELDS.slice(2, 4).map(([field, label]) => (
-        <CommumInput
-          key={field}
-          topLabel={label}
-          type="text"
-          name={`address.${field}`}
-          value={formData.address?.[field]}
+      <HelperText text="💡 Digite o CEP para preencher automaticamente o endereço" />
+
+      {isLoadingCep && (<InputSpinner text="Buscando endereço..." />)}
+
+      <DividerWithText text="ou preencha manualmente" />
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <AdressInput
+          optionLabel="Selecione o estado"
+          topLabel="Estado"
+          name="address.state"
+          value={formData.address?.state || ""}
+          options={stateOptions}
           onChange={handleInputChange}
         />
-      ))}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {ADDRESS_FIELDS.slice(4).map(([field, label]) => (
-          <CommumInput
-            key={field}
-            topLabel={label}
-            type="text"
-            name={`address.${field}`}
-            value={formData.address?.[field]}
-            onChange={handleInputChange}
-          />
-        ))}
+        <CommumInput
+          topLabel="Cidade"
+          type="text"
+          name="address.city"
+          value={formData.address?.city || ""}
+          onChange={handleInputChange}
+          placeholder="Digite a cidade"
+          min={1}
+        />
       </div>
+
+      <CommumInput
+        topLabel="Bairro"
+        type="text"
+        name="address.neighbourhood"
+        value={formData.address?.neighbourhood || ""}
+        onChange={handleInputChange}
+        placeholder="Digite o bairro"
+      />
+
+      <CommumInput
+        topLabel="Rua/Logradouro"
+        type="text"
+        name="address.street"
+        value={formData.address?.street || ""}
+        onChange={handleInputChange}
+        placeholder="Digite o endereço"
+      />
     </StepField>
   );
 }
+

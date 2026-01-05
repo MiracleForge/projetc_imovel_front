@@ -1,26 +1,16 @@
 "use client";
 
-import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.ui";
-import { adversetimentCategoryDTO } from "@/src/contracts/DTOs/advertisement/advertisement.entity.dto";
 import FormField from "../wrappers/FormField.wrapper";
 import StepField from "../wrappers/StepField.wrapper";
 import { amenityIconsMap, condominionIconsMap } from "@/src/data/global.constants";
+import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
+import { useFormInput } from "@/src/hooks/forms/useFormInput.hook";
 
 export function OptionsStep() {
-  const { formData, updateField, setCategory } = useAdvertisementFormStore();
+  const { formData, updateField } = useAdvertisementFormStore();
+  const { handleInputChange } = useFormInput({ updateField });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, type, value, checked } = e.target;
-
-    const finalValue = type === "checkbox" ? checked : value;
-
-    if (name === "category") {
-      setCategory(value as adversetimentCategoryDTO);
-    } else {
-      updateField(name, finalValue);
-    }
-  };
 
   const amenityAriaLabels: Record<string, string> = {
     academy: "Incluir academia no imóvel",
@@ -41,7 +31,7 @@ export function OptionsStep() {
   return (
     <StepField label="Opções do Anúncio">
       <FormField label="Opções">
-        <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 py-3 w-full">
+        <ul className="formGridContainer">
           {[
             ["academy", "Academia"],
             ["balcony", "Sacada"],
@@ -73,7 +63,7 @@ export function OptionsStep() {
 
       {formData.category === "condomínios" &&
         <FormField label="Condomínio">
-          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4 py-3 w-full">
+          <ul className="formGridContainer">
             {[
               ["academy", "Academia"],
               ["allow_animals", "Permite animais"],

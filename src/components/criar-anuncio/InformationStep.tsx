@@ -1,21 +1,16 @@
 "use client";
 
-import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
 import FormField from "../wrappers/FormField.wrapper";
 import StepField from "../wrappers/StepField.wrapper";
+import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
+import { useFormInput } from "@/src/hooks/forms/useFormInput.hook";
 
 const SELECT_BASE = "border p-3 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-600 outline-none bg-gray-50 hover:bg-gray-100 duration-150";
 
 export function InformationStep() {
   const { formData, updateField } = useAdvertisementFormStore();
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    updateField(name, value);
-  };
+  const { handleInputChange } = useFormInput({ updateField })
 
   return (
     <StepField label="Informações Básicas">
