@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import { useTransition } from "react";
 import LoadingSpinner from "../ui/spinners/LoadingSpinner.ui";
+import StepButton from "../ui/buttons/StepButton.button";
 
 interface FormProps {
   children: React.ReactNode;
@@ -64,30 +65,21 @@ export function Form({
       {children}
 
       <div className="flex justify-between gap-4 pt-4">
-        <button
-          type="button"
+        <StepButton
           onClick={handlePrev}
           disabled={isFirstStep || isPending}
-          className={`h-12 font-medium transition duration-300 inline-flex items-center justify-center text-xl px-6 py-2 ${isFirstStep || isPending
-            ? "bg-gray-200 text-gray-400 cursor-not-allowed pointer-events-none opacity-50"
-            : "bg-gray-200 text-gray-700 hover:bg-gray-300 hover:ring hover:ring-gray-400 cursor-pointer"
-            }`}
         >
           Voltar
-        </button>
+        </StepButton>
 
         {!isLastStep && (
-          <button
-            type="button"
+          <StepButton
             onClick={handleNext}
-            disabled={isPending}
-            className={`h-12 font-medium transition duration-300 inline-flex items-center justify-center text-xl px-6 py-2 ${isPending
-              ? "bg-gray-400 text-white cursor-not-allowed"
-              : "bg-black text-white hover:bg-black hover:ring hover:ring-white cursor-pointer"
-              }`}
+            variant="primary"
+            loading={isPending}
           >
-            {isPending ? "Carregando..." : "Próximo"}
-          </button>
+            Próximo
+          </StepButton>
         )}
       </div>
     </div>

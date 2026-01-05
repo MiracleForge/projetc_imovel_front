@@ -1,4 +1,4 @@
-import SubmitButton from "../buttons/Submit.button";
+import SubmitButton from "../buttons/StepButton.button";
 
 interface StepNavigationProps {
   step: number;

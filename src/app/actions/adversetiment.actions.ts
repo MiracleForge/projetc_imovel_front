@@ -48,10 +48,15 @@ export async function createAdversetimentAction(
   const payloadValidated = adversetimentCreateSchema.safeParse(nestedData);
 
   if (!payloadValidated.success) {
-    console.log("❌ ZOD VALIDATION FAILED");
-    console.log(payloadValidated.error);
-    return payloadValidated.error;
+    return {
+      error: "error",
+      message: payloadValidated.error.issues
+        .map(issue => `${issue.path.join(".")}: ${issue.message}`)
+        .join("\n"),
+      data: undefined,
+    };
   }
+
 
   console.log("✅ ZOD VALIDATION SUCCESS");
   console.log("Images received:", payloadValidated.data.imagesFiles);

@@ -6,7 +6,7 @@ import Link from "next/link";
 import { loginAction } from "@/src/app/actions/login.actions";
 import { SocialAuthButton } from "@/src/components/ui/buttons/SocialAuth.button";
 import { initialState } from "@/src/contracts/types/responses.core";
-import SubmitButton from "@/src/components/ui/buttons/Submit.button";
+import SubmitButton from "@/src/components/ui/buttons/StepButton.button";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
 import { redirect } from "next/navigation";
 const TurnstileWidget = dynamic(
