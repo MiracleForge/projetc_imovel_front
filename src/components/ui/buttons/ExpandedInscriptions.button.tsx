@@ -5,8 +5,8 @@ import Link from "next/link";
 import UserAvatar from "../avatars/UserAvatar.ui";
 import { Activity, useState } from "react";
 import CommumButton from "./CommumButton.ui";
-import { subscriptionGetById } from "@/src/app/actions/subscriptions.actions";
 import { subscriptionsDTO } from "@/src/contracts/DTOs/user/views/subscriptions.dto";
+import { getUserSubscriptions } from "@/src/data/dal/subscription";
 
 export default function ExpandedInscriptionButton() {
   const [isExpanded, setExpanded] = useState(false);
@@ -21,7 +21,7 @@ export default function ExpandedInscriptionButton() {
     if (nextExpanded && !userSubscriptions) {
       setLoading(true);
 
-      const result = await subscriptionGetById();
+      const result = await getUserSubscriptions();
       setUserInscriptions(result);
 
       setLoading(false);

@@ -9,9 +9,8 @@ export function useCepLookup() {
   const [isLoadingCep, setIsLoadingCep] = useState(false);
   const [lastCep, setLastCep] = useState("");
 
-  // ✅ Função compatível com onBlur do React
   const handleCepBlur = async (e: FocusEvent<HTMLInputElement>) => {
-    const rawCep = e.target.value.replace(/\D/g, ""); // pega o valor do input
+    const rawCep = e.target.value.replace(/\D/g, "");
     if (!rawCep || rawCep === lastCep) return;
 
     const cepValidation = cepServerSchema.safeParse(rawCep);
@@ -50,4 +49,3 @@ export function useCepLookup() {
 
   return { isLoadingCep, handleCepBlur };
 }
-

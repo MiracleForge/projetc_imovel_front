@@ -21,6 +21,7 @@ const getDefaultFormData = (): adversetimentCreateDTO => ({
   title: "",
   subTitle: "",
   description: "",
+  promotion: false,
   price: 0,
   transactionMode: "",
   phone: "",
@@ -55,7 +56,6 @@ const getDefaultFormData = (): adversetimentCreateDTO => ({
     city: "",
     neighbourhood: "",
     street: "",
-    number: "",
     cep: "",
   },
 });

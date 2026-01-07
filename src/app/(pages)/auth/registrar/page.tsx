@@ -9,11 +9,11 @@ import { initialState } from "@/src/contracts/types/responses.core";
 import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
 import { registerAction } from "@/src/app/actions/register.actions";
 import { StepNavigation } from "@/src/components/ui/steps/MultiStepController.ui";
-
 import dynamic from "next/dynamic";
+import { config } from "@/src/data/config";
 const TurnstileWidget = dynamic(
-  () => import('@/src/components/layouts/captchas/TurnstileWidget.layout'),
-  { ssr: false }
+  () => import("@/src/components/layouts/captchas/TurnstileWidget.layout"),
+  { ssr: false },
 );
 
 export default function Page() {
@@ -23,11 +23,11 @@ export default function Page() {
   const totalSteps = useMemo(() => registerSteps.length, []);
 
   const nextStep = useCallback(() => {
-    setStep(prev => (prev < registerSteps.length - 1 ? prev + 1 : prev));
+    setStep((prev) => (prev < registerSteps.length - 1 ? prev + 1 : prev));
   }, []);
 
   const prevStep = useCallback(() => {
-    setStep(prev => (prev > 0 ? prev - 1 : prev));
+    setStep((prev) => (prev > 0 ? prev - 1 : prev));
   }, []);
 
   return (
@@ -35,11 +35,13 @@ export default function Page() {
       <MultiStepIndicator totalSteps={totalSteps} currentStep={step} />
 
       <form action={formAction} className="gap-px">
-
         {registerSteps.map((stepData, index) => (
-          <div key={index} style={{ display: step === index ? 'block' : 'none' }}>
+          <div
+            key={index}
+            style={{ display: step === index ? "block" : "none" }}
+          >
             <h2 className="text-lg font-semibold">{stepData.title}</h2>
-            {stepData.fields.map(field => (
+            {stepData.fields.map((field) => (
               <CommumInput key={field.name} {...field} />
             ))}
           </div>
@@ -49,13 +51,15 @@ export default function Page() {
           <div className="pt-3 -translate-x-1.5">
             <TurnstileWidget
               key="register-captcha"
-              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+              siteKey={config.turnstile.siteKey}
             />
           </div>
         )}
 
         {state.message && (
-          <p className={`${state.error && "text-red-500"} text-sm pt-0.5`}>{state.message}</p>
+          <p className={`${state.error && "text-red-500"} text-sm pt-0.5`}>
+            {state.message}
+          </p>
         )}
 
         <StepNavigation
@@ -75,5 +79,3 @@ export default function Page() {
     </div>
   );
 }
-
-

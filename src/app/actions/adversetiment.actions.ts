@@ -9,11 +9,23 @@ import { createPrivateFecher } from "@/src/utils/fetcher.private";
 import { formDataToObject } from "@/src/utils/zod/converts";
 import { unflatten } from "@/src/utils/zod/validateFormData";
 import { redirect } from "next/navigation";
+import { verifyAuthentication } from "@/src/data/dal/auth";
 
 export async function createAdversetimentAction(
   _prevState: actionResponse,
   formData: FormData,
 ): Promise<actionResponse<undefined>> {
+  // Verify authentication following DAL pattern
+  try {
+    await verifyAuthentication();
+  } catch (error) {
+    return {
+      error: "UNAUTHORIZED",
+      message: error instanceof Error ? error.message : "Não autenticado",
+      data: undefined,
+    };
+  }
+
   console.log("═══════════════════════");
   console.log("📥 RECEIVED FORM DATA");
   console.log("═══════════════════════");
@@ -51,12 +63,11 @@ export async function createAdversetimentAction(
     return {
       error: "error",
       message: payloadValidated.error.issues
-        .map(issue => `${issue.path.join(".")}: ${issue.message}`)
+        .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
         .join("\n"),
       data: undefined,
     };
   }
-
 
   console.log("✅ ZOD VALIDATION SUCCESS");
   console.log("Images received:", payloadValidated.data.imagesFiles);

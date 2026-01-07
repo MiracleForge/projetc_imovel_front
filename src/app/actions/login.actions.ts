@@ -8,13 +8,20 @@ import { getTurnstileToken } from "@/src/utils/turnstile/turnstile.utils";
 import { validateTurnstileToken } from "@/src/utils/turnstile/validateTurnslideToken";
 import { validateFormData } from "@/src/utils/zod/validateFormData";
 
-export async function loginAction(_prevState: any, formData: FormData): Promise<actionResponse<string>> {
+export async function loginAction(
+  _prevState: unknown,
+  formData: FormData,
+): Promise<actionResponse<string>> {
   const token = getTurnstileToken(formData);
   if (!token) return MissingTurnstileToken();
 
   const payloadValided = await validateFormData(formData, loginSchema);
   if (!payloadValided.success) {
-    return payloadValided.error;
+    return {
+      error: payloadValided.error.error,
+      message: payloadValided.error.message,
+      data: undefined,
+    };
   }
 
   await validateTurnstileToken(token);
@@ -32,11 +39,11 @@ export async function loginAction(_prevState: any, formData: FormData): Promise<
       data: "/",
       error: undefined,
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return {
-      message: error.message || "Erro ao fazer login",
+      message: error instanceof Error ? error.message : "Erro ao fazer login",
       error: "LOGIN_EXCEPTION",
+      data: undefined,
     };
   }
 }
-

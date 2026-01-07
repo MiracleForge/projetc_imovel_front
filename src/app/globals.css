@@ -55,6 +55,8 @@
     @apply leading-6 text-xl lg:text-2xl font-bold text-black;
   }
 
+
+
  .wrapper-cards-container { @apply mt-16 space-y-3; }
   .wrapper-cards-header { @apply flex justify-between; }
   .wrapper-cards-title { @apply text-gray-600 font-medium; }

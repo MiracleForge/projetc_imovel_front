@@ -1,5 +1,3 @@
-"use server";
-
 import { NextResponse } from "next/server";
 import { homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 
@@ -33,7 +31,8 @@ export async function GET() {
           },
         },
         createdAt: new Date(),
-      }, {
+      },
+      {
         id: "23",
         slugUrl: "/apartamentos/1",
         category: "condomínios",
@@ -60,7 +59,8 @@ export async function GET() {
           },
         },
         createdAt: new Date(),
-      }, {
+      },
+      {
         id: "23",
         slugUrl: "/apartamentos/1",
         category: "condomínios",
@@ -187,19 +187,20 @@ export async function GET() {
       },
     ];
 
-
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     return NextResponse.json({
       message: "Subscriptions fetched successfully",
       error: null,
       data: cards,
     });
   } catch (err) {
-    return NextResponse.json({
-      message: "Failed to fetch subscriptions",
-      error: err instanceof Error ? err.message : "Unknown error",
-      data: null,
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        message: "Failed to fetch subscriptions",
+        error: err instanceof Error ? err.message : "Unknown error",
+        data: null,
+      },
+      { status: 500 },
+    );
   }
 }
-

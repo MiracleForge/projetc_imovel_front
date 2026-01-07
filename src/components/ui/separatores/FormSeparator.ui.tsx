@@ -16,11 +16,12 @@ function DividerWithText({ text }: DividerWithTextProps) {
 }
 
 interface HelperTextProps {
-  text: string;
+  text?: string;
+  children?: React.ReactNode
 }
 
-function HelperText({ text }: HelperTextProps) {
-  return <p className="text-xs text-gray-500 mt-1">{text}</p>;
+function HelperText({ text, children }: HelperTextProps) {
+  return <p className="text-xs text-gray-500 mt-1">{text}{children}</p>;
 }
 
 

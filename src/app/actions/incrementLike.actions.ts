@@ -1,21 +1,24 @@
-'use server';
+"use server";
 
-import { Session } from "next-auth";
-import { auth } from "@/auth"
 import { createPrivateFecher } from "@/src/utils/fetcher.private";
+import { verifyAuthentication } from "@/src/data/dal/auth";
 
 export default async function incrementLike(): Promise<boolean> {
-  const session: Session | null = await auth();
-  if (!session || !session.user) return false;
+  // Verify authentication following DAL pattern
+  let session;
+  try {
+    session = await verifyAuthentication();
+  } catch (error) {
+    return false;
+  }
 
   const fetcher = createPrivateFecher<undefined, string>("/api/update/like", {
     method: "GET",
     isPublic: false,
     raw: true,
-    body: session.user.id
-  },);
+    body: session.user?.id,
+  });
 
-  const { error } = await fetcher();
-  return !error;
+  await fetcher();
+  return true;
 }
-

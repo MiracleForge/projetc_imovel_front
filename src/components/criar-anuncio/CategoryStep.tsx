@@ -3,24 +3,15 @@
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.ui";
 import { adversetimentCategoriesData, transactionMode } from "@/src/data/global.constants";
-import { adversetimentCategoryDTO } from "@/src/contracts/DTOs/advertisement/advertisement.entity.dto";
 import FormField from "../wrappers/FormField.wrapper";
 import StepField from "../wrappers/StepField.wrapper";
 import { useFormInput } from "@/src/hooks/forms/useFormInput.hook";
 
 export function CategoryStep() {
-  const { formData, updateField, setCategory } = useAdvertisementFormStore();
+  const { formData, updateField } = useAdvertisementFormStore();
 
   const { handleInputChange } = useFormInput({
     updateField,
-    customRules: (name, value) => {
-      if (name === "category") {
-        setCategory(value as adversetimentCategoryDTO);
-        return true;
-      }
-      return false;
-    }
-
   });
 
 

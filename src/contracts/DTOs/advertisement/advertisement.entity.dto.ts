@@ -17,6 +17,7 @@ export const adversetimentSchema = z.object({
   advertiser_type: AdvertiseTypeSchema,
 
   category: adversetizeCategorySchema.nullable(),
+  promotion: z.enum(["free", "highlighted", "studio"]),
 
   title: z
     .string()

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import dynamic from "next/dynamic";
 import { useActionState, useEffect } from "react";
@@ -9,9 +9,10 @@ import { initialState } from "@/src/contracts/types/responses.core";
 import SubmitButton from "@/src/components/ui/buttons/StepButton.button";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
 import { redirect } from "next/navigation";
+import { config } from "@/src/data/config";
 const TurnstileWidget = dynamic(
-  () => import('@/src/components/layouts/captchas/TurnstileWidget.layout'),
-  { ssr: false }
+  () => import("@/src/components/layouts/captchas/TurnstileWidget.layout"),
+  { ssr: false },
 );
 
 export default function Page() {
@@ -22,12 +23,10 @@ export default function Page() {
       // TODO: CORRIGIR ISSO NO FUTURO, PASSAR A CALLBACK URL AO INVES DE UM VALOR FIXO
       redirect("/");
     }
-
   }, [state.data]);
 
   return (
     <div className="pb-6">
-
       <form action={formAction} className="gap-px">
         <CommumInput
           topLabel="Email"
@@ -46,9 +45,9 @@ export default function Page() {
           required
         />
 
-        {state?.error &&
+        {state?.error && (
           <p className="text-red-500 text-sm pt-0.5">{state.message}</p>
-        }
+        )}
 
         <div className="mt-5 flex items-center justify-between">
           <label className="flex items-center gap-2 cursor-pointer">
@@ -60,23 +59,27 @@ export default function Page() {
             <span className="text-sm font-normal">Continuar conectado</span>
           </label>
 
-          <Link className="text-[10px] font-extralight link-default" href="/forgot-password">
+          <Link
+            className="text-[10px] font-extralight link-default"
+            href="/forgot-password"
+          >
             Esqueceu sua senha?
           </Link>
         </div>
 
         <div className="pt-3 -translate-x-1.5">
-          <TurnstileWidget key={"login-captcha"} siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!} />
+          <TurnstileWidget
+            key={"login-captcha"}
+            siteKey={config.turnstile.siteKey}
+          />
         </div>
 
-        <SubmitButton text="Entrar" type="submit" />
-
+        <SubmitButton type="submit">Entrar</SubmitButton>
       </form>
 
       <p className="text-sm font-medium text-[#0061A7] py-2">ou</p>
 
       <SocialAuthButton />
-
     </div>
   );
 }

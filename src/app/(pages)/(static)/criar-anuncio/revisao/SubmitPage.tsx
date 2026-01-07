@@ -1,15 +1,24 @@
 "use client";
 
-import { useActionState, useTransition } from "react";
+import dynamic from "next/dynamic";
+import { useActionState, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { ReviewStep } from "@/src/components/criar-anuncio/ReviewStep";
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import { actionResponse, initialState } from "@/src/contracts/types/responses.core";
-import SubmitButton from "@/src/components/ui/buttons/StepButton.button";
 import StepField from "@/src/components/wrappers/StepField.wrapper";
 import { useEffect } from "react";
 import { serializeAdvertisement } from "@/src/utils/serialization/serializeAdvertisement.utils";
 import StepButton from "@/src/components/ui/buttons/StepButton.button";
+
+
+const PricingStepModal = dynamic(
+  () => import("@/src/components/layouts/Modals/PricingStep.modal"),
+  {
+    ssr: false,
+  }
+);
+
 
 interface SubmitPageProps {
   submitAction: (
@@ -21,7 +30,7 @@ interface SubmitPageProps {
 export function SubmitPage({ submitAction }: SubmitPageProps) {
   const router = useRouter();
   const { formData, resetForm } = useAdvertisementFormStore();
-
+  const [openModal, setOpenModal] = useState(false);
   const [state, formAction] = useActionState(submitAction, initialState);
   const [, startTransition] = useTransition();
 
@@ -31,9 +40,9 @@ export function SubmitPage({ submitAction }: SubmitPageProps) {
     }
   }, [state.data, state.error, resetForm]);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
 
+
+  const handleSubmit = () => {
     const fd = serializeAdvertisement(formData);
 
     startTransition(() => {
@@ -43,7 +52,15 @@ export function SubmitPage({ submitAction }: SubmitPageProps) {
 
   return (
     <StepField label="Revisão">
-      <form onSubmit={handleSubmit}>
+
+      <form onSubmit={(e) => { e.preventDefault(); setOpenModal(true) }}>
+
+        <PricingStepModal
+          open={openModal}
+          onClose={() => setOpenModal(false)}
+          onSubmit={handleSubmit}
+        />
+
         <ReviewStep />
 
         {state.error && (

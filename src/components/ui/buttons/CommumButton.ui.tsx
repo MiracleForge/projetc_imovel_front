@@ -28,7 +28,7 @@ const buttonVariants = cva(
         uppercase
         tracking-wide
 
-        bg-gradient-to-r from-blue-600 via-blue-500 to-blue-600
+        bg-gradient-to-r from-secundary-blue via-terciary-blue to-secundary-blue
         border border-blue-700
 
         shadow-[0_4px_0_rgb(30,58,138)]

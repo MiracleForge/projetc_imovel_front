@@ -6,6 +6,7 @@ export default function RevisaoPage() {
   return (
     <div className="space-y-3">
       <MultiStepIndicator totalSteps={7} currentStep={6} />
+
       <SubmitPage submitAction={createAdversetimentAction} />
     </div>
   );

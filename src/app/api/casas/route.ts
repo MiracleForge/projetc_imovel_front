@@ -1,10 +1,7 @@
-"use server";
-
 import { homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-
   try {
     const casas: homeCardAdvertisement[] = [
       {
@@ -71,11 +68,13 @@ export async function GET() {
       data: casas,
     });
   } catch (err) {
-    return NextResponse.json({
-      message: "Failed to fetch subscriptions",
-      error: err instanceof Error ? err.message : "Unknown error",
-      data: null,
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        message: "Failed to fetch subscriptions",
+        error: err instanceof Error ? err.message : "Unknown error",
+        data: null,
+      },
+      { status: 500 },
+    );
   }
 }
-

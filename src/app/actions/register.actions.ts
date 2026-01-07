@@ -9,20 +9,31 @@ import { registerPayloadSchema } from "@/src/contracts/schemas/authentication/pa
 import { validateFormData } from "@/src/utils/zod/validateFormData";
 import { validateTurnstileToken } from "@/src/utils/turnstile/validateTurnslideToken";
 
-export async function registerAction(_prevState: any, formData: FormData): Promise<actionResponse<undefined>> {
-
+export async function registerAction(
+  _prevState: unknown,
+  formData: FormData,
+): Promise<actionResponse<undefined>> {
   const token = getTurnstileToken(formData);
   if (!token) return MissingTurnstileToken();
 
-  const payloadValided = await validateFormData(formData, registerPayloadSchema);
+  const payloadValided = await validateFormData(
+    formData,
+    registerPayloadSchema,
+  );
   if (!payloadValided.success) {
-    return payloadValided.error;
+    return {
+      error: payloadValided.error.error,
+      message: payloadValided.error.message,
+      data: undefined,
+    };
   }
 
   await validateTurnstileToken(token);
 
   const path = "/auth/routes/access/register";
-  const fetchRegister = createPublicFetcher<registerPayload, undefined>(path, { method: "POST" });
+  const fetchRegister = createPublicFetcher<registerPayload, undefined>(path, {
+    method: "POST",
+  });
 
   return await fetchRegister(payloadValided.data);
 }

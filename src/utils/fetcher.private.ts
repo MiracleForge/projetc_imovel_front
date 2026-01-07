@@ -1,31 +1,37 @@
-"server-only"
+"server-only";
 
 import "server-only";
-import { auth } from "@/auth";
 import { actionResponse } from "../contracts/types/responses.core";
+import { config } from "../data/config";
 
-type FetcherOptions<Payload = any> = {
+type FetcherOptions<Payload = unknown> = {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   headers?: Record<string, string>;
-  next?: { revalidate: 0 },
+  next?: { revalidate: 0 };
   authToken?: string | null;
   isPublic?: boolean;
   raw?: boolean;
-  credentials?: RequestCredentials
+  credentials?: RequestCredentials;
   body?: Payload;
 };
 
 export function createPrivateFecher<Payload = unknown, Data = unknown>(
   path: string,
-  defaultOptions?: FetcherOptions
+  defaultOptions?: FetcherOptions,
 ): {
-  (payload?: Payload, options?: FetcherOptions & { raw?: false }): Promise<actionResponse<Data>>;
+  (
+    payload?: Payload,
+    options?: FetcherOptions & { raw?: false },
+  ): Promise<actionResponse<Data>>;
   (payload?: Payload, options?: FetcherOptions & { raw: true }): Promise<Data>;
-  (payload?: Payload, options?: FetcherOptions): Promise<actionResponse<Data> | Data>;
+  (
+    payload?: Payload,
+    options?: FetcherOptions,
+  ): Promise<actionResponse<Data> | Data>;
 };
 export function createPrivateFecher<Payload, Data>(
   path: string,
-  defaultOptions?: FetcherOptions
+  defaultOptions?: FetcherOptions,
 ) {
   return async (payload?: Payload, options?: FetcherOptions) => {
     const finalOptions = { ...defaultOptions, ...options };
@@ -44,21 +50,22 @@ export function createPrivateFecher<Payload, Data>(
 
     const isFullURL = path.startsWith("http://") || path.startsWith("https://");
 
-    const baseUrl =
-      process.env.NODE_ENV === "development"
-        ? process.env.NEXT_PUBLIC_API_DEV
-        : process.env.NEXT_PUBLIC_API_PROD;
+    const baseUrl = config.getApiUrl();
 
     const url = isFullURL ? path : `${baseUrl}${path}`;
 
-    let body: any = undefined;
+    let body: string | undefined = undefined;
 
     if (
       ["POST", "PUT", "PATCH"].includes(finalOptions.method ?? "POST") &&
       payload
     ) {
-      if (finalHeaders["Content-Type"] === "application/x-www-form-urlencoded") {
-        body = new URLSearchParams(payload as Record<string, string>).toString();
+      if (
+        finalHeaders["Content-Type"] === "application/x-www-form-urlencoded"
+      ) {
+        body = new URLSearchParams(
+          payload as Record<string, string>,
+        ).toString();
       } else {
         body = JSON.stringify(payload);
       }
@@ -68,12 +75,11 @@ export function createPrivateFecher<Payload, Data>(
       const response = await fetch(url, {
         method: finalOptions.method ?? "POST",
         headers: finalHeaders,
-        body: finalOptions.body,
+        body: (finalOptions.body as BodyInit) ?? (body as BodyInit),
         credentials: finalOptions.credentials,
         next: finalOptions.next,
-        cache: "no-cache"
+        cache: "no-cache",
       });
-      console.log("fech")
       const json = await response.json();
 
       if (finalOptions.raw) {
@@ -94,7 +100,7 @@ export function createPrivateFecher<Payload, Data>(
         message: json.message,
         data: json.data ?? undefined,
       } as actionResponse<Data>;
-    } catch (error) {
+    } catch (_error) {
       return {
         error: "INTERNAL_SERVER_ERROR",
         message: "Erro interno do servidor",
@@ -104,14 +110,12 @@ export function createPrivateFecher<Payload, Data>(
   };
 }
 
-
 const callAuthorization = async (): Promise<string> => {
-  return "sk_19898bbec5782b5ddf6302d6a7515b55c2bdb0e49f2dfbd5"
-}
-async function getAuthenticatedUserBearer(): Promise<string | undefined> {
-  const session = await auth();
-
-  //TODO: ADD BAREAR TO THE SESSION AND GET HERE INSTAD OF ID
-  return session?.user?.id ?? undefined;
-}
-
+  const apiKey = process.env.API_SECRET_KEY;
+  if (!apiKey) {
+    throw new Error(
+      "API_SECRET_KEY não está configurada nas variáveis de ambiente",
+    );
+  }
+  return apiKey;
+};
