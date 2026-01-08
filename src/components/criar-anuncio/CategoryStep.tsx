@@ -34,6 +34,7 @@ export function CategoryStep() {
               value={cat}
               isCheckedValue={cat === formData.category}
               onChange={handleInputChange}
+              required
             />
           ))}
         </ul>
@@ -62,6 +63,7 @@ export function CategoryStep() {
                 value={mode}
                 isCheckedValue={mode === formData.transactionMode}
                 onChange={handleInputChange}
+                required
               />
             ))}
         </ul>

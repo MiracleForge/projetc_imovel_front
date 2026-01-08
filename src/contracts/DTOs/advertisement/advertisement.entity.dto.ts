@@ -7,8 +7,8 @@ export type adversetimentCategoryDTO = z.infer<typeof adversetizeCategorySchema>
 export type adversetimentPlanDTO = z.infer<typeof AdvertiseTypeSchema>;
 
 export const AdvertiseTypeSchema = z.enum(["free", "paid", "studio"]);
-export const adversetizeCategorySchema = z.enum(adversetimentCategoriesData);
-export const TransactionModeSchema = z.enum(transactionMode);
+export const adversetizeCategorySchema = z.enum(adversetimentCategoriesData, "Você deve selecionar uma categoria para o anúncio");
+export const TransactionModeSchema = z.enum(transactionMode, "Você deve escolher o modelo de transação.");
 
 // ENTITY
 export const adversetimentSchema = z.object({
@@ -16,7 +16,8 @@ export const adversetimentSchema = z.object({
   advertiser_id: z.uuidv7(),
   advertiser_type: AdvertiseTypeSchema,
 
-  category: adversetizeCategorySchema.nullable(),
+  category: adversetizeCategorySchema,
+  transactionMode: TransactionModeSchema,
   promotion: z.enum(["free", "highlighted", "studio"]),
 
   title: z
@@ -49,7 +50,6 @@ export const adversetimentSchema = z.object({
     cep: z.string().min(1)
   }),
 
-  transactionMode: TransactionModeSchema,
 
   options: z.object({
     propertyMetrics: z.object({

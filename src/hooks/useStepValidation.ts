@@ -18,7 +18,6 @@ export function useStepValidation() {
         return true;
       }
 
-      // result.success === false, então result.error existe
       if (!result.error) {
         console.error("No error object in failed validation");
         setErrors([
@@ -31,7 +30,6 @@ export function useStepValidation() {
         return false;
       }
 
-      // ZodError tem a propriedade issues (não errors)
       const zodError = result.error as z.ZodError;
 
       if (!zodError.issues || !Array.isArray(zodError.issues)) {

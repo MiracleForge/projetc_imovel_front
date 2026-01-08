@@ -4,19 +4,14 @@ import {
   TransactionModeSchema,
 } from "./advertisement.entity.dto";
 import { processToNumber } from "../cores/validations/validations.cores.schemas";
+import { adversetimentCreateSchema } from "./advertisement.create.dto";
 
-// Step 0: Categoria
-export const categoryStepSchema = z
-  .object({
-    category: adversetizeCategorySchema
-      .nullable()
-      .refine((val) => val !== null, {
-        message: "Selecione uma categoria para continuar.",
-      }),
-  })
-  .passthrough();
+export const categoryStepSchema = adversetimentCreateSchema.pick({
+  category: true,
+  transactionMode: true,
+})
 
-// Step 1: Informações Básicas
+
 export const informationStepSchema = z
   .object({
     title: z
