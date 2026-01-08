@@ -12,7 +12,6 @@ interface SummaryData {
   price: string;
 }
 
-
 export function ReviewStep() {
   const { formData, updateField } = useAdvertisementFormStore();
 
@@ -44,19 +43,13 @@ export function ReviewStep() {
   );
 }
 
-
-
 const SummaryCard = ({ summary }: { summary: SummaryData }) => (
   <section aria-labelledby="summary-title">
     <h3
       id="summary-title"
       className="text-lg font-semibold text-gray-800 flex items-center gap-2 mb-4"
     >
-      <img
-        src="/logos/imobly-logo.svg"
-        className="w-5 h-5"
-        alt="Imobly"
-      />
+      <img src="/logos/imobly-logo.svg" className="w-5 h-5" alt="Imobly" />
       Resumo do Imóvel
     </h3>
 
@@ -74,18 +67,10 @@ const SummaryCard = ({ summary }: { summary: SummaryData }) => (
   </section>
 );
 
-
-const SummaryItem = ({
-  label,
-  value,
-}: {
-  label: string;
-  value: string;
-}) => (
+const SummaryItem = ({ label, value }: { label: string; value: string }) => (
   <div className="space-y-0.5">
     <p className="text-xs text-gray-500">{label}</p>
     <p className="font-medium">{value || "Não informado"}</p>
   </div>
 );
-
 
