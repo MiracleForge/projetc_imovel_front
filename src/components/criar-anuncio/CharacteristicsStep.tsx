@@ -36,7 +36,7 @@ export function CharacteristicsStep() {
                 label={label}
                 iconKey={key}
                 iconsMap={metricsIconsMap}
-                required
+                required={key === "area"}
                 min={0}
                 inputMode="numeric"
                 name={`options.propertyMetrics.${key}`}

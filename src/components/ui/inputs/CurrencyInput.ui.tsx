@@ -19,7 +19,7 @@ export default function CustomCurrencyInput({ topLabel, ...props }: CustomCurren
       <div className={`flex justify-between `}>
         <label aria-label={topLabel}
           className="text-sm text-muted-foreground group-focus-within:text-secundary-blue font-bold">
-          {topLabel}
+          {topLabel} {props.required && <span className="text-red-500">*</span >}
         </label>
       </div>
       <div className="relative flex items-center justify-between">

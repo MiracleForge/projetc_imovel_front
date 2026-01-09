@@ -64,7 +64,8 @@ export function InputNumeric({
         />
 
         <span className="text-sm font-medium capitalize">
-          {label}
+          {label} {rest.required && <span className="text-red-500">*</span >}
+
         </span>
       </div>
 

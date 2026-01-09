@@ -5,6 +5,7 @@ import StepField from "../wrappers/StepField.wrapper";
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import usePhoneFormatter from "@/src/hooks/formatter/usePhoneFormatter.hook";
 import CustomCurrencyInput from "../ui/inputs/CurrencyInput.ui";
+
 export function DetailsStep() {
   const { formData, updateField } = useAdvertisementFormStore();
   const formattPhone = usePhoneFormatter();
@@ -26,7 +27,7 @@ export function DetailsStep() {
         topLabel="Telefone de Contato"
         type="tel"
         name="phone"
-        placeholder="(11) 98765-4321"
+        placeholder="(xx) xxxxx-xxxx"
         value={formData.phone}
         inputMode="numeric"
         required
@@ -37,10 +38,9 @@ export function DetailsStep() {
         topLabel="WhatsApp"
         type="tel"
         name="whatsapp"
-        placeholder="(11) 98765-4321"
+        placeholder="(xx) xxxxx-xxxx"
         inputMode="numeric"
         value={formData.whatsapp}
-        required
         onChange={(e) => updateField("whatsapp", formattPhone(e.target.value))}
       />
     </StepField>

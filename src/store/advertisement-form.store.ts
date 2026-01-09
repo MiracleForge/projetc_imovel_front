@@ -11,7 +11,7 @@ interface AdvertisementFormState {
   setCurrentStep: (step: number) => void;
   resetForm: () => void;
   updateField: (field: string, value: unknown) => void;
-  setCategory: (category: adversetimentCategoryDTO | null) => void;
+  setCategory: (category: adversetimentCategoryDTO) => void;
 }
 
 const EXPIRATION_TIME = 24 * 60 * 60 * 1000;
@@ -22,7 +22,7 @@ const getDefaultFormData = (): adversetimentCreateDTO => ({
   title: "",
   subTitle: "",
   description: "",
-  price: 0.00,
+  price: 0,
   transactionMode: "",
   phone: "",
   whatsapp: "",
@@ -33,22 +33,6 @@ const getDefaultFormData = (): adversetimentCreateDTO => ({
       rooms: 0,
       bathrooms: 0,
       garage: 0,
-    },
-    amenities: {
-      academy: false,
-      balcony: false,
-      pool: false,
-      service_area: false,
-      service_room: false,
-    },
-    condominion: {
-      academy: false,
-      allow_animals: false,
-      close_condominion: false,
-      elevator: false,
-      gate_house: false,
-      party_saloon: false,
-      security: false,
     },
   },
   address: {

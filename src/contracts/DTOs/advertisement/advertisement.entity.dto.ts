@@ -37,11 +37,24 @@ export const adversetimentSchema = z.object({
     .optional(),
 
   price: toNumber.pipe(z.number().positive("O preço inicial deve ser maior que R$ 0,00")),
+  phone: z.preprocess((val) => {
+    if (typeof val === "string") return val.replace(/\D/g, '');
+    return val;
+  }, z.string().min(10, "Telefone inválido")),
 
-  phone: z.string().nonempty("Ao menos um número de telefone deve ser Informado"),
-  images: z.array(z.url()).min(1, "Ao menos uma imagem é necessária."),
+  imagesFiles: z
+    .array(z.instanceof(File))
+    .min(1, "Adicione ao menos uma imagem do imóvel."),
 
-  whatsapp: z.string().optional(),
+  whatsapp: z
+    .string()
+    .optional()
+    .refine(
+      (val) => !val || /^\(\d{2}\)\s\d{4,5}-\d{4}$/.test(val),
+      {
+        message: "Digite um WhatsApp válido, ex: (71) 98447-4664",
+      }
+    ),
 
   address: z.object({
     state: z.string().min(1, "Digite o estado."),

@@ -32,6 +32,7 @@ export function LocationStep() {
         onBlur={handleCepBlur}
         placeholder="00000-000"
         maxLength={9}
+        required
         disabled={isLoadingCep}
       />
 
@@ -49,6 +50,8 @@ export function LocationStep() {
           value={formData.address?.state || ""}
           options={stateOptions}
           onChange={handleInputChange}
+          required
+          disabled={isLoadingCep}
         />
 
         <CommumInput
@@ -58,7 +61,9 @@ export function LocationStep() {
           value={formData.address?.city || ""}
           onChange={handleInputChange}
           placeholder="Digite a cidade"
+          required
           min={1}
+          disabled={isLoadingCep}
         />
       </div>
 
@@ -68,6 +73,7 @@ export function LocationStep() {
         name="address.neighbourhood"
         value={formData.address?.neighbourhood || ""}
         onChange={handleInputChange}
+        required
         placeholder="Digite o bairro"
       />
 
@@ -77,7 +83,9 @@ export function LocationStep() {
         name="address.street"
         value={formData.address?.street || ""}
         onChange={handleInputChange}
+        required
         placeholder="Digite o endereço"
+        disabled={isLoadingCep}
       />
     </StepField>
   );

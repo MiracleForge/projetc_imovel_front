@@ -14,7 +14,7 @@ export default function CommumInput({ topLabel, ...props }: CommumInputInterface
         <div className={`flex justify-between `}>
           <label aria-label={topLabel}
             className="text-sm text-muted-foreground group-focus-within:text-secundary-blue font-bold">
-            {topLabel}
+            {topLabel} {props.required && <span className="text-red-500">*</span >}
           </label>
         </div>
       )}
@@ -33,8 +33,8 @@ export default function CommumInput({ topLabel, ...props }: CommumInputInterface
         {isCheckbox && (
           <div className={`flex justify-between whitespace-nowrap`}>
             <label aria-label={topLabel}
-              className="text-sm text-muted-foreground group-focus-within:text-secundary-blue font-bold">
-              {topLabel}
+              className="text-sm text-muted-foreground group-focus-within:text-secundary-blue font-bold gap-x-3">
+              {topLabel} {props.required && <span className="text-red-500">*</span >}
             </label>
           </div>
         )}
