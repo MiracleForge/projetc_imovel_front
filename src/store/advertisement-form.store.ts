@@ -17,12 +17,12 @@ interface AdvertisementFormState {
 const EXPIRATION_TIME = 24 * 60 * 60 * 1000;
 
 const getDefaultFormData = (): adversetimentCreateDTO => ({
-  category: null,
+  category: "apartamentos",
+  promotion: "free",
   title: "",
   subTitle: "",
   description: "",
-  promotion: false,
-  price: 0,
+  price: 0.00,
   transactionMode: "",
   phone: "",
   whatsapp: "",

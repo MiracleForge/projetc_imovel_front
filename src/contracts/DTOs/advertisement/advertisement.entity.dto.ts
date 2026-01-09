@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { adversetimentCategoriesData, transactionMode } from "@/src/data/global.constants";
-import { processToNumber } from "../cores/validations/validations.cores.schemas";
+import { toNumber } from "../cores/validations/validations.cores.schemas";
+import { propertyCategoryRules } from "./refines/propertyCategoryRules.refine";
 
 export type adversetimentEntityDTO = z.infer<typeof adversetimentSchema>;
 export type adversetimentCategoryDTO = z.infer<typeof adversetizeCategorySchema>;
@@ -35,28 +36,35 @@ export const adversetimentSchema = z.object({
     .max(1000, "Você atingiu o limite máximo de caracteres.")
     .optional(),
 
-  price: processToNumber,
+  price: toNumber.pipe(z.number().positive("O preço inicial deve ser maior que R$ 0,00")),
 
-  phone: z.string(),
+  phone: z.string().nonempty("Ao menos um número de telefone deve ser Informado"),
   images: z.array(z.url()).min(1, "Ao menos uma imagem é necessária."),
 
-  whatsapp: z.string(),
+  whatsapp: z.string().optional(),
 
   address: z.object({
     state: z.string().min(1, "Digite o estado."),
     city: z.string().min(1, "Digite a cidade."),
     neighbourhood: z.string().min(1, "Digite o bairro."),
-    street: z.string().min(1, "Digite o bairro."),
+    street: z.string().min(1, "Digite o."),
     cep: z.string().min(1)
   }),
 
-
   options: z.object({
     propertyMetrics: z.object({
-      area: processToNumber,
-      rooms: processToNumber.optional(),
-      bathrooms: processToNumber.optional(),
-      garage: processToNumber.optional(),
+      area: toNumber.pipe(
+        z.number().positive("Área deve ser maior que zero")
+      ),
+      rooms: toNumber
+        .pipe(z.number().min(0, "Número de quartos inválido"))
+        .optional(),
+      bathrooms: toNumber
+        .pipe(z.number().min(0, "Número de banheiros inválido"))
+        .optional(),
+      garage: toNumber
+        .pipe(z.number().min(0, "Número de vagas inválido"))
+        .optional(),
     }),
 
     amenities: z.object({
@@ -83,42 +91,4 @@ export const adversetimentSchema = z.object({
 
   createdAt: z.date(),
   updatedAt: z.date().optional(),
-})
-  .superRefine((data, ctx) => {
-    if (data.category === "terrenos-sítios") {
-      const metrics = data.options.propertyMetrics;
-
-      if (metrics.rooms) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Terrenos não possuem quartos.",
-          path: ["options", "propertyMetrics", "rooms"],
-        });
-      }
-
-      if (metrics.bathrooms) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Terrenos não possuem banheiros.",
-          path: ["options", "propertyMetrics", "bathrooms"],
-        });
-      }
-
-      if (metrics.garage) {
-        ctx.addIssue({
-          code: "custom",
-          message: "Terrenos não possuem garagem.",
-          path: ["options", "propertyMetrics", "garage"],
-        });
-      }
-    }
-
-    if (data.category !== "condomínios" && data.options.condominion) {
-      ctx.addIssue({
-        code: "custom",
-        message:
-          "Opções de condomínio só podem ser usadas se a categoria for 'condomínios'.",
-        path: ["options", "condominion"],
-      });
-    }
-  })
+}).superRefine(propertyCategoryRules)

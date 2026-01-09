@@ -37,6 +37,8 @@ export function CharacteristicsStep() {
                 iconKey={key}
                 iconsMap={metricsIconsMap}
                 required
+                min={0}
+                inputMode="numeric"
                 name={`options.propertyMetrics.${key}`}
                 value={formData.options.propertyMetrics[key] ?? 0}
                 onChange={handleInputChange}

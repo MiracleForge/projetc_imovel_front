@@ -14,7 +14,6 @@ export function useFormInput({ updateField, customRules }: UseFormInputProps) {
 
     let finalValue: any = value;
 
-    // Narrowing seguro → checkbox existe apenas em <input>
     if (e.target instanceof HTMLInputElement && e.target.type === "checkbox") {
       finalValue = e.target.checked;
     }

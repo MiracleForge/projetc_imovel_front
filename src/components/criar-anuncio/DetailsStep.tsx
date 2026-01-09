@@ -3,23 +3,23 @@
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
 import StepField from "../wrappers/StepField.wrapper";
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
-import { useFormInput } from "@/src/hooks/forms/useFormInput.hook";
-
+import usePhoneFormatter from "@/src/hooks/formatter/usePhoneFormatter.hook";
+import CustomCurrencyInput from "../ui/inputs/CurrencyInput.ui";
 export function DetailsStep() {
   const { formData, updateField } = useAdvertisementFormStore();
-  const { handleInputChange } = useFormInput({ updateField })
+  const formattPhone = usePhoneFormatter();
 
   return (
     <StepField label="Detalhes da Transação">
 
-      <CommumInput
-        topLabel="Preço (R$)"
-        type="number"
-        name="price"
-        placeholder="1000.00"
+      <CustomCurrencyInput
+        topLabel="Preço"
+        defaultValue={formData.price}
+        maxLength={15}
+        onValueChange={(_value, _name, values) => {
+          updateField("price", values?.float ?? 0);
+        }}
         required
-        value={formData.price}
-        onChange={handleInputChange}
       />
 
       <CommumInput
@@ -28,8 +28,9 @@ export function DetailsStep() {
         name="phone"
         placeholder="(11) 98765-4321"
         value={formData.phone}
+        inputMode="numeric"
         required
-        onChange={handleInputChange}
+        onChange={(e) => updateField("phone", formattPhone(e.target.value))}
       />
 
       <CommumInput
@@ -37,8 +38,10 @@ export function DetailsStep() {
         type="tel"
         name="whatsapp"
         placeholder="(11) 98765-4321"
+        inputMode="numeric"
         value={formData.whatsapp}
-        onChange={handleInputChange}
+        required
+        onChange={(e) => updateField("whatsapp", formattPhone(e.target.value))}
       />
     </StepField>
   );
