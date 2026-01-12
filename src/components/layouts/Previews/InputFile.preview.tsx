@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useMemo } from "react";
 
 interface ImagePreviewProps {
@@ -25,43 +24,66 @@ export default function ImagePreview({
     };
   }, [imageUrl]);
 
+  // Formata o tamanho do arquivo
+  const fileSize = useMemo(() => {
+    const sizeInMB = file.size / (1024 * 1024);
+    return sizeInMB < 1
+      ? `${(file.size / 1024).toFixed(0)} KB`
+      : `${sizeInMB.toFixed(1)} MB`;
+  }, [file.size]);
+
   return (
-    <div className="relative group aspect-square rounded-lg overflow-hidden border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
+    <div className="relative group aspect-square rounded-xl overflow-hidden border-2 border-gray-200 shadow-sm hover:shadow-lg transition-all hover:border-blue-300">
       {imageUrl ? (
         <img
           src={imageUrl}
           alt={`Imagem ${index + 1}`}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform group-hover:scale-105"
         />
       ) : (
-        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-          <span className="text-gray-400">Arquivo inválido</span>
+        <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex flex-col items-center justify-center p-4">
+          <svg className="w-12 h-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span className="text-xs text-gray-500 text-center">Arquivo inválido</span>
         </div>
       )}
 
-      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition flex items-center justify-center">
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
         <button
           type="button"
-          aria-label="Remover imagem"
+          aria-label={`Remover imagem ${index + 1}`}
           onClick={() => onRemove(index)}
           className="
-    opacity-0 group-hover:opacity-100 transition
-    flex items-center justify-center
-    w-8 h-8
-    bg-red-500 hover:bg-red-600
-    text-white
-    rounded-full
-  "
+            pointer-events-auto
+            transform scale-75 group-hover:scale-100 transition-transform
+            flex items-center justify-center
+            w-10 h-10
+            bg-red-500 hover:bg-red-600
+            text-white
+            rounded-full
+            shadow-lg hover:shadow-xl
+            focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2
+          "
         >
-          <span className="text-sm leading-none">✕</span>
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
         </button>
-
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-xs p-2 truncate opacity-0 group-hover:opacity-100 transition">
-        {file.name}
+      <div className="absolute top-2 left-2 bg-black/70 text-white text-xs font-semibold px-2 py-1 rounded-full backdrop-blur-sm">
+        {index + 1}
+      </div>
+
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent text-white p-3 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        <p className="text-xs font-medium truncate mb-0.5">
+          {file.name}
+        </p>
+        <p className="text-xs text-gray-300">
+          {fileSize}
+        </p>
       </div>
     </div>
   );
 }
-

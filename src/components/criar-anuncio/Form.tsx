@@ -48,8 +48,7 @@ export function Form({
   const { setCurrentStep, formData, resetForm } = useAdvertisementFormStore();
   const [isPending, startTransition] = useTransition();
   const { errors, validateStep, clearErrors } = useStepValidation();
-
-  const [openModal, setOpenModal] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [state, formAction] = useActionState(
     submitAction || (async () => initialState),
     initialState,
@@ -100,9 +99,18 @@ export function Form({
     });
   };
 
+  const handlePublishClick = () => {
+    if (formData.promotion === null) {
+      setIsModalOpen(true);
+    } else {
+      handleSubmit();
+    }
+  };
+
   useEffect(() => {
     if (state.data && !state.error) {
       resetForm();
+      setIsModalOpen(false);
     }
   }, [state.data, state.error, resetForm]);
 
@@ -123,10 +131,10 @@ export function Form({
     <div className="space-y-3 relative">
       {isPending && <LoadingSpinner text="Carregando..." />}
 
-      {isLastStep && submitAction && formData.promotion !== null && (
+      {isLastStep && submitAction && (
         <PricingStepModal
-          open={openModal}
-          onClose={() => setOpenModal(false)}
+          open={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
           onSubmit={handleSubmit}
         />
       )}
@@ -146,7 +154,7 @@ export function Form({
 
         {isLastStep && submitAction ? (
           <StepButton
-            onClick={() => setOpenModal(true)}
+            onClick={handlePublishClick}
             variant="primary"
             loading={isPending}
             type="button"
