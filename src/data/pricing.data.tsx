@@ -3,6 +3,9 @@ export const pricingPlans = [
     variant: "free" as const,
     title: "PLANO GRÁTIS",
     description: "Publique seu anúncio gratuitamente e alcance milhares de pessoas interessadas",
+    price: "R$ 0",
+    originalPrice: "R$ 299",
+    discount: "-100% OFF",
     badge: { text: "R$ 0,00", type: "simple" as const },
     features: [
       { text: "Visibilidade na plataforma" },

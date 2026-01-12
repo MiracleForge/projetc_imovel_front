@@ -123,7 +123,7 @@ export function Form({
     <div className="space-y-3 relative">
       {isPending && <LoadingSpinner text="Carregando..." />}
 
-      {isLastStep && submitAction && (
+      {isLastStep && submitAction && formData.promotion !== null && (
         <PricingStepModal
           open={openModal}
           onClose={() => setOpenModal(false)}

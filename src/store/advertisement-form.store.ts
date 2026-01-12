@@ -18,7 +18,7 @@ const EXPIRATION_TIME = 24 * 60 * 60 * 1000;
 
 const getDefaultFormData = (): adversetimentCreateDTO => ({
   category: "apartamentos",
-  promotion: "free",
+  promotion: null,
   title: "",
   subTitle: "",
   description: "",

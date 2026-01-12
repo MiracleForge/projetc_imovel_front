@@ -3,7 +3,7 @@ export default function StepField(
   { label,
     children,
   }: {
-    label: string;
+    label?: string;
     children: React.ReactNode;
   }) {
   return (

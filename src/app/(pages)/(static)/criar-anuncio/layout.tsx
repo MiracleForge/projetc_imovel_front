@@ -1,4 +1,4 @@
-import "../../../globals.css";
+import PreviewButton from "@/src/components/ui/buttons/PreviewButton.ui";
 import { BlueLayout } from "@/src/components/wrappers/BlueBackground.layout.wrapper";
 
 export default function AuthLayout({
@@ -14,5 +14,6 @@ export default function AuthLayout({
     bgGradientTo="to-secundary-blue"
   >
     {children}
+    <PreviewButton />
   </BlueLayout>
 }

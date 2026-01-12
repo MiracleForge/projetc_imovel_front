@@ -1,5 +1,4 @@
-import { Form } from "@/src/components/criar-anuncio/Form";
-import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
+import { Form } from "@/src/components/criar-anuncio/Form"; import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
 import { ReviewStep } from "@/src/components/criar-anuncio/ReviewStep";
 import { createAdversetimentAction } from "@/src/app/actions/adversetiment.actions";
 
@@ -12,11 +11,11 @@ export default function RevisaoPage() {
         currentStep={6}
         totalSteps={7}
         prevRoute="/criar-anuncio/opcoes"
-        label="Revisão"
+        label="Revise seu Anúncio"
         submitAction={createAdversetimentAction}
+
       >
         <ReviewStep />
-      </Form>
-    </div>
+      </Form> </div>
   );
 }

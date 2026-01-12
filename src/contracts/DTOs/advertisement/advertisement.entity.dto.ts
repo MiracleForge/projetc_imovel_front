@@ -19,7 +19,7 @@ export const adversetimentSchema = z.object({
 
   category: adversetizeCategorySchema,
   transactionMode: TransactionModeSchema,
-  promotion: z.enum(["free", "highlighted", "studio"]),
+  promotion: z.enum(["free", "highlighted", "studio"]).nullable(),
 
   title: z
     .string()
