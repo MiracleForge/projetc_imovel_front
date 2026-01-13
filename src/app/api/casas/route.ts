@@ -6,10 +6,12 @@ export async function GET() {
     const casas: homeCardAdvertisement[] = [
       {
         id: "1",
-        slugUrl: "/casas/1",
+        slugUrl: "casa-text-slug-1",
         category: "casas-e-sobrados",
+        promotion: "free",
         title: "Casa com Jardim",
-        images: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+        image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+
         price: 750_000,
         advertiser_id: "adv-5",
         advertiser_type: "free",
@@ -34,10 +36,12 @@ export async function GET() {
       },
       {
         id: "2",
-        slugUrl: "/casas/2",
+        slugUrl: "casa-slug-test-2",
         category: "casas-e-sobrados",
+        promotion: "studio",
         title: "Casa Rústica Atualizada",
-        images: "https://images.unsplash.com/photo-1523217582562-09d0def993a6",
+        image: "https://images.unsplash.com/photo-1523217582562-09d0def993a6",
+
         price: 450_000,
         advertiser_id: "adv-6",
         advertiser_type: "free",
@@ -78,3 +82,4 @@ export async function GET() {
     );
   }
 }
+

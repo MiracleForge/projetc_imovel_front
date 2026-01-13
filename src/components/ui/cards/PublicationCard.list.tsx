@@ -5,6 +5,7 @@ import UserAvatar from "../avatars/UserAvatar.ui";
 import { advertisementCardOptions, homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 import { formattedPrice } from "@/src/utils/formating.utils";
 import { metricsIconsMap } from "@/src/data/global.constants";
+import StudioBadge from "../badges/StudioBadge.ui";
 
 interface PublicationCardProps {
   data: homeCardAdvertisement;
@@ -13,16 +14,22 @@ interface PublicationCardProps {
 export default function PublicationCard({ data }: PublicationCardProps) {
 
   const formatedPrice = formattedPrice(data.price);
+  const coverImage = data.image
 
   return (
     <article
       itemScope
       itemType="https://schema.org/RealEstateListing"
-      className="w-full max-w-[260px] lg:max-w-[280px] shrink-0"
+      className="relative w-full max-w-[260px] lg:max-w-[280px] shrink-0 overflow-hidden group"
     >
+      {data.promotion === "studio" && (
+        <span className="absolute origin-top-right top-16 -right-6 z-10">
+          <StudioBadge size="sm" text="Studio" />
+        </span>
+      )}
       <meta itemProp="datePosted" content={new Date(data.createdAt).toISOString()} />
       <Link
-        href={data.slugUrl}
+        href={`anuncios/${data.category}/${data.slugUrl}?from=home&slot=featured`}
         itemProp="url"
         title={`Ver detalhes: ${data.title}`}
         className="flex flex-col gap-2 lg:gap-3 group"
@@ -30,7 +37,7 @@ export default function PublicationCard({ data }: PublicationCardProps) {
         {/* Imagem do Imóvel */}
         <figure className="relative aspect-14/10 overflow-hidden rounded-2xl shadow-[4px_5px_5px_0px] shadow-shadow-blue/85 transition-transform group-hover:scale-[1.02]">
           <Image
-            src={data.images}
+            src={coverImage}
             alt={`Imóvel: ${data.title} - ${data.address.neighbourhood}, ${data.address.city}`}
             width={280}
             height={200}

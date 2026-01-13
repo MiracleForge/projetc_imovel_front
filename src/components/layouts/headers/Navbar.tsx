@@ -51,7 +51,7 @@ export default function Navbar({ user }: NavbarProps) {
           <CommumButton label="Anúnciar" url={`${user ? "/criar-anuncio" : "auth/entrar"}`} className="hidden md:block" />
           {!user &&
             <CommumButton className="hidden md:inline-flex gap-3"
-              label="Criar Conta" url="auth/registrar" variant="highlight" >
+              label="Imobily Studio" url="auth/registrar" variant="highlight" >
               <svg
                 className="group-hover:animate-pulse"
                 width="26"

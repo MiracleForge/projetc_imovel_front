@@ -1,7 +1,6 @@
 import { userEntityDTO } from "../../user/user.entity.dto";
 import { adversetimentEntityDTO } from "../advertisement.entity.dto";
 
-
 export type advertisementCardOptions = {
   propertyMetrics: Partial<
     Pick<
@@ -11,9 +10,7 @@ export type advertisementCardOptions = {
   >;
 };
 
-
 export type homeCardAdvertisement =
-
   Omit<
     adversetimentEntityDTO,
     | "description"
@@ -25,8 +22,9 @@ export type homeCardAdvertisement =
     | "address"
     | "options"
     | "images"
+    | "imagesFiles"
   > & {
-    advertiser: Pick<userEntityDTO, "name" | "image">,
+    advertiser: Pick<userEntityDTO, "name" | "image">;
 
     address: Pick<
       adversetimentEntityDTO["address"],
@@ -34,8 +32,7 @@ export type homeCardAdvertisement =
     >;
 
     options: advertisementCardOptions;
-
     slugUrl: string;
-    images: string;
+    image: string;
   };
 

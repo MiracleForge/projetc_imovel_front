@@ -179,6 +179,8 @@ function OptionsSegment({ logged, userId }: { logged: boolean; userId?: string }
         <MenuButton label="Gerenciar conta" url="#" icon="/miscellaneous/config-icon.svg" />
         <MenuButton label="Favoritos" url="" icon="/miscellaneous/full-heart.svg" />
         <MenuButton label="Chat" url="" icon="/miscellaneous/chat-icon.svg" />
+        <MenuButton label="Anunciar grátis" url="" icon="/miscellaneous/chat-icon.svg" />
+        <MenuButton label="Meus anúncios" url="" icon="/miscellaneous/chat-icon.svg" />
       </div>
 
       {/* Destaque */}
