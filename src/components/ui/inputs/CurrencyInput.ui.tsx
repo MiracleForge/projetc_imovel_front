@@ -28,6 +28,7 @@ export default function CustomCurrencyInput({ topLabel, ...props }: CustomCurren
           className="w-[88%] peer block border-0 bg-transparent p-0 text-sm placeholder:text-muted-foreground/90 focus:outline-none focus:ring-0 capitalize"
           placeholder="R$ 0,00"
           decimalsLimit={2}
+          fixedDecimalLength={2}
           intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
           inputMode="numeric"
 
