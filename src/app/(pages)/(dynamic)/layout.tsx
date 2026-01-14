@@ -1,4 +1,4 @@
-import { getCurrentUser } from "@/src/data/dal/auth";
+import { getCurrentUser } from "@/src/dal/auth";
 import Navbar from "@/src/components/layouts/headers/Navbar";
 import TopPromotion from "@/src/components/layouts/banners/TopPromotional.layout";
 import Footer from "@/src/components/layouts/footer/Footer.layout";

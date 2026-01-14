@@ -9,7 +9,7 @@ import { createPrivateFecher } from "@/src/utils/fetcher.private";
 import { formDataToObject } from "@/src/utils/zod/converts";
 import { unflatten } from "@/src/utils/zod/validateFormData";
 import { redirect } from "next/navigation";
-import { verifyAuthentication } from "@/src/data/dal/auth";
+import { verifyAuthentication } from "@/src/dal/auth";
 
 export async function createAdversetimentAction(
   _prevState: actionResponse,

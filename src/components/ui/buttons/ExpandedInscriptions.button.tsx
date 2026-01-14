@@ -6,7 +6,7 @@ import UserAvatar from "../avatars/UserAvatar.ui";
 import { Activity, useState } from "react";
 import CommumButton from "./CommumButton.ui";
 import { subscriptionsDTO } from "@/src/contracts/DTOs/user/views/subscriptions.dto";
-import { getUserSubscriptions } from "@/src/data/dal/subscription";
+import { getUserSubscriptions } from "@/src/dal/subscription";
 
 export default function ExpandedInscriptionButton() {
   const [isExpanded, setExpanded] = useState(false);

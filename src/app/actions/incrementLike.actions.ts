@@ -1,7 +1,7 @@
 "use server";
 
 import { createPrivateFecher } from "@/src/utils/fetcher.private";
-import { verifyAuthentication } from "@/src/data/dal/auth";
+import { verifyAuthentication } from "@/src/dal/auth";
 
 export default async function incrementLike(): Promise<boolean> {
   // Verify authentication following DAL pattern
