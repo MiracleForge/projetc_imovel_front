@@ -9,6 +9,7 @@ import SectionFeature from "@/src/components/layouts/features/SectionFeature.lay
 import { Suspense } from "react";
 
 import dynamic from "next/dynamic";
+import SectionMarketing from "@/src/components/layouts/features/SectionMarketing.layout";
 const FecherClient = dynamic(
   () => import("@/src/components/wrappers/FecherClient.wrapper"),
 );
@@ -36,6 +37,7 @@ export default function Home() {
 
       <MySpace />
 
+
       <LazyLoadWrapper>
         <FecherClient query="http://localhost:3000/api/apartamentos" />
       </LazyLoadWrapper>
@@ -49,6 +51,7 @@ export default function Home() {
       </LazyLoadWrapper>
 
       <SectionFeature />
+      <SectionMarketing />
     </main>
   );
 }
