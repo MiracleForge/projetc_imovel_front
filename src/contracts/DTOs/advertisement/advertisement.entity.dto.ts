@@ -5,18 +5,14 @@ import { propertyCategoryRules } from "./refines/propertyCategoryRules.refine";
 
 export type adversetimentEntityDTO = z.infer<typeof adversetimentSchema>;
 export type adversetimentCategoryDTO = z.infer<typeof adversetizeCategorySchema>;
-export type adversetimentPlanDTO = z.infer<typeof AdvertiseTypeSchema>;
 
-export const AdvertiseTypeSchema = z.enum(["free", "paid", "studio"]);
 export const adversetizeCategorySchema = z.enum(adversetimentCategoriesData, "Você deve selecionar uma categoria para o anúncio");
 export const TransactionModeSchema = z.enum(transactionMode, "Você deve escolher o modelo de transação.");
 
 // ENTITY
 export const adversetimentSchema = z.object({
   id: z.cuid2(),
-  advertiser_id: z.uuidv7(),
-  advertiser_type: AdvertiseTypeSchema,
-
+  slugUrl: z.string(),
   category: adversetizeCategorySchema,
   transactionMode: TransactionModeSchema,
   promotion: z.enum(["free", "highlighted", "studio"]).nullable(),

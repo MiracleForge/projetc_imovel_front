@@ -14,6 +14,7 @@ export type homeCardAdvertisement =
   Omit<
     adversetimentEntityDTO,
     | "description"
+    | "slugUrl"
     | "transactionMode"
     | "subTitle"
     | "phone"
@@ -32,7 +33,10 @@ export type homeCardAdvertisement =
     >;
 
     options: advertisementCardOptions;
-    slugUrl: string;
     image: string;
   };
 
+export type advertisementPage = Omit<adversetimentEntityDTO, "imagesFiles"> & {
+  images: string[];
+  advertiser: Pick<userEntityDTO, "name" | "image">;
+}

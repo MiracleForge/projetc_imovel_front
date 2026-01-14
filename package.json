@@ -16,6 +16,8 @@
     "react": "19",
     "react-currency-input-field": "^4.0.3",
     "react-dom": "19",
+    "schema-dts": "^1.1.5",
+    "serialize-javascript": "^7.0.2",
     "tailwind-merge": "^3.4.0",
     "zustand": "^5.0.9"
   },
@@ -24,6 +26,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/serialize-javascript": "^5.0.4",
     "eslint": "^9",
     "eslint-config-next": "16.0.7",
     "tailwindcss": "^4",
