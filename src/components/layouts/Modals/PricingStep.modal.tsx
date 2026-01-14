@@ -2,7 +2,7 @@
 
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import { useState } from "react";
-import { pricingPlans } from "@/src/data/pricing.data";
+import { pricingPlans } from "@/src/content/precing.content";
 import PricingCard from "../../ui/cards/Pricing.card.ui";
 
 interface PricingStepModal {

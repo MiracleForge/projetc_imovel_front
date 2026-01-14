@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { adversetimentCategoriesData, transactionMode } from "@/src/data/global.constants";
+import { adversetimentCategoriesData, transactionMode } from "@/src/content/adversetiment.content";
 import { toNumber } from "../cores/validations/validations.cores.schemas";
 import { propertyCategoryRules } from "./refines/propertyCategoryRules.refine";
 

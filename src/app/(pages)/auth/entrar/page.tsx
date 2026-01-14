@@ -9,7 +9,7 @@ import { initialState } from "@/src/contracts/types/responses.core";
 import SubmitButton from "@/src/components/ui/buttons/StepButton.button";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
 import { redirect } from "next/navigation";
-import { config } from "@/src/data/config";
+import { config } from "@/src/configs/config";
 const TurnstileWidget = dynamic(
   () => import("@/src/components/layouts/captchas/TurnstileWidget.layout"),
   { ssr: false },
@@ -20,7 +20,7 @@ export default function Page() {
 
   useEffect(() => {
     if (state.data === "/") {
-      // TODO: CORRIGIR ISSO NO FUTURO, PASSAR A CALLBACK URL AO INVES DE UM VALOR FIXO
+      //WARN: CORRIGIR ISSO NO FUTURO, PASSAR A CALLBACK URL AO INVES DE UM VALOR FIXO
       redirect("/");
     }
   }, [state.data]);

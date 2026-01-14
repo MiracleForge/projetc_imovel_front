@@ -1,5 +1,5 @@
 import { actionResponse } from "../contracts/types/responses.core";
-import { config } from "../data/config";
+import { config } from "../configs/config";
 
 type FetcherOptions<Payload = unknown> = {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";

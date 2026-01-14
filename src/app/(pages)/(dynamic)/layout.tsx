@@ -1,8 +1,8 @@
-import { getCurrentUser } from "@/src/dal/auth";
-import Navbar from "@/src/components/layouts/headers/Navbar";
-import TopPromotion from "@/src/components/layouts/banners/TopPromotional.layout";
 import Footer from "@/src/components/layouts/footer/Footer.layout";
-import Provider from "@/src/components/providers/client-provider.context";
+import Navbar from "@/src/components/layouts/headers/Navbar";
+import Provider from "@/src/components/contexts/providers/client-provider.context";
+import TopPromotion from "@/src/components/layouts/banners/TopPromotional.layout";
+import { getCurrentUser } from "@/src/dal/auth";
 
 export default async function MainLayout({
   children,

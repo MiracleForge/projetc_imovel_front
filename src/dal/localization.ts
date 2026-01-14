@@ -25,7 +25,6 @@ type CepResult =
  */
 export const getAddressByCEP = cache(
   async (cep: string): Promise<CepResult> => {
-    console.log("🟢 getAddressByCEP chamado", cep, new Date().toISOString());
 
     const cleanCep = cep.replace(/\D/g, "");
     const validatedCep = cepServerSchema.safeParse(cleanCep);

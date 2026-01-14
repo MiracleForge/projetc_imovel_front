@@ -1,4 +1,4 @@
-import { pricingPlans } from "@/src/data/pricing.data";
+import { pricingPlans } from "@/src/content/precing.content";
 import StepField from "../../wrappers/StepField.wrapper";
 import { HelperText } from "../../ui/separatores/FormSeparator.ui";
 import Badge from "../../ui/tooltips/Badge.ui";
@@ -75,7 +75,7 @@ export default function PreviewAdvertiserSection({
         <SummaryItem
           label="Preço do Imóvel"
           value={formattedPrice}
-          highlighted
+          highlighti
         />
         <SummaryItem
           label="Categoria"

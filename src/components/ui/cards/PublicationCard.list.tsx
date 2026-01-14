@@ -4,7 +4,7 @@ import Link from "next/link";
 import UserAvatar from "../avatars/UserAvatar.ui";
 import { advertisementCardOptions, homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 import { formattedPrice } from "@/src/utils/formating.utils";
-import { metricsIconsMap } from "@/src/data/global.constants";
+import { metricsIconsMap } from "@/src/content/adversetiment.content";
 import StudioBadge from "../badges/StudioBadge.ui";
 
 interface PublicationCardProps {

@@ -2,7 +2,7 @@
 
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import { InputNumeric } from "@/src/components/ui/inputs/InputNumeric.ui";
-import { metricsIconsMap } from "@/src/data/global.constants";
+import { metricsIconsMap } from "@/src/content/adversetiment.content";
 import FormField from "../wrappers/FormField.wrapper";
 import StepField from "../wrappers/StepField.wrapper";
 

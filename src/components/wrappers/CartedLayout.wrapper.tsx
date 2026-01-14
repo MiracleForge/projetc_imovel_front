@@ -10,7 +10,7 @@ interface BaseLayoutProps {
   cardClassName?: string;
 }
 
-export function BlueLayout({
+export function CartedLayout({
   children,
   title = "Anuncie com a Imobily",
   subtitle = "",

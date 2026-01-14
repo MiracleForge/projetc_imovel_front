@@ -1,5 +1,5 @@
 import PreviewButton from "@/src/components/ui/buttons/PreviewButton.ui";
-import { BlueLayout } from "@/src/components/wrappers/BlueBackground.layout.wrapper";
+import { CartedLayout } from "@/src/components/wrappers/CartedLayout.wrapper";
 
 export default function AuthLayout({
   children,
@@ -7,7 +7,7 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
 
-  return <BlueLayout
+  return <CartedLayout
     title="Publique na Imobily"
     subtitle="Faça parte da maior da comunidade"
     bgGradientFrom="from-primary-blue"
@@ -15,5 +15,5 @@ export default function AuthLayout({
   >
     {children}
     <PreviewButton />
-  </BlueLayout>
+  </CartedLayout>
 }

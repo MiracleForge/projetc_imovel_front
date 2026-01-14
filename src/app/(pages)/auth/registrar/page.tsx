@@ -10,7 +10,7 @@ import MultiStepIndicator from "@/src/components/ui/steps/MultiStepIndicator";
 import { registerAction } from "@/src/app/actions/register.actions";
 import { StepNavigation } from "@/src/components/ui/steps/MultiStepController.ui";
 import dynamic from "next/dynamic";
-import { config } from "@/src/data/config";
+import { config } from "@/src/configs/config";
 const TurnstileWidget = dynamic(
   () => import("@/src/components/layouts/captchas/TurnstileWidget.layout"),
   { ssr: false },

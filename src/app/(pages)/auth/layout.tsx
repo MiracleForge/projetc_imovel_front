@@ -1,5 +1,4 @@
-import "../../globals.css";
-import { BlueLayout } from "@/src/components/wrappers/BlueBackground.layout.wrapper";
+import { CartedLayout } from "@/src/components/wrappers/CartedLayout.wrapper";
 
 export default function AuthLayout({
   children,
@@ -7,12 +6,12 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
 
-  return <BlueLayout
+  return <CartedLayout
     title="Entre na Imobly"
     subtitle="Segurança, velocidade e as melhores oportunidades em um só lugar."
     bgGradientFrom="from-primary-blue"
     bgGradientTo="to-secundary-blue"
   >
     {children}
-  </BlueLayout>
+  </CartedLayout>
 }

@@ -3,7 +3,7 @@
 import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.ui";
 import FormField from "../wrappers/FormField.wrapper";
 import StepField from "../wrappers/StepField.wrapper";
-import { amenityIconsMap, condominionIconsMap } from "@/src/data/global.constants";
+import { amenityIconsMap, condominionIconsMap } from "@/src/content/adversetiment.content";
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import { useFormInput } from "@/src/hooks/forms/useFormInput.hook";
 

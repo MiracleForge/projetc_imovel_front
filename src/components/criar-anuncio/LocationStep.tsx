@@ -3,7 +3,7 @@
 import AdressInput from "../ui/inputs/AddressInputs.ui";
 import CommumInput from "@/src/components/ui/inputs/Commum.inputs";
 import StepField from "../wrappers/StepField.wrapper";
-import { brazilStates } from "@/src/data/global.constants";
+import { brazilStates } from "@/src/content/adversetiment.content";
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import { InputSpinner } from "../ui/spinners/InputSpinners";
 import { DividerWithText, HelperText } from "../ui/separatores/FormSeparator.ui";

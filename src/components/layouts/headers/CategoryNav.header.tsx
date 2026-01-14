@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import HorizontalScroll from "../../wrappers/ResponsiveHorizontalScroll.wrapper";
-import { allCategoriesData } from "@/src/data/global.constants";
+import { allCategoriesData } from "@/src/content/adversetiment.content";
 
 export default function CategoryNav() {
   return (

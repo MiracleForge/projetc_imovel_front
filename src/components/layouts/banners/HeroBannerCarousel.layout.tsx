@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, memo, useState } from "react";
-import { heroCarrouselData } from "@/src/data/heroCarousel.data";
+import { heroCarrouselData } from "@/src/content/heroCaroussel.content";
 import { Activity } from "react";
 import Image from "next/image";
 

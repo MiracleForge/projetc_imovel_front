@@ -2,7 +2,7 @@
 
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.ui";
-import { adversetimentCategoriesData, transactionMode } from "@/src/data/global.constants";
+import { adversetimentCategoriesData, transactionMode } from "@/src/content/adversetiment.content";
 import FormField from "../wrappers/FormField.wrapper";
 import StepField from "../wrappers/StepField.wrapper";
 import { useFormInput } from "@/src/hooks/forms/useFormInput.hook";
