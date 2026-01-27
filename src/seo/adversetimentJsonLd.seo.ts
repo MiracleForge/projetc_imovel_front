@@ -7,7 +7,7 @@ export const generateAdvertisementJsonLd = (ad: advertisementPage) => {
     name: ad.title,
     description: ad.description || ad.title,
     url: `https://seusite.com.br/anuncios/${ad.category}/${ad.slugUrl}`,
-
+    //TODO: add jsonLD advertisement image place holder
     image: ad.images || "/images/placeholders/real-estate.webp",
 
     offers: {
@@ -18,40 +18,37 @@ export const generateAdvertisementJsonLd = (ad: advertisementPage) => {
       validFrom: new Date(ad.createdAt),
     },
 
-    // address: {
-    //   "@type": "PostalAddress",
-    //   addressLocality: ad.address.city || "city",
-    //   addressRegion: ad.address.state || "BA",
-    //   addressCountry: "BR",
-    //   streetAddress: ad.address.neighbourhood,
-    // },
-    //
-    // // Anunciante
-    // provider: {
-    //   // TODO: ADD ADVERTIZER TYPE
-    //   // "@type": ad.advertiser.type === "company" ? "Organization" : "Person",
-    //   name: ad.advertiser.name,
-    // },
-    //
-    // Datas
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: ad.address.city || "city",
+      addressRegion: ad.address.state || "BA",
+      addressCountry: "BR",
+      streetAddress: ad.address.neighbourhood,
+    },
+
+    provider: {
+      // TODO: ADD ADVERTIZER TYPE
+      name: ad.advertiser.name,
+    },
+
     datePosted: new Date(ad.createdAt),
   };
-  //
-  // if (ad.options.propertyMetrics.rooms) {
-  //   jsonLd.numberOfRooms = ad.options.propertyMetrics.rooms;
-  // }
-  //
-  // if (ad.options.propertyMetrics.bathrooms) {
-  //   jsonLd.numberOfBathroomsTotal = ad.options.propertyMetrics.bathrooms;
-  // }
-  //
-  // if (ad.options.propertyMetrics.area) {
-  //   jsonLd.floorSize = {
-  //     "@type": "QuantitativeValue",
-  //     value: ad.options.propertyMetrics.area,
-  //     unitCode: "MTK"
-  //   };
-  // }
-  //
+
+  if (ad.options.propertyMetrics.rooms) {
+    jsonLd.numberOfRooms = ad.options.propertyMetrics.rooms;
+  }
+
+  if (ad.options.propertyMetrics.bathrooms) {
+    jsonLd.numberOfBathroomsTotal = ad.options.propertyMetrics.bathrooms;
+  }
+
+  if (ad.options.propertyMetrics.area) {
+    jsonLd.floorSize = {
+      "@type": "QuantitativeValue",
+      value: ad.options.propertyMetrics.area,
+      unitCode: "MTK"
+    };
+  }
+
   return jsonLd;
 };

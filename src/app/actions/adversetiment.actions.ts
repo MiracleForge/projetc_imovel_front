@@ -9,91 +9,44 @@ import { createPrivateFecher } from "@/src/utils/fetcher.private";
 import { formDataToObject } from "@/src/utils/zod/converts";
 import { unflatten } from "@/src/utils/zod/validateFormData";
 import { redirect } from "next/navigation";
-import { verifyAuthentication } from "@/src/dal/auth";
+import { withAuth } from "@/src/dal/WithAuthentication.wrapper";
 
 export async function createAdversetimentAction(
   _prevState: actionResponse,
   formData: FormData,
 ): Promise<actionResponse<undefined>> {
-  // Verify authentication following DAL pattern
-  try {
-    await verifyAuthentication();
-  } catch (error) {
-    return {
-      error: "UNAUTHORIZED",
-      message: error instanceof Error ? error.message : "Não autenticado",
-      data: undefined,
-    };
-  }
 
-  console.log("═══════════════════════");
-  console.log("📥 RECEIVED FORM DATA");
-  console.log("═══════════════════════");
+  return withAuth(async () => {
 
-  // Log real do FormData
-  for (const [key, value] of formData.entries()) {
-    if (value instanceof File) {
-      console.log(`• ${key}: FILE → ${value.name} (${value.size} bytes)`);
-    } else {
-      console.log(`• ${key}: "${value}"`);
+    const rawData = formDataToObject(formData);
+    const nestedData = unflatten(rawData);
+    const payloadValidated = adversetimentCreateSchema.safeParse(nestedData);
+
+    if (!payloadValidated.success) {
+      return {
+        error: "error",
+        message: payloadValidated.error.issues
+          .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
+          .join("\n"),
+        data: undefined,
+      };
     }
-  }
 
-  console.log("\n═══════════════════════");
-  console.log("🔄 CONVERTING FORM DATA TO RAW OBJECT");
-  console.log("═══════════════════════");
+    const path = `public-create-adversetiment/${payloadValidated.data.category}`;
+    const fetchAdversetiment = createPrivateFecher<
+      adversetimentCreateDTO,
+      undefined
+    >(path, {
+      method: "POST",
+    });
 
-  const rawData = formDataToObject(formData);
-  console.log(rawData);
+    const result = await fetchAdversetiment(payloadValidated.data);
 
-  console.log("\n═══════════════════════");
-  console.log("📦 UNFLATTENED DATA");
-  console.log("═══════════════════════");
+    if (result.error) {
+      return result;
+    }
 
-  const nestedData = unflatten(rawData);
-  console.log(nestedData);
-
-  console.log("\n═══════════════════════");
-  console.log("🧪 VALIDATING ZOD SCHEMA");
-  console.log("═══════════════════════");
-
-  const payloadValidated = adversetimentCreateSchema.safeParse(nestedData);
-
-  if (!payloadValidated.success) {
-    return {
-      error: "error",
-      message: payloadValidated.error.issues
-        .map((issue) => `${issue.path.join(".")}: ${issue.message}`)
-        .join("\n"),
-      data: undefined,
-    };
-  }
-
-  console.log("✅ ZOD VALIDATION SUCCESS");
-  console.log("Images received:", payloadValidated.data.imagesFiles);
-
-  const path = `public-create-adversetiment/${payloadValidated.data.category}`;
-  const fetchAdversetiment = createPrivateFecher<
-    adversetimentCreateDTO,
-    undefined
-  >(path, {
-    method: "POST",
-  });
-
-  console.log("\n═══════════════════════");
-  console.log("🚀 SENDING PAYLOAD TO API");
-  console.log("═══════════════════════");
-
-  console.log(payloadValidated.data);
-
-  const result = await fetchAdversetiment(payloadValidated.data);
-
-  if (result.error) {
-    console.log("❌ API ERROR");
-    console.log(result);
-    return result;
-  }
-
-  console.log("✅ CREATED SUCCESSFULLY — Redirecting...");
-  redirect("/");
+    redirect("/");
+  })
 }
+

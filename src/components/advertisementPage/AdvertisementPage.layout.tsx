@@ -6,6 +6,7 @@ import { getAdvertisementBySlug } from "@/src/dal/adversetiment.dal";
 import { notFound } from "next/navigation";
 import { generateAdvertisementJsonLd } from "@/src/seo/adversetimentJsonLd.seo";
 import LargeDisplay from "../layouts/Previews/LargeImageDisplay.preview";
+import serializeJavascript from "serialize-javascript";
 
 export default async function AdvertisementPage({ params, searchParams }: AdvertisePageProps) {
 
@@ -25,9 +26,10 @@ export default async function AdvertisementPage({ params, searchParams }: Advert
       <Suspense fallback={<AdvertisementSkeleton />}>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(advertisementJsonLd) }}
+          dangerouslySetInnerHTML={{
+            __html: serializeJavascript(advertisementJsonLd, { isJSON: true })
+          }}
         />
-
         <h1 itemProp="name" className="text-xl font-bold text-neutral mb-2">
           {ad.title}
         </h1>
