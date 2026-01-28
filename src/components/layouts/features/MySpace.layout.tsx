@@ -3,12 +3,12 @@ import UserAvatar from "../../ui/avatars/UserAvatar.ui";
 import Link from "next/link";
 import CommumButton from "../../ui/buttons/CommumButton.ui";
 import Badge from "../../ui/tooltips/Badge.ui";
+import { StarIcon } from "../../ui/effects/ImobilyStudio.icon";
 
 export default function MySpace() {
   return (
     <section className="space-component-to-component flex flex-col lg:flex-row items-center gap-8 md:gap-12">
 
-      {/* TEXTO */}
       <div className="w-full lg:w-1/2">
         <div className="max-w-xl space-y-5">
 
@@ -26,21 +26,7 @@ export default function MySpace() {
           <div className="flex flex-wrap items-center gap-4 pt-2">
             <CommumButton className="inline-flex gap-3"
               label="Imobly Studios" url="#" variant="highlight" >
-              <svg
-                className="group-hover:animate-pulse"
-                width="26"
-                height="26"
-                viewBox="0 0 26 26"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-              >
-                <path
-                  d="M13 1.5L15.7 8.3L22.5 11L15.7 13.7L13 20.5L10.3 13.7L3.5 11L10.3 8.3L13 1.5Z"
-                  fill="currentColor"
-                />
-                <circle cx="21" cy="5" r="1.4" fill="currentColor" opacity="0.85" />
-                <circle cx="5.5" cy="20" r="1" fill="currentColor" opacity="0.55" />
-              </svg>
+              <StarIcon />
             </CommumButton>
 
             <span className="text-xs text-neutral/60">Sem custo inicial no lançamento * <Link className="link-default" href={"#"}>Ver Condições especiais</Link></span>

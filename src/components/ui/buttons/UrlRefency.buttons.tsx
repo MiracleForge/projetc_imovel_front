@@ -1,29 +1,42 @@
-'use client'
+"use client";
 
-import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-export default function UrlReferencyButton() {
-  const path = usePathname();
+type Props = {
+  authenticated: boolean;
+};
 
-  let buttonLabel = "Entrar";
-  let directTo = "/auth/entrar";
+export default function UrlReferencyButton({ authenticated }: Props) {
+  const pathname = usePathname();
 
-  if (path === "/auth/entrar") {
-    buttonLabel = "Criar Conta";
-    directTo = "/auth/registrar";
-  } else if (path === "/auth/registrar" || path === "/criar-anuncio") {
-    buttonLabel = "Meus Anúncios";
-    directTo = "/meus-anuncios";
+  let href = "/auth/entrar";
+  let label = "Entrar";
+
+  if (authenticated) {
+    href = "/dashboard";
+    label = "Minha conta";
+  }
+
+  if (!authenticated && pathname === "/auth/entrar") {
+    href = "/auth/registrar";
+    label = "Criar conta";
+  }
+
+  if (!authenticated && pathname === "/auth/registrar") {
+    href = "/auth/entrar";
+    label = "Entrar";
   }
 
   return (
     <Link
-      href={directTo}
-      className="group border-2 border-black w-fit h-full p-2.5 text-center justify-center cursor-pointer focus-within:border-black/20 focus-within:ring-[#FFFFFF] hover:border-[#FFFFFF] duration-300 transition-colors"
+      href={href}
+      className="group border-2 border-black w-fit h-full p-2.5 text-center justify-center cursor-pointer
+                 focus-within:border-black/20 focus-within:ring-[#FFFFFF]
+                 hover:border-[#FFFFFF] duration-300 transition-colors"
     >
       <span className="font-medium leading-6 text-black transition-colors group-hover:text-white">
-        {buttonLabel}
+        {label}
       </span>
     </Link>
   );
