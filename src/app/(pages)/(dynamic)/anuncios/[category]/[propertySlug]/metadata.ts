@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { advertisementPage } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 
 export function buildAdvertisementMetadata(ad: advertisementPage): Metadata {
-  const title = `${ad.title} em ${ad.address.city} | SeuSite`;
+  const title = `${ad.title} em ${ad.address.city} | Imobily`;
   const description = `${ad.title} localizado em ${ad.address.neighbourhood}, ${ad.address.city}.`;
   const images = Array.isArray(ad.images) && ad.images.length > 0
     ? ad.images

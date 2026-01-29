@@ -11,7 +11,7 @@ export const getAdvertisementBySlug = cache(
   }): Promise<advertisementPage | null> => {
     try {
       const response = await fetch(
-        "https://free.mockerapi.com/mock/bc7ff29d-9ed2-4f53-843d-7d88c54dada8"
+        "https://free.mockerapi.com/mock/0488f61b-c704-48e0-8779-44123b0384a4"
       );
 
       if (!response.ok) throw new Error("Fetch failed");

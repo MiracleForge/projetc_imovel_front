@@ -13,8 +13,6 @@ export async function GET() {
         image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
 
         price: 750_000,
-        advertiser_id: "adv-5",
-        advertiser_type: "free",
         advertiser: {
           name: "Maria Oliveira",
           image: "https://i.pravatar.cc/150?img=2",
@@ -43,8 +41,6 @@ export async function GET() {
         image: "https://images.unsplash.com/photo-1523217582562-09d0def993a6",
 
         price: 450_000,
-        advertiser_id: "adv-6",
-        advertiser_type: "free",
         advertiser: {
           name: "Paula Lima",
           image: "https://i.pravatar.cc/150?img=6",

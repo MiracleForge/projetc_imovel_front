@@ -16,7 +16,7 @@ export default async function MainLayout({
       <TopPromotion />
       <Navbar user={session?.user} />
       <Provider session={session}>
-        <div className="md:px-6 lg:px-12">{children}</div>
+        <div className="px-2 md:px-6">{children}</div>
       </Provider>
       <Footer />
     </>

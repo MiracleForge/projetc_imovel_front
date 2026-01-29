@@ -14,7 +14,6 @@ export type homeCardAdvertisement =
   Omit<
     adversetimentEntityDTO,
     | "description"
-    | "slugUrl"
     | "transactionMode"
     | "subTitle"
     | "phone"

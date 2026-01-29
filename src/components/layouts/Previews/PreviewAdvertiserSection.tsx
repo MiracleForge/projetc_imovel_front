@@ -75,7 +75,6 @@ export default function PreviewAdvertiserSection({
         <SummaryItem
           label="Preço do Imóvel"
           value={formattedPrice}
-          highlighti
         />
         <SummaryItem
           label="Categoria"

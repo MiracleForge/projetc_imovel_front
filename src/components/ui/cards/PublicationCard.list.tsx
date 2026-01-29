@@ -34,7 +34,6 @@ export default function PublicationCard({ data }: PublicationCardProps) {
         title={`Ver detalhes: ${data.title}`}
         className="flex flex-col gap-2 lg:gap-3 group"
       >
-        {/* Imagem do Imóvel */}
         <figure className="relative aspect-14/10 overflow-hidden rounded-2xl shadow-[4px_5px_5px_0px] shadow-shadow-blue/85 transition-transform group-hover:scale-[1.02]">
           <Image
             src={coverImage}
@@ -104,7 +103,7 @@ export default function PublicationCard({ data }: PublicationCardProps) {
             </p>
             <span className="flex justify-between items-center">
               <p className="text-[10px] text-neutral-terciary">
-                {data.advertiser_type === "free" ? 'Anunciante' : 'Corretor'}
+                {data.advertiser.name === "free" ? 'Anunciante' : 'Corretor'}
               </p>
               <p className="text-[10px] text-neutral-terciary">
                 {new Date(data.createdAt).toLocaleString("pt-BR")} </p>
@@ -117,15 +116,46 @@ export default function PublicationCard({ data }: PublicationCardProps) {
 }
 
 
-export function OptionsGrid({ options }: { options: advertisementCardOptions }) {
-
+export function OptionsGrid({
+  options,
+  flat
+}: {
+  options: advertisementCardOptions;
+  flat?: boolean;
+}) {
+  const size = flat ? 36 : 16;
   return (
-    <dl className="absolute grid grid-cols-2 gap-2 z-10 top-1 left-1">
+    <dl
+      className={
+        flat
+          ? "flex flex-wrap w-full "
+          : "absolute grid grid-cols-2 gap-2 z-10 top-1 left-1"
+      }
+    >
       {Object.entries(options.propertyMetrics || {}).map(([key, value]) => (
-        <div key={key}>
+        <div
+          key={key}
+          className={flat ? "basis-1/4" : ""}
+        >
           <dt className="sr-only">{key}</dt>
-          <dd className="p-1 bg-white/60 rounded-full shrink-0" title={`${key.toUpperCase()}: ${value}`}>
-            <Image src={metricsIconsMap[key] ?? "/icons/listings/default.svg"} className="size-4" alt="" width={16} height={16} />
+
+          <dd
+            className={
+              flat
+                ? "flex items-center justify-center space-x-4 h-10 bg-white/60 rounded-full text-sm"
+                : "p-1 bg-white/60 rounded-full"
+            }
+            title={`${key.toUpperCase()}: ${value}`}
+          >
+            <Image
+              src={metricsIconsMap[key] ?? "/icons/listings/default.svg"}
+              className={flat ? "size-8" : "size-5"}
+              alt=""
+              width={size}
+              height={size}
+            />
+
+            {flat && <span className="text-lg whitespace-nowrap">{value}</span>}
           </dd>
         </div>
       ))}

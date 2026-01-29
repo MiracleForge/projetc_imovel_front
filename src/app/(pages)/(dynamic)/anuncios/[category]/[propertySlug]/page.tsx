@@ -32,7 +32,7 @@ export default function Page(props: AdvertisePageProps) {
     <main
       itemScope
       itemType="https://schema.org/RealEstateListing"
-      className="container mx-auto px-4 py-6"
+      className="container mx-auto py-6"
     >
       <div className="mb-4 rounded bg-green-100 p-3 text-green-900 text-sm">
         ✅ Conteúdo estático da página (header, breadcrumbs, anúncios, etc)

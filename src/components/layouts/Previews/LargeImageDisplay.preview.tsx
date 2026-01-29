@@ -39,10 +39,10 @@ const LargeDisplay = ({
 
   return (
     <>
-      <figure
+      <div
         id='Big Figure'
         onClick={handleOpenImage}
-        className="relative aspect-video w-3/6 overflow-hidden rounded-lg"
+        className="relative w-full aspect-video md:aspect-auto h-full overflow-hidden rounded-lg"
       >
         <Image
           src={src}
@@ -52,7 +52,7 @@ const LargeDisplay = ({
           fill
           sizes='(max-width: 768px) 100vw, 50vw'
         />
-      </figure>
+      </div>
 
       {isImageOpen && (
         <div
