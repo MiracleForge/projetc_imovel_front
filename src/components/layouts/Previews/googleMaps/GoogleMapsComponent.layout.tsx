@@ -1,7 +1,7 @@
 'use client'
 import { advertisementPage } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 import dynamic from "next/dynamic";
-import { useState } from "react";
+import { Activity, useState } from "react";
 
 const GoogleMapsIframe = dynamic(() => import("./GoogleMapsIframe.layout"), {
   ssr: false,
@@ -18,7 +18,6 @@ const GoogleMapsComponent = ({ adress, zoom }: GoogleMapsProps): React.JSX.Eleme
   return (
     <section className="w-full bg-white rounded-xl shadow-sm border border-gray-100 transition hover:shadow-md">
 
-      {/* Header */}
       <header className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 p-4 md:p-6">
 
         <div className="flex flex-col">
@@ -65,13 +64,13 @@ const GoogleMapsComponent = ({ adress, zoom }: GoogleMapsProps): React.JSX.Eleme
         </button>
       </header>
 
-      {isMapOpen && (
+      <Activity mode={isMapOpen ? "visible" : "hidden"}>
         <div className="px-4 pb-4 md:px-6 md:pb-6">
           <div className="w-full h-[300px] md:h-[400px] rounded-lg overflow-hidden border border-gray-200">
             <GoogleMapsIframe adress={adress} zoom={zoom} />
           </div>
         </div>
-      )}
+      </Activity>
     </section>
   );
 };

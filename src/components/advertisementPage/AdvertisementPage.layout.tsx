@@ -7,7 +7,6 @@ import { notFound } from "next/navigation";
 import { generateAdvertisementJsonLd } from "@/src/seo/adversetimentJsonLd.seo";
 import serializeJavascript from "serialize-javascript";
 import { formattedPrice } from "@/src/utils/formating.utils";
-import { OptionsGrid } from "../ui/cards/PublicationCard.list";
 import { GalleryAdvertizerPage } from "./GalleyAdvertiserPage.layout";
 import CommumButton from "../ui/buttons/CommumButton.ui";
 import { StarIcon } from "../ui/effects/ImobilyStudio.icon";
