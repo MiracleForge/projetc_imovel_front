@@ -1,28 +1,25 @@
 import { InputHTMLAttributes } from "react";
 
-interface CheckMarkMetricProps extends InputHTMLAttributes<HTMLInputElement> {
+interface InputNumericProps extends InputHTMLAttributes<HTMLInputElement> {
   id: string;
   label: string;
-  iconKey: string,
-  iconsMap: Record<string, string>;
+  icon: string; // agora recebe a url direto
   name: string;
   value: number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  allowNegatives?: boolean
+  allowNegatives?: boolean;
 }
 
 export function InputNumeric({
   id,
   label,
-  iconKey,
-  iconsMap,
+  icon,
   name,
   value,
   onChange,
   allowNegatives = true,
   ...rest
-}: CheckMarkMetricProps) {
-  const iconSrc = iconsMap[iconKey] ?? iconsMap["default"];
+}: InputNumericProps) {
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (!allowNegatives) return;
@@ -55,17 +52,15 @@ export function InputNumeric({
         hover:bg-blue-50 hover:border-secundary-blue
       `}
     >
-
       <div className="flex items-center gap-3">
         <img
-          src={iconSrc}
+          src={icon}
           alt={label}
           className="w-8 h-8 object-contain"
         />
 
         <span className="text-sm font-medium capitalize">
-          {label} {rest.required && <span className="text-red-500">*</span >}
-
+          {label} {rest.required && <span className="text-red-500">*</span>}
         </span>
       </div>
 

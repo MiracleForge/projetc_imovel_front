@@ -31,12 +31,12 @@ export default function LikeButton({ initialState }: LikeButtonProps) {
       onMouseDown={() => setPressed(true)}
       onMouseUp={() => setPressed(false)}
       onMouseLeave={() => setPressed(false)}
-      className={`absolute top-1 right-1 bg-white/40 p-2 rounded-full transition-transform z-10 ${pressed ? 'scale-[1.5]' : ''}`}
+      className={`absolute cursor-pointer p-auto top-1 right-1 bg-white/40 p-2 rounded-full transition-transform z-10 ${pressed ? 'scale-[1.5]' : ''}`}
       title={liked ? "Remover Favoritar" : "Favoritar"}
       aria-pressed={liked}
       onClick={handleClick}
     >
-      <img src={iconPath} width={12} height={12} className="size-3" />
+      <img src={iconPath} width={12} height={12} className="size-full -m-0" />
     </button>
   );
 }

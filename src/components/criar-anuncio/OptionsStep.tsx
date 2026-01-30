@@ -3,7 +3,7 @@
 import CheckMarkCategorys from "@/src/components/ui/inputs/CheckmarksCategorys.ui";
 import FormField from "../wrappers/FormField.wrapper";
 import StepField from "../wrappers/StepField.wrapper";
-import { amenityIconsMap, condominionIconsMap } from "@/src/content/adversetiment.content";
+import { amenitiesConfig, amenityIconsMap, condominionIconsMap } from "@/src/content/adversetiment.content";
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import { useFormInput } from "@/src/hooks/forms/useFormInput.hook";
 
@@ -32,13 +32,7 @@ export function OptionsStep() {
     <StepField label="Opções do Anúncio">
       <FormField label="Opções">
         <ul className="formGridContainer">
-          {[
-            ["academy", "Academia"],
-            ["balcony", "Sacada"],
-            ["pool", "Piscina"],
-            ["service_area", "Área de Serviço"],
-            ["service_room", "Quarto de Serviço"],
-          ].map(([field, label]) => (
+          {amenitiesConfig.map(({ field, label }) => (
             <CheckMarkCategorys
               type="checkbox"
               key={field}
@@ -58,6 +52,7 @@ export function OptionsStep() {
             />
           ))}
         </ul>
+
       </FormField>
 
 

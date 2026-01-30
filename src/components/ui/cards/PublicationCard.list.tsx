@@ -4,8 +4,8 @@ import Link from "next/link";
 import UserAvatar from "../avatars/UserAvatar.ui";
 import { advertisementCardOptions, homeCardAdvertisement } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 import { formattedPrice } from "@/src/utils/formating.utils";
-import { metricsIconsMap } from "@/src/content/adversetiment.content";
 import StudioBadge from "../badges/StudioBadge.ui";
+import { propertyMetricsConfig } from "@/src/content/adversetiment.content";
 
 interface PublicationCardProps {
   data: homeCardAdvertisement;
@@ -124,41 +124,51 @@ export function OptionsGrid({
   flat?: boolean;
 }) {
   const size = flat ? 36 : 16;
+
+  if (!options.propertyMetrics) return null;
+
   return (
     <dl
       className={
         flat
-          ? "flex flex-wrap w-full "
+          ? "flex flex-wrap w-full"
           : "absolute grid grid-cols-2 gap-2 z-10 top-1 left-1"
       }
     >
-      {Object.entries(options.propertyMetrics || {}).map(([key, value]) => (
-        <div
-          key={key}
-          className={flat ? "basis-1/4" : ""}
-        >
-          <dt className="sr-only">{key}</dt>
+      {propertyMetricsConfig.map(({ field, label, icon }) => {
+        const value = options.propertyMetrics[field];
 
-          <dd
-            className={
-              flat
-                ? "flex items-center justify-center space-x-4 h-10 bg-white/60 rounded-full text-sm"
-                : "p-1 bg-white/60 rounded-full"
-            }
-            title={`${key.toUpperCase()}: ${value}`}
-          >
-            <Image
-              src={metricsIconsMap[key] ?? "/icons/listings/default.svg"}
-              className={flat ? "size-8" : "size-5"}
-              alt=""
-              width={size}
-              height={size}
-            />
+        if (!value) return null;
 
-            {flat && <span className="text-lg whitespace-nowrap">{value}</span>}
-          </dd>
-        </div>
-      ))}
+        return (
+          <div key={field} className={flat ? "basis-1/4" : ""}>
+            <dt className="sr-only">{label}</dt>
+
+            <dd
+              className={
+                flat
+                  ? "flex items-center justify-center space-x-4 h-10 bg-white/60 rounded-full text-sm"
+                  : "p-1 bg-white/60 rounded-full"
+              }
+              title={`${label}: ${value}`}
+            >
+              <Image
+                src={icon}
+                className={flat ? "size-8" : "size-5"}
+                alt={label}
+                width={size}
+                height={size}
+              />
+
+              {flat && (
+                <span className="text-lg whitespace-nowrap">
+                  {value}
+                </span>
+              )}
+            </dd>
+          </div>
+        );
+      })}
     </dl>
   );
 }

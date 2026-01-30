@@ -27,12 +27,28 @@ export const allCategoriesData = [
 ] as const;
 
 
-export const metricsIconsMap: Record<string, string> = {
-  rooms: "/icons/metrics/quartos-icon.svg",
-  bathrooms: "/icons/metrics/banheiros-icon.svg",
-  garage: "/icons/metrics/garagem-icon.svg",
-  area: "/icons/metrics/area-icon.svg",
-};
+export const propertyMetricsConfig = [
+  {
+    field: "area",
+    label: "Área",
+    icon: "/icons/metrics/area-icon.svg",
+  },
+  {
+    field: "rooms",
+    label: "Quartos",
+    icon: "/icons/metrics/quartos-icon.svg",
+  },
+  {
+    field: "bathrooms",
+    label: "Banheiros",
+    icon: "/icons/metrics/banheiros-icon.svg",
+  },
+  {
+    field: "garage",
+    label: "Garagem",
+    icon: "/icons/metrics/garagem-icon.svg",
+  },
+] as const;
 
 export const amenityIconsMap: Record<string, string> = {
   academy: "/icons/options/academy-options.svg",
@@ -41,6 +57,30 @@ export const amenityIconsMap: Record<string, string> = {
   service_area: "/icons/options/service-area-options.svg",
   service_room: "/icons/options/service-room-options.svg",
 };
+
+
+export const amenitiesConfig = [
+  {
+    field: "academy",
+    label: "Academia",
+  },
+  {
+    field: "balcony",
+    label: "Sacada",
+  },
+  {
+    field: "pool",
+    label: "Piscina",
+  },
+  {
+    field: "service_area",
+    label: "Área de Serviço",
+  },
+  {
+    field: "service_room",
+    label: "Quarto de Serviço",
+  },
+] as const;
 
 export const condominionIconsMap: Record<string, string> = {
   academy: "/icons/options/academy-options.svg",

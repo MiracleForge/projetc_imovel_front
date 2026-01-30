@@ -2,16 +2,9 @@
 
 import { useAdvertisementFormStore } from "@/src/store/advertisement-form.store";
 import { InputNumeric } from "@/src/components/ui/inputs/InputNumeric.ui";
-import { metricsIconsMap } from "@/src/content/adversetiment.content";
 import FormField from "../wrappers/FormField.wrapper";
 import StepField from "../wrappers/StepField.wrapper";
-
-const OPTIONS_METRICS = [
-  ["area", "Área"],
-  ["rooms", "Quartos"],
-  ["bathrooms", "Banheiros"],
-  ["garage", "Vagas garagem"],
-] as const;
+import { propertyMetricsConfig } from "@/src/content/adversetiment.content";
 
 export function CharacteristicsStep() {
   const { formData, updateField } = useAdvertisementFormStore();
@@ -25,22 +18,23 @@ export function CharacteristicsStep() {
     <StepField label="Características do Imóvel">
       <FormField label="Características do Imóvel">
         <div className="flex flex-col gap-4">
-          {OPTIONS_METRICS
-            .filter(([key]) =>
-              formData.category === "terrenos-sítios" ? key === "area" : true
+          {propertyMetricsConfig
+            .filter(({ field }) =>
+              formData.category === "terrenos-sítios"
+                ? field === "area"
+                : true
             )
-            .map(([key, label]) => (
+            .map(({ field, label, icon }) => (
               <InputNumeric
-                key={key}
-                id={`metric-${key}`}
+                key={field}
+                id={`metric-${field}`}
                 label={label}
-                iconKey={key}
-                iconsMap={metricsIconsMap}
-                required={key === "area"}
+                icon={icon}
+                required={field === "area"}
                 min={0}
                 inputMode="numeric"
-                name={`options.propertyMetrics.${key}`}
-                value={formData.options.propertyMetrics[key] ?? 0}
+                name={`options.propertyMetrics.${field}`}
+                value={formData.options.propertyMetrics[field] ?? 0}
                 onChange={handleInputChange}
               />
             ))}
@@ -49,3 +43,4 @@ export function CharacteristicsStep() {
     </StepField>
   );
 }
+
