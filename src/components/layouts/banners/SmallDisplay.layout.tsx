@@ -5,13 +5,12 @@ interface SmallDisplayProps extends Omit<ImageProps, 'fill'> {
 
 const SmallDisplay = ({ src, alt, ...rest }: SmallDisplayProps) => {
   return (
-    <div className={`min-h-[11vh] relative group cursor-pointer overflow-hidden rounded-lg w-40 lg:w-56 `}>
+    <div className="relative w-40 lg:w-56 aspect-video overflow-hidden rounded-lg">
       <Image
         src={src}
         alt={alt}
-        className={` object-cover rounded-lg`}
         fill
-        sizes="(max-width: 768px) 25vw, 12.5vw"
+        className="object-cover rounded-lg"
         {...rest}
       />
     </div>

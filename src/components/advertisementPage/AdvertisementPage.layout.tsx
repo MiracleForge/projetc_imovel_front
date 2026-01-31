@@ -170,20 +170,22 @@ function AsideInfo({
         <h2 id="descricao-imovel" className="sr-only">
           Descrição do imóvel
         </h2>
-        <p className="xl:max-w-[80%] text-justify text-base">
+        <p className="text-justify text-base">
           {ad.description}
         </p>
       </section>
 
       <section className="mt-auto flex flex-col gap-3">
-        <div className="flex items-center gap-2.5">
-          <button className="w-full bg-secundary-blue text-white p-3 text-base font-semibold">
+        <div className="h-10 flex items-stretch gap-2.5">
+
+          <button className="flex-1 bg-secundary-blue text-white px-4 text-base font-semibold rounded-md flex items-center justify-center">
             Entre em Contato
           </button>
 
-          <div className="relative w-16 h-12 border rounded-md flex items-center justify-center cursor-pointer">
+          <div className="relative w-14 border rounded-md cursor-pointer flex items-center justify-center">
             <LikeButton initialState={false} />
           </div>
+
         </div>
       </section>
 
@@ -193,7 +195,7 @@ function AsideInfo({
 
             <a
               href={`tel:${ad.phone}`}
-              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-2 border rounded-sm border-gray-200"
+              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-1 border rounded-sm border-gray-200"
             >
               <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
               <span>(71) 98447-4664</span>
@@ -201,7 +203,7 @@ function AsideInfo({
 
             <button
               type="button"
-              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-2 border rounded-sm border-gray-200"
+              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-1 border rounded-sm border-gray-200"
             >
               <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
               <span>Chat</span>
@@ -209,7 +211,7 @@ function AsideInfo({
 
             <button
               type="button"
-              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-2 border rounded-sm border-gray-200"
+              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-1 border rounded-sm border-gray-200"
             >
               <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
               <span>Agendar visita</span>

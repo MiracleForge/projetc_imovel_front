@@ -22,25 +22,17 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
 
   return (
     <>
-      <figure
-        className="flex flex-col md:flex-row gap-4 items-stretch w-full"
-        itemProp="image"
-        aria-label={`Galeria de imagens do anúncio: ${title}`}
-      >
-        <nav
-          aria-label="Miniaturas da galeria de imagens"
-          className="order-2 md:order-1"
-        >
-          <ul className="grid grid-cols-2 lg:grid-cols-1 gap-4" role="list">
-            {images.slice(1, 6).map((img, index) => (
-              <li
-                key={img}
-                role="listitem"
-                className={index === 3 ? "hidden xl:block" : ""}
-              >
+      <figure className="grid grid-cols-[auto_1fr] auto-rows-fr gap-4 w-full">
+
+
+        {/* SMALL IMAGES */}
+        <nav className="row-span-4">
+          <ul className="grid grid-rows-4 gap-4 h-full">
+            {images.slice(1, 5).map((img, index) => (
+              <li key={img}>
                 <GalleryImageButton
                   isOpen={isOpen}
-                  ariaLabel={`Abrir imagem ${index + 2} da galeria`}
+                  ariaLabel={`Abrir imagem ${index + 2}`}
                   onOpen={() => {
                     setIndex(index + 1)
                     setIsOpen(true)
@@ -56,21 +48,18 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
           </ul>
         </nav>
 
+        {/* LARGE IMAGE */}
         <GalleryImageButton
           isOpen={isOpen}
-          ariaLabel="Abrir galeria de imagens em tela cheia"
+          ariaLabel="Abrir galeria"
           onOpen={() => {
             setIndex(0)
             setIsOpen(true)
           }}
-          className="flex-1 order-1 md:order-2"
+          className="row-span-4"
         >
           <LargeDisplay src={images[0]} alt={`${title} - imagem principal`} />
         </GalleryImageButton>
-
-        <figcaption className="sr-only">
-          Galeria de imagens do anúncio: {title}
-        </figcaption>
       </figure>
 
       <Activity mode={isOpen ? "visible" : "hidden"}>
