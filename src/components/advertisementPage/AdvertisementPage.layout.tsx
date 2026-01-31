@@ -286,14 +286,18 @@ function PropertyMetricsSection({ ad }: { ad: advertisementPage }) {
       </div>
 
       <dl className="flex flex-wrap gap-2">
-        {propertyMetricsConfig.map(({ field, label, icon }) => {
-          const value = ad.options.propertyMetrics[field];
-          if (!value) return null;
+        {propertyMetricsConfig.map(({ field, label, icon, formatter }) => {
+          const rawValue = ad.options.propertyMetrics[field];
+          if (!rawValue) return null;
+
+          const formattedValue = formatter
+            ? formatter(rawValue)
+            : rawValue;
 
           return (
             <div key={field} className="flex-1 min-w-fit">
               <MetricDisplay
-                value={value}
+                value={formattedValue}
                 label={label}
                 iconKey={field}
                 iconsMap={{ [field]: icon }}

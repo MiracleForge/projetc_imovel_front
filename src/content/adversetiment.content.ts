@@ -2,6 +2,8 @@
 // FONTS OF TRUTH used to replicate this data everywhere
 // ------------------
 
+import { advertisementPage } from "../contracts/DTOs/advertisement/views/advertisement.card.dto";
+
 export const adversetimentCategoriesData = [
   "apartamentos",
   "casas-e-sobrados",
@@ -28,12 +30,19 @@ export const allCategoriesData = [
   ...transactionMode,
 ] as const;
 
+type MetricConfig = {
+  field: keyof advertisementPage["options"]["propertyMetrics"];
+  label: string;
+  icon: string;
+  formatter?: (value: number | string | boolean) => string;
+};
 
-export const propertyMetricsConfig = [
+export const propertyMetricsConfig: MetricConfig[] = [
   {
     field: "area",
     label: "Área",
     icon: "/icons/metrics/area-icon.svg",
+    formatter: (value) => `${value} m²`,
   },
   {
     field: "rooms",

@@ -5,7 +5,7 @@ import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
 
 const buttonVariants = cva(
-  "block text-center hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 font-medium",
+  "overflow-hidden block text-center hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 font-medium",
   {
     variants: {
       variant: {
