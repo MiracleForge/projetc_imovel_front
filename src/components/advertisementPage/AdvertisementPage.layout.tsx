@@ -13,7 +13,7 @@ import { StarIcon } from "../ui/effects/ImobilyStudio.icon";
 import LikeButton from "../ui/buttons/LikeButtons.ui";
 import LazyLoadWrapper from "@/src/components/wrappers/LazyLoadWrapper.wrapper";
 import { MetricDisplay } from "../layouts/Previews/MetricDisplay.layout";
-import { propertyMetricsConfig } from "@/src/content/adversetiment.content";
+import { amenitiesConfig, condominiumConfig, propertyMetricsConfig } from "@/src/content/adversetiment.content";
 
 import dynamic from "next/dynamic";
 import GoogleMapsComponent from "../layouts/Previews/googleMaps/GoogleMapsComponent.layout";
@@ -27,7 +27,7 @@ export default async function AdvertisementPage({ params }: AdvertisePageProps) 
   });
 
   if (!ad) notFound();
-
+  console.log(ad)
   const advertisementJsonLd = generateAdvertisementJsonLd(ad);
   const formatedPrice = formattedPrice(ad.price);
 
@@ -47,6 +47,9 @@ export default async function AdvertisementPage({ params }: AdvertisePageProps) 
 
           <PropertyMetricsSection ad={ad} />
           <GoogleMapsComponent adress={ad.address} zoom={18} />
+
+          <PropertyAmenitiesSection amenities={ad.options.amenities} />
+          <PropertyCondominionSection condominion={ad.options.condominion} />
         </Suspense>
       </article>
 
@@ -126,7 +129,7 @@ function AsideInfo({
           </CommumButton>
         )}
 
-        <h1 itemProp="name" className="text-2xl font-bold text-neutral">
+        <h1 itemProp="name" className="text-xl font-bold text-neutral">
           {ad.title}
         </h1>
 
@@ -139,7 +142,11 @@ function AsideInfo({
             <img src="/miscellaneous/star-empty-icon.svg" className="h-4 w-4" alt="" />
           </div>
 
-          <span>{ad.transactionMode}</span>
+          <span className="text-secundary-blue font-normal mx-2">|</span>
+          <span className="text-secundary-blue font-normal capitalize">
+            {ad.transactionMode}
+          </span>
+
         </div>
 
         <section
@@ -149,13 +156,12 @@ function AsideInfo({
           className="text-2xl font-medium text-black"
         >
           <meta itemProp="priceCurrency" content="BRL" />
-          <span itemProp="price" content={ad.price.toString()}>
+          <span className="text-lg" itemProp="price" content={ad.price.toString()}>
             R$ {formatedPrice}
           </span>
           <meta itemProp="availability" content="https://schema.org/InStock" />
         </section>
 
-        <AddressSection ad={ad} />
       </header>
 
       <hr className="border-gray-200" />
@@ -164,14 +170,14 @@ function AsideInfo({
         <h2 id="descricao-imovel" className="sr-only">
           Descrição do imóvel
         </h2>
-        <p className="max-w-[80%] text-justify text-xl">
+        <p className="xl:max-w-[80%] text-justify text-base">
           {ad.description}
         </p>
       </section>
 
-      <section className="mt-auto pt-6 flex flex-col gap-3">
+      <section className="mt-auto flex flex-col gap-3">
         <div className="flex items-center gap-2.5">
-          <button className="w-full bg-secundary-blue text-white px-6 py-3 text-xl font-semibold">
+          <button className="w-full bg-secundary-blue text-white p-3 text-base font-semibold">
             Entre em Contato
           </button>
 
@@ -183,38 +189,33 @@ function AsideInfo({
 
       <address className="not-italic">
         <nav aria-label="Ações de contato do anunciante">
-          <ul className="flex justify-between w-full">
+          <div className="flex flex-wrap gap-2">
 
-            <li>
-              <a
-                href={`tel:${ad.phone}`}
-                className="flex items-center gap-2 border px-4 py-2 rounded-sm border-gray-200"
-              >
-                <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
-                <span>Ligar</span>
-              </a>
-            </li>
+            <a
+              href={`tel:${ad.phone}`}
+              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-2 border rounded-sm border-gray-200"
+            >
+              <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
+              <span>(71) 98447-4664</span>
+            </a>
 
-            <li>
-              <a
-                href={`https://wa.me/55${ad.phone}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 border px-4 py-2 rounded-sm border-gray-200"
-              >
-                <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
-                <span>WhatsApp</span>
-              </a>
-            </li>
+            <button
+              type="button"
+              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-2 border rounded-sm border-gray-200"
+            >
+              <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
+              <span>Chat</span>
+            </button>
 
-            <li>
-              <button type="button" className="flex items-center gap-2 border px-4 py-2 rounded-sm border-gray-200">
-                <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
-                <span>Agendar visita</span>
-              </button>
-            </li>
+            <button
+              type="button"
+              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-2 border rounded-sm border-gray-200"
+            >
+              <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
+              <span>Agendar visita</span>
+            </button>
 
-          </ul>
+          </div>
         </nav>
       </address>
 
@@ -246,9 +247,9 @@ function AddressSection({ ad }: { ad: advertisementPage }) {
       itemProp="address"
       itemScope
       itemType="https://schema.org/PostalAddress"
-      className="flex flex-wrap items-center gap-4 text-lg text-neutral-terciary"
+      className="flex flex-wrap items-center gap-4 text-sm text-neutral-terciary"
     >
-      <span className="flex items-center gap-1.5 min-w-0">
+      <span className="flex items-center gap-1.5 min-w-fit">
         <svg
           className="w-4 h-4 shrink-0"
           fill="none"
@@ -281,25 +282,98 @@ function PropertyMetricsSection({ ad }: { ad: advertisementPage }) {
   return (
     <section className="mb-6 pt-6 space-y-6">
       <div className="wrapper-cards-header tipografy-title">
-        <h2 className="wrapper-cards-title">Características do Imóvel</h2>
+        <h2 className="wrapper-cards-title">Especificações do imóvel</h2>
       </div>
 
-      <dl className="formGridContainer md:flex md:flex-row">
+      <dl className="flex flex-wrap gap-2">
         {propertyMetricsConfig.map(({ field, label, icon }) => {
           const value = ad.options.propertyMetrics[field];
           if (!value) return null;
 
           return (
-            <MetricDisplay
-              key={field}
-              value={value}
-              label={label}
-              iconKey={field}
-              iconsMap={{ [field]: icon }}
-            />
+            <div key={field} className="flex-1 min-w-fit">
+              <MetricDisplay
+                value={value}
+                label={label}
+                iconKey={field}
+                iconsMap={{ [field]: icon }}
+              />
+            </div>
           );
         })}
       </dl>
     </section>
   );
 }
+
+
+function PropertyAmenitiesSection({
+  amenities
+}: {
+  amenities: advertisementPage["options"]["amenities"];
+}) {
+  if (!amenities) return null;
+
+  return (
+    <section className="mb-6 pt-6 space-y-6">
+      <div className="wrapper-cards-header tipografy-title">
+        <h2 className="wrapper-cards-title">Características do Imóvel</h2>
+      </div>
+
+      <dl className="flex flex-wrap gap-2">
+        {amenitiesConfig.map(({ field, label, icon }) => {
+          const value = amenities[field];
+          if (!value) return null;
+
+          return (
+            <div key={field} className="flex-1 min-w-fit">
+              <MetricDisplay
+                value={value}
+                label={label}
+                iconKey={field}
+                iconsMap={{ [field]: icon }}
+              />
+            </div>
+          );
+        })}
+      </dl>
+    </section>
+  );
+}
+
+
+
+function PropertyCondominionSection({
+  condominion
+}: {
+  condominion: advertisementPage["options"]["condominion"];
+}) {
+  if (!condominion) return null;
+
+  return (
+    <section className="mb-6 pt-6 space-y-6">
+      <div className="wrapper-cards-header tipografy-title">
+        <h2 className="wrapper-cards-title">Características do Condomínio</h2>
+      </div>
+
+      <dl className="flex flex-wrap gap-2">
+        {condominiumConfig.map(({ field, label, icon }) => {
+          const value = condominion[field];
+          if (!value) return null;
+
+          return (
+            <div key={field} className="flex-1 min-w-fit">
+              <MetricDisplay
+                value={value}
+                label={label}
+                iconKey={field}
+                iconsMap={{ [field]: icon }}
+              />
+            </div>
+          );
+        })}
+      </dl>
+    </section>
+  );
+}
+

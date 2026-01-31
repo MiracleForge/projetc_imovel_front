@@ -9,7 +9,7 @@ const LargeDisplay = ({
   return (
     <div
       id='Big Figure'
-      className="relative w-full aspect-video md:aspect-auto h-full overflow-hidden rounded-lg"
+      className="relative w-full aspect-video md:aspect-auto  h-full overflow-hidden rounded-lg"
     >
       <Image
         src={src}

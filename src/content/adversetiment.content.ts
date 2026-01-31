@@ -1,5 +1,5 @@
 // ------------------
-// FONTS OF TRUTH used to replecate this data everywhere 
+// FONTS OF TRUTH used to replicate this data everywhere
 // ------------------
 
 export const adversetimentCategoriesData = [
@@ -14,7 +14,7 @@ export const transactionMode = [
   "venda",
   "aluguel",
   "temporada",
-]
+] as const;
 
 export const marketingCategoriesData = [
   "recém-publicados",
@@ -23,7 +23,9 @@ export const marketingCategoriesData = [
 ] as const;
 
 export const allCategoriesData = [
-  ...marketingCategoriesData, ...adversetimentCategoriesData, ...transactionMode
+  ...marketingCategoriesData,
+  ...adversetimentCategoriesData,
+  ...transactionMode,
 ] as const;
 
 
@@ -50,45 +52,74 @@ export const propertyMetricsConfig = [
   },
 ] as const;
 
-export const amenityIconsMap: Record<string, string> = {
-  academy: "/icons/options/academy-options.svg",
-  balcony: "/icons/options/balcony-options.svg",
-  pool: "/icons/options/pool-options.svg",
-  service_area: "/icons/options/service-area-options.svg",
-  service_room: "/icons/options/service-room-options.svg",
-};
-
 
 export const amenitiesConfig = [
   {
     field: "academy",
     label: "Academia",
+    icon: "/icons/options/academy-options.svg",
   },
   {
-    field: "balcony",
-    label: "Sacada",
+    field: "service_room",
+    label: "Quarto de serviço",
+    icon: "/icons/options/service-room-options.svg",
+  },
+  {
+    field: "service_area",
+    label: "Área de serviço",
+    icon: "/icons/options/service-area-options.svg",
   },
   {
     field: "pool",
     label: "Piscina",
+    icon: "/icons/options/pool-options.svg",
   },
   {
-    field: "service_area",
-    label: "Área de Serviço",
-  },
-  {
-    field: "service_room",
-    label: "Quarto de Serviço",
+    field: "balcony",
+    label: "Sacada",
+    icon: "/icons/options/balcony-options.svg",
   },
 ] as const;
 
-export const condominionIconsMap: Record<string, string> = {
-  academy: "/icons/options/academy-options.svg",
-  allow_animals: "/icons/options/allow-animals-options.svg",
-  close_condominion: "/icons/options/close_condominion-options.svg",
-  elevator: "/icons/options/elevator-options.svg",
-  gate_house: "/icons/options/gate-house-options.svg",
-};
+
+export const condominiumConfig = [
+  {
+    field: "academy",
+    label: "Academia",
+    icon: "/icons/options/academy-options.svg",
+  },
+  {
+    field: "allow_animals",
+    label: "Permite animais",
+    icon: "/icons/options/allow-animals-options.svg",
+  },
+  {
+    field: "close_condominion",
+    label: "Condomínio fechado",
+    icon: "/icons/options/close-condominion-options.svg",
+  },
+  {
+    field: "elevator",
+    label: "Elevador",
+    icon: "/icons/options/elevator-options.svg",
+  },
+  {
+    field: "gate_house",
+    label: "Portaria",
+    icon: "/icons/options/gate-house-options.svg",
+  },
+  {
+    field: "party_saloon",
+    label: "Salão de festas",
+    icon: "/icons/options/party-saloon-options.svg",
+  },
+  {
+    field: "security",
+    label: "Segurança",
+    icon: "/icons/options/security-options.svg",
+  },
+] as const;
+
 
 export const brazilStates = [
   { code: "AC", name: "Acre" },

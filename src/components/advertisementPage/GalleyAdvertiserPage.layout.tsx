@@ -36,7 +36,7 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
               <li
                 key={img}
                 role="listitem"
-                className={index === 4 ? "hidden xl:block" : ""}
+                className={index === 3 ? "hidden xl:block" : ""}
               >
                 <GalleryImageButton
                   isOpen={isOpen}
