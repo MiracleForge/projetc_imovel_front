@@ -10,7 +10,7 @@ const SmallDisplay = ({ src, alt, ...rest }: SmallDisplayProps) => {
         src={src}
         alt={alt}
         fill
-        className="object-cover rounded-lg"
+        className="object-cover rounded-lg hover:scale-110 transition-transform"
         {...rest}
       />
     </div>

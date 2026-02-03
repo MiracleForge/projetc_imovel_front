@@ -23,9 +23,6 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
   return (
     <>
       <figure className="grid grid-cols-[auto_1fr] auto-rows-fr gap-4 w-full">
-
-
-        {/* SMALL IMAGES */}
         <nav className="row-span-4">
           <ul className="grid grid-rows-4 gap-4 h-full">
             {images.slice(1, 5).map((img, index) => (
@@ -48,7 +45,6 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
           </ul>
         </nav>
 
-        {/* LARGE IMAGE */}
         <GalleryImageButton
           isOpen={isOpen}
           ariaLabel="Abrir galeria"
@@ -58,7 +54,7 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
           }}
           className="row-span-4"
         >
-          <LargeDisplay src={images[0]} alt={`${title} - imagem principal`} />
+          <LargeDisplay src={images[indexToOpen]} alt={`${title} - imagem principal`} />
         </GalleryImageButton>
       </figure>
 
@@ -67,6 +63,7 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
           src={images}
           alt={title}
           startIndex={indexToOpen}
+          setIndex={setIndex}
           onClose={() => setIsOpen(false)}
         />
       </Activity>
