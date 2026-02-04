@@ -16,6 +16,10 @@ import { MetricDisplay } from "../layouts/Previews/MetricDisplay.layout";
 import { amenitiesConfig, condominiumConfig, propertyMetricsConfig } from "@/src/content/adversetiment.content";
 import dynamic from "next/dynamic";
 import GoogleMapsComponent from "../layouts/Previews/googleMaps/GoogleMapsComponent.layout";
+import ShowDescription from "./ShowDescription.layout";
+import ImobilyStudioArea from "./ImobilyStudioArea.layout";
+import Image from "next/image";
+import { GalleryPlanAdvertisePage } from "./GalleryPlanAdvertisePage.layout";
 
 const FecherClient = dynamic(
   () => import("@/src/components/wrappers/FecherClient.wrapper"),
@@ -47,7 +51,14 @@ export default async function AdvertisementPage({ params }: AdvertisePageProps) 
 
           <MainContent ad={ad} formatedPrice={formatedPrice} />
 
-          <PropertyMetricsSection ad={ad} />
+          <PropertyMetricsSection metrics={ad.options.propertyMetrics} />
+
+          <div className="flex flex-col md:flex-row justify-between">
+            <DescriptionSection description={ad.description} />
+
+            <GalleryPlanAdvertisePage title={ad.title} plans={[]} />
+          </div>
+
           <GoogleMapsComponent adress={ad.address} zoom={18} />
 
           <PropertyAmenitiesSection amenities={ad.options.amenities} />
@@ -55,6 +66,10 @@ export default async function AdvertisementPage({ params }: AdvertisePageProps) 
 
         </Suspense>
       </article>
+
+      <Suspense fallback={<AdvertisementSkeleton />}>
+        <ImobilyStudioArea />
+      </Suspense>
 
       <LazyLoadWrapper>
         <FecherClient query="http://localhost:3000/api/casas" />
@@ -163,6 +178,7 @@ function AsideInfo({
         <p className="text-justify text-base">
           {ad.description}
         </p>
+
       </section>
 
       <section className="mt-auto flex flex-col gap-3" aria-label="Ações principais">
@@ -170,9 +186,17 @@ function AsideInfo({
 
           <button
             aria-label="Entrar em contato sobre este imóvel"
-            className="flex-1 bg-secundary-blue text-white px-4 text-base font-semibold rounded-md flex items-center justify-center"
+            className="flex-1 bg-secundary-blue text-white px-4 text-base font-semibold rounded-md flex items-center justify-center cursor-pointer"
           >
             Entre em Contato
+          </button>
+
+          <button
+            role="button"
+            aria-label="Compartilhar"
+            className="relative w-14 border rounded-md cursor-pointer flex items-center justify-center"
+          >
+            <img src={"/miscellaneous/share-icon.svg"} width={16} height={16} alt="" className="size-4" />
           </button>
 
           <div
@@ -182,7 +206,6 @@ function AsideInfo({
           >
             <LikeButton initialState={false} />
           </div>
-
         </div>
       </section>
 
@@ -275,7 +298,11 @@ function AddressSection({ ad }: { ad: advertisementPage }) {
   );
 }
 
-function PropertyMetricsSection({ ad }: { ad: advertisementPage }) {
+function PropertyMetricsSection({
+  metrics
+}: {
+  metrics: advertisementPage["options"]["propertyMetrics"]
+}) {
   return (
     <section className="mb-6 pt-3 space-y-6" aria-labelledby="metricas-imovel">
 
@@ -287,7 +314,7 @@ function PropertyMetricsSection({ ad }: { ad: advertisementPage }) {
 
       <dl className="flex flex-wrap gap-2">
         {propertyMetricsConfig.map(({ field, label, icon, formatter }) => {
-          const rawValue = ad.options.propertyMetrics[field];
+          const rawValue = metrics.area
           if (!rawValue) return null;
 
           const formattedValue = formatter
@@ -307,13 +334,7 @@ function PropertyMetricsSection({ ad }: { ad: advertisementPage }) {
         })}
       </dl>
 
-      <div className="wrapper-cards-header tipografy-title pt-6">
-        <h3 className="wrapper-cards-subtitle">
-          Sobre este imóvel <span className="wrapper-cards-badge" />
-        </h3>
-      </div>
 
-      <p className="block text-base">{ad.description}</p>
     </section>
   );
 }
@@ -387,6 +408,27 @@ function PropertyCondominionSection({
         })}
       </dl>
     </section>
+  );
+}
+
+
+type UrlMaxArray = readonly [] | readonly [string] | readonly [string, string];
+function DescriptionSection({
+  description,
+}: {
+  description: string | undefined;
+}) {
+
+  return (
+    <div className="flex flex-col space-y-6 tipografy-title pt-6 pr-12 justify-baseline">
+      <h3 className="wrapper-cards-subtitle">
+        Sobre este imóvel
+      </h3>
+
+      <ShowDescription description={description!} />
+    </div>
+
+
   );
 }
 

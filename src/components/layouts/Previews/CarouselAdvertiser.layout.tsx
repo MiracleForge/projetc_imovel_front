@@ -39,11 +39,10 @@ export default function CarouselAdvertiser({ src, startIndex, alt, setIndex, onC
           className="object-contain rounded-lg"
           sizes="(max-width: 768px) 100vw, 75vw"
         />
-
       </div>
 
       <div className="w-full px-4">
-        <div className="flex gap-3 overflow-x-auto overflow-y-hidden whitespace-nowrap
+        <div className="flex gap-3 overflow-x-auto overflow-y-hidden whitespace-nowrap lg:justify-center
     "
         >
           {src.map((img, index) => (

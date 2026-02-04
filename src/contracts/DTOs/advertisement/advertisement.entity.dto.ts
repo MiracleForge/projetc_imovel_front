@@ -27,6 +27,10 @@ export const adversetimentSchema = z.object({
     .min(10, "Subtítulo deve ter no mínimo 10 caracteres.")
     .max(250, "Você atingiu o máximo de caracteres."),
 
+  resume: z
+    .string()
+    .max(100, "Você atingiu o limite máximo de caracteres."),
+
   description: z
     .string()
     .max(1000, "Você atingiu o limite máximo de caracteres.")

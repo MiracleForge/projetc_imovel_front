@@ -50,7 +50,6 @@ export default function PublicationCard({ data }: PublicationCardProps) {
           <LikeButton initialState={true} />
         </figure>
 
-        {/* Informações do Imóvel */}
         <div className="flex flex-col gap-2 px-1">
           <h2
             className="text-sm font-bold text-neutral line-clamp-2 min-h-6 truncate"
@@ -59,7 +58,6 @@ export default function PublicationCard({ data }: PublicationCardProps) {
             {data.title}
           </h2>
 
-          {/* Preço */}
           <div
             itemProp="offers"
             itemScope
@@ -75,7 +73,6 @@ export default function PublicationCard({ data }: PublicationCardProps) {
             <meta itemProp="availability" content="https://schema.org/InStock" />
           </div>
 
-          {/* Localização do Imóvel */}
           <p
             className="text-xs text-neutral-terciary line-clamp-1"
             itemProp="address"
@@ -88,7 +85,6 @@ export default function PublicationCard({ data }: PublicationCardProps) {
           </p>
         </div>
 
-        {/* Footer com Anunciante */}
         <footer className="flex items-center gap-2 px-1 text-xs md:text-sm border-t border-neutral-terciary/10 pt-4">
           <UserAvatar size={32} image={data.advertiser.image} />
 

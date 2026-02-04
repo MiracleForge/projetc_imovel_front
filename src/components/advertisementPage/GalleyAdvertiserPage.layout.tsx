@@ -1,6 +1,7 @@
 "use client"
 
 import { Activity, useState } from "react"
+import { GalleryImageButton } from "../ui/buttons/GalleryImageButton.ui"
 import dynamic from "next/dynamic"
 import LargeDisplay from "../layouts/Previews/LargeImageDisplay.preview"
 import SmallDisplay from "../layouts/banners/SmallDisplay.layout"
@@ -71,34 +72,5 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
   )
 }
 
-
-interface GalleryImageButtonProps {
-  onOpen: () => void
-  ariaLabel: string
-  children: React.ReactNode
-  isOpen: boolean
-  className?: string
-}
-
-function GalleryImageButton({
-  onOpen,
-  ariaLabel,
-  children,
-  isOpen,
-  className
-}: GalleryImageButtonProps) {
-  return (
-    <button
-      type="button"
-      onClick={onOpen}
-      aria-label={ariaLabel}
-      aria-haspopup="dialog"
-      aria-expanded={isOpen}
-      className={`focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secundary-blue cursor-pointer ${className ?? ""}`}
-    >
-      {children}
-    </button>
-  )
-}
 
 
