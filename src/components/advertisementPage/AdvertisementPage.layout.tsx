@@ -18,7 +18,6 @@ import dynamic from "next/dynamic";
 import GoogleMapsComponent from "../layouts/Previews/googleMaps/GoogleMapsComponent.layout";
 import ShowDescription from "./ShowDescription.layout";
 import ImobilyStudioArea from "./ImobilyStudioArea.layout";
-import Image from "next/image";
 import { GalleryPlanAdvertisePage } from "./GalleryPlanAdvertisePage.layout";
 
 const FecherClient = dynamic(

@@ -1,5 +1,4 @@
 "use client"
-
 import { Activity, useState } from "react"
 import { GalleryImageButton } from "../ui/buttons/GalleryImageButton.ui"
 import dynamic from "next/dynamic"
@@ -39,6 +38,7 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
                   <SmallDisplay
                     src={img}
                     alt={`${title} - miniatura ${index + 2}`}
+                    fallback="/miscellaneous/user-avatar.svg"
                   />
                 </GalleryImageButton>
               </li>
@@ -55,7 +55,7 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
           }}
           className="row-span-4"
         >
-          <LargeDisplay src={images[indexToOpen]} alt={`${title} - imagem principal`} />
+          <LargeDisplay src={images[0]} alt={`${title} - imagem principal`} />
         </GalleryImageButton>
       </figure>
 
