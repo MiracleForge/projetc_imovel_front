@@ -2,44 +2,54 @@ import { Metadata } from "next";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
+import AdvertiseBreadCombs from "@/src/components/ui/steps/AdvertiseBreadCombs.ui";
 import AdvertisementPage from "@/src/components/advertisementPage/AdvertisementPage.layout";
 import AdvertisementSkeleton from "@/src/components/advertisementPage/AdvertiseSkeleton.skeleton";
 import { buildAdvertisementMetadata } from "./metadata";
 import { getAdvertisementBySlug } from "@/src/dal/adversetiment.dal";
 
-export type AdvertisePageProps = {
-  params: { categoria: string; slug: string };
-  searchParams?: { rec?: string; lis?: string };
+type PageParams = {
+  category: string;
+  propertySlug: string;
 };
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { categoria: string; slug: string };
-}): Promise<Metadata> {
-  const ad = await getAdvertisementBySlug({
-    category: params.categoria,
-    slug: params.slug,
-  });
+export type AdvertisePageProps = {
+  params: Promise<PageParams>;
+  searchParams?: Promise<{ rec?: string; lis?: string }>;
+};
+
+
+export async function generateMetadata(): Promise<Metadata> {
+  const ad = await getAdvertisementBySlug();
 
   if (!ad) notFound();
-
   return buildAdvertisementMetadata(ad);
 }
 
-export default function Page(props: AdvertisePageProps) {
+
+export default async function Page({ params }: AdvertisePageProps) {
+  const { category, propertySlug } = await params;
+
+  // const headersList = await headers()
+  // const userAgent = headersList.get('user-agent')
+  //
+  // const isMobile = userAgent!.match(
+  //   /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+  // )
+
   return (
     <main
       itemScope
       itemType="https://schema.org/RealEstateListing"
-      className="container mx-auto py-6"
+      className="container mx-auto  py-6"
     >
-      <div className="mb-4 rounded bg-green-100 p-3 text-green-900 text-sm">
-        ✅ Conteúdo estático da página (header, breadcrumbs, anúncios, etc)
+
+      <div className="hidden md:block">
+        <AdvertiseBreadCombs category={category} propertySlug={propertySlug} />
       </div>
 
       <Suspense fallback={<AdvertisementSkeleton />}>
-        <AdvertisementPage {...props} />
+        <AdvertisementPage category={category} />
       </Suspense>
     </main>
   );

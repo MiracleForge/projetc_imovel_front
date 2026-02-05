@@ -47,7 +47,7 @@ export default function Home() {
       </LazyLoadWrapper>
 
       <LazyLoadWrapper>
-        <FecherClient query="http://localhost:3000/api/casas" />
+        <FecherClient query="http://localhost:3000/api/casas-e-sobrados" />
       </LazyLoadWrapper>
 
       <SectionFeature />

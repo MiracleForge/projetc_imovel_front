@@ -20,7 +20,7 @@ export function GalleryImageButton({
       aria-label={ariaLabel}
       aria-haspopup="dialog"
       aria-expanded={isOpen}
-      className={`focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secundary-blue cursor-pointer ${className ?? ""}`}
+      className={`block w-full h-fullfocus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secundary-blue cursor-pointer ${className ?? ""}`}
     >
       {children}
     </button>

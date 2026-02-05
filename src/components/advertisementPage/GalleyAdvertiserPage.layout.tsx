@@ -15,16 +15,16 @@ interface GalleryAdvertizerPageProps {
   title: string
 }
 
-
 export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPageProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [indexToOpen, setIndex] = useState<number>(0)
 
   return (
     <>
-      <figure className="grid grid-cols-[auto_1fr] auto-rows-fr gap-4 w-full">
-        <nav className="row-span-4">
-          <ul className="grid grid-rows-4 gap-4 h-full">
+      <figure className="flex flex-col md:flex-row gap-4 w-full">
+
+        <nav className="order-2 md:order-1 md:w-56 md:min-w-56  shrink-0">
+          <ul className="grid grid-cols-2 md:grid-cols-1 gap-4 w-full">
             {images.slice(1, 5).map((img, index) => (
               <li key={img}>
                 <GalleryImageButton
@@ -53,10 +53,15 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
             setIndex(0)
             setIsOpen(true)
           }}
-          className="row-span-4"
+          className="order-1 md:order-2 flex-1 min-w-0"
         >
-          <LargeDisplay src={images[0]} alt={`${title} - imagem principal`} />
+          <LargeDisplay
+            src={images[0]}
+            alt={`${title} - imagem principal`}
+            fallback=""
+          />
         </GalleryImageButton>
+
       </figure>
 
       <Activity mode={isOpen ? "visible" : "hidden"}>
@@ -71,6 +76,4 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
     </>
   )
 }
-
-
 

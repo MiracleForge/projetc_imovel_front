@@ -2,13 +2,7 @@ import { advertisementPage, homeCardAdvertisement } from "@/src/contracts/DTOs/a
 import { cache } from "react";
 
 export const getAdvertisementBySlug = cache(
-  async ({
-    category,
-    slug,
-  }: {
-    category: string;
-    slug: string;
-  }): Promise<advertisementPage | null> => {
+  async (): Promise<advertisementPage | null> => {
     try {
       const response = await fetch(
         "https://free.mockerapi.com/mock/aaffd2e8-6b2c-4620-8cbd-65f27739550b"

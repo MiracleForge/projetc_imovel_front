@@ -33,7 +33,7 @@ export const adversetimentSchema = z.object({
 
   description: z
     .string()
-    .max(1000, "Você atingiu o limite máximo de caracteres.")
+    .max(6000, "Você atingiu o limite máximo de caracteres.")
     .optional(),
 
   price: toNumber.pipe(z.number().positive("O preço inicial deve ser maior que R$ 0,00")),

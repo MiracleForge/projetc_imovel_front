@@ -8,7 +8,7 @@ const SmallDisplay = ({ src, alt, fallback, ...rest }: SmallDisplayProps) => {
   const srcToUse = src || fallback;
 
   return (
-    <div className="relative w-40 lg:w-56 aspect-video overflow-hidden rounded-lg">
+    <div className="relative w-full aspect-video overflow-hidden rounded-lg">
       <Image
         src={srcToUse}
         alt={alt}

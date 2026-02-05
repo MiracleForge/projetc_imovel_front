@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import AdvertisementSkeleton from "./AdvertiseSkeleton.skeleton";
-import { AdvertisePageProps } from "@/src/app/(pages)/(dynamic)/anuncios/[category]/[propertySlug]/page";
 import { advertisementPage } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
 import { getAdvertisementBySlug } from "@/src/dal/adversetiment.dal";
 import { notFound } from "next/navigation";
@@ -24,11 +23,9 @@ const FecherClient = dynamic(
   () => import("@/src/components/wrappers/FecherClient.wrapper"),
 );
 
-export default async function AdvertisementPage({ params }: AdvertisePageProps) {
-  const ad: advertisementPage | null = await getAdvertisementBySlug({
-    category: params.categoria,
-    slug: params.slug
-  });
+export default async function AdvertisementPage(category: { category: string }) {
+  const ad: advertisementPage | null = await getAdvertisementBySlug(
+  );
 
   if (!ad) notFound();
 
@@ -39,13 +36,13 @@ export default async function AdvertisementPage({ params }: AdvertisePageProps) 
     <>
       <SeoJsonLd jsonLd={advertisementJsonLd} />
 
-      <article
-        itemScope
-        itemType="https://schema.org/RealEstateListing"
-        className="text-black"
-      >
-        <Suspense fallback={<AdvertisementSkeleton />}>
+      <Suspense fallback={<AdvertisementSkeleton />}>
 
+        <article
+          itemScope
+          itemType="https://schema.org/RealEstateListing"
+          className="text-black"
+        >
           <OfferHeader />
 
           <MainContent ad={ad} formatedPrice={formatedPrice} />
@@ -63,15 +60,15 @@ export default async function AdvertisementPage({ params }: AdvertisePageProps) 
           <PropertyAmenitiesSection amenities={ad.options.amenities} />
           <PropertyCondominionSection condominion={ad.options.condominion} />
 
-        </Suspense>
-      </article>
+        </article>
+      </Suspense>
 
       <Suspense fallback={<AdvertisementSkeleton />}>
         <ImobilyStudioArea />
       </Suspense>
 
       <LazyLoadWrapper>
-        <FecherClient query="http://localhost:3000/api/casas" />
+        <FecherClient query={`http://localhost:3000/api/${category.category}`} />
       </LazyLoadWrapper>
     </>
   );
@@ -124,7 +121,7 @@ function AsideInfo({
   formatedPrice: string;
 }) {
   return (
-    <aside aria-labelledby="titulo-imovel" className="flex flex-col h-full gap-3">
+    <section aria-labelledby="property-imovel-info" className="flex flex-col h-full gap-3">
 
       <header className="flex flex-col gap-2">
 
@@ -258,7 +255,7 @@ function AsideInfo({
         </p>
       </footer>
 
-    </aside>
+    </section>
   );
 }
 
@@ -411,7 +408,6 @@ function PropertyCondominionSection({
 }
 
 
-type UrlMaxArray = readonly [] | readonly [string] | readonly [string, string];
 function DescriptionSection({
   description,
 }: {
