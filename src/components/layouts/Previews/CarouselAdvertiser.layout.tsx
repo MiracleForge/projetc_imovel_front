@@ -1,5 +1,4 @@
 'use client'
-
 import Image from 'next/image'
 import { useEffect, useCallback } from 'react'
 
@@ -7,11 +6,12 @@ interface CarouselAdvertiserProps {
   src: string[];
   startIndex: number;
   alt: string;
+  fallback: string;
   setIndex: (startIndex: number) => void;
   onClose: () => void;
 }
 
-export default function CarouselAdvertiser({ src, startIndex, alt, setIndex, onClose }: CarouselAdvertiserProps) {
+export default function CarouselAdvertiser({ src, startIndex, alt, fallback, setIndex, onClose }: CarouselAdvertiserProps) {
   const containerClasses =
     'fixed inset-0 flex flex-col gap-10 items-center justify-center bg-black bg-opacity-90 z-40'
 
@@ -38,6 +38,12 @@ export default function CarouselAdvertiser({ src, startIndex, alt, setIndex, onC
           fill
           className="object-contain rounded-lg"
           sizes="(max-width: 768px) 100vw, 75vw"
+          onError={(event: React.SyntheticEvent<HTMLImageElement>) => {
+            const target = event.currentTarget;
+            if (!target.srcset.includes(fallback)) {
+              target.srcset = fallback;
+            }
+          }}
         />
       </div>
 
@@ -56,6 +62,12 @@ export default function CarouselAdvertiser({ src, startIndex, alt, setIndex, onC
                 alt={alt}
                 fill
                 className="object-cover rounded-lg cursor-pointer hover:opacity-80 transition"
+                onError={(event: React.SyntheticEvent<HTMLImageElement>) => {
+                  const target = event.currentTarget;
+                  if (!target.srcset.includes(fallback)) {
+                    target.srcset = fallback;
+                  }
+                }}
               />
             </button>
           ))}

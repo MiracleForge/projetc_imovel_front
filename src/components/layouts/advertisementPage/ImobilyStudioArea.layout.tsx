@@ -1,29 +1,36 @@
 import { Suspense } from "react";
-import SectionCardSkeleton from "../layouts/cards/cardSections/HorizontalCardSection.skeleton";
-import FecherSSR from "../wrappers/FecherSSR.wrapper";
+import SectionCardSkeleton from "../cards/cardSections/HorizontalCardSection.skeleton";
+import FecherSSR from "../../wrappers/FecherSSR.wrapper";
 import { StudioEntity } from "@/src/contracts/DTOs/ImobilyStudio/ImobilyStudio.entity.dto";
 import { getImobilyStudioResumed } from "@/src/dal/ImobilyStudio.dal";
+import ContacInforArea from "./ContacInfoArea.layout";
+import Image from "next/image";
+import SectionMarketing from "../features/SectionMarketing.layout";
 
 export default async function StudioSectionImproved() {
   const studio: StudioEntity | null = await getImobilyStudioResumed();
-  console.log(studio)
+
   if (!studio) return null;
   return (
     <section className="w-full bg-white border border-gray-200 rounded-xl overflow-hidden">
 
-      {/* HEADER */}
+      <SectionMarketing keys={["verified_sales", "verified_sales", "visibility"]} value={["3", "5", "3"]} simple />
       <div className="relative h-44">
-        <img
+        <Image
           src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200&q=80"
           className="w-full h-full object-cover"
-          alt="Banner Studio"
+          fill
+          alt={`Banner Studio ${studio.name}`}
         />
         <div className="absolute inset-0 bg-black/40" />
 
         <div className="absolute bottom-4 left-6 flex items-center gap-4">
-          <img
+          <Image
             src="/miscellaneous/user-avatar.svg"
-            className="w-20 h-20 rounded-lg border-4 border-white object-cover bg-white"
+            alt={`Imagem do ${studio.name} responsável`}
+            width={80}
+            height={80}
+            className="rounded-lg border-4 border-white object-cover bg-white"
           />
 
           <div className="text-white">
@@ -40,19 +47,7 @@ export default async function StudioSectionImproved() {
         </p>
 
         {/* ACTIONS */}
-        <div className="flex flex-wrap gap-3">
-          <button className="bg-[#5B7FFF] text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-[#4A6FEE] transition">
-            Seguir Studio
-          </button>
-
-          <button className="border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-gray-50 transition">
-            Entrar em contato
-          </button>
-
-          <button className="border border-gray-300 px-4 py-2 rounded-md text-sm hover:bg-gray-50 transition">
-            Ver Studio completo
-          </button>
-        </div>
+        <ContacInforArea userActionButton="subscribe" phone="71 98447-4664" />
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <Stat label={studio.stats.anuncios.label} value={studio.stats.anuncios.value} />

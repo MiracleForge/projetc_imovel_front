@@ -44,6 +44,12 @@ export default function PublicationCard({ data }: PublicationCardProps) {
             itemProp="image"
             loading="lazy"
             sizes="(max-width: 768px) 260px, 280px"
+            onError={(event: React.SyntheticEvent<HTMLImageElement>) => {
+              const target = event.currentTarget;
+              if (!target.srcset.includes("/placeholders/imagem-do-anuncio-indisponivel.webp")) {
+                target.srcset = "/placeholders/imagem-do-anuncio-indisponivel.webp";
+              }
+            }}
           />
           {data.options && <OptionsGrid options={data.options} />}
           { /* TODO: likebutton realInitial value */}

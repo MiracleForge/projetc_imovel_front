@@ -1,9 +1,9 @@
 "use client"
 import { Activity, useState } from "react"
-import { GalleryImageButton } from "../ui/buttons/GalleryImageButton.ui"
+import { GalleryImageButton } from "../../ui/buttons/GalleryImageButton.ui"
 import dynamic from "next/dynamic"
-import LargeDisplay from "../layouts/Previews/LargeImageDisplay.preview"
-import SmallDisplay from "../layouts/banners/SmallDisplay.layout"
+import LargeDisplay from "../Previews/LargeImageDisplay.preview"
+import SmallDisplay from "../banners/SmallDisplay.layout"
 
 const CarouselAdvertiser = dynamic(
   () => import("@/src/components/layouts/Previews/CarouselAdvertiser.layout"),
@@ -38,7 +38,7 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
                   <SmallDisplay
                     src={img}
                     alt={`${title} - miniatura ${index + 2}`}
-                    fallback="/miscellaneous/user-avatar.svg"
+                    fallback="/placeholders/imagem-do-anuncio-indisponivel.webp"
                   />
                 </GalleryImageButton>
               </li>
@@ -71,6 +71,7 @@ export function GalleryAdvertizerPage({ images, title }: GalleryAdvertizerPagePr
           startIndex={indexToOpen}
           setIndex={setIndex}
           onClose={() => setIsOpen(false)}
+          fallback="/placeholders/imagem-do-anuncio-indisponivel.webp"
         />
       </Activity>
     </>

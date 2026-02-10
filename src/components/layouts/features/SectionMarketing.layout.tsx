@@ -1,11 +1,27 @@
-import { MARKETING_ITEMS } from "@/src/content/marketing.content";
+import {
+  MarketingKey,
+  MARKETING_MAP,
+} from "@/src/content/marketing.content";
 
-export default function SectionMarketing() {
+interface SectionMarketingProps {
+  keys: MarketingKey[];
+  value?: string[];
+  simple?: boolean;
+}
+
+export default function SectionMarketing({ keys, value, simple = false }: SectionMarketingProps) {
+  if (!keys) return null;
+  const keysToRender = keys;
+
+  const itemsToRender = keysToRender.map(
+    (key) => MARKETING_MAP[key]
+  );
+
   return (
-    <section className="bg-quartenary-blue py-12 px-6 rounded-3xl">
+    <section className={`${simple === false ? "bg-quartenary-blue text-white" : "bg-white text-black border-t border-t-foreground"} py-12 px-6 rounded-3xl`}>
       <ul className="flex flex-col lg:flex-row justify-around gap-6">
-        {MARKETING_ITEMS.map((item, index) => (
-          <SectionItem key={index} {...item} />
+        {itemsToRender.map(({ key, ...item }, index) => (
+          <SectionItem key={`${key}+ ${index}`} {...item} values={value?.[index]} />
         ))}
       </ul>
     </section>
@@ -16,21 +32,19 @@ function SectionItem({
   img: { imgSrc, imgAlt },
   title,
   subTitle,
+  values
 }: {
   img: { imgSrc: string; imgAlt: string };
   title: string;
   subTitle: string;
+  values?: string;
 }) {
   return (
     <li className="flex items-center gap-3">
-      <img
-        src={imgSrc}
-        alt={imgAlt}
-        className="w-20 h-20"
-      />
+      <img src={imgSrc} alt={imgAlt} className="w-20 h-20" />
       <div>
-        <p className="font-semibold text-2xl text-white">{title}</p>
-        <p className="font-normal text-lg text-white">{subTitle}</p>
+        <p className="font-semibold text-2xl">{title}</p>
+        <p className="font-normal text-lg space-x-2"><span>{values}</span><span>{subTitle}</span></p>
       </div>
     </li>
   );

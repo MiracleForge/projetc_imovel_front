@@ -1,20 +1,13 @@
 import { advertisementPage } from "@/src/contracts/DTOs/advertisement/views/advertisement.card.dto";
-import { getAdvertisementBySlug } from "@/src/dal/adversetiment.dal";
 import { generateAdvertisementJsonLd } from "@/src/seo/adversetimentJsonLd.seo";
 import { notFound } from "next/navigation";
-import LargeDisplay from "../layouts/Previews/LargeImageDisplay.preview";
+import { getAdvertisementBySlug } from "@/src/dal/adversetiment.dal";
+import LargeDisplay from "../Previews/LargeImageDisplay.preview";
 
 export default async function AdvertisementContent({
-  categoria,
-  slug
 }: {
-  categoria: string;
-  slug: string;
-}) {
-  const ad: advertisementPage | null = await getAdvertisementBySlug({
-    category: categoria,
-    slug: slug
-  });
+  }) {
+  const ad: advertisementPage | null = await getAdvertisementBySlug();
 
   if (!ad) notFound();
 
@@ -42,7 +35,7 @@ export default async function AdvertisementContent({
         <meta itemProp="availability" content="https://schema.org/InStock" />
       </div>
 
-      <LargeDisplay src={ad.images[0]} alt={ad.title} />
+      <LargeDisplay src={ad.images[0]} alt={ad.title} fallback="" />
 
       <section
         itemProp="address"

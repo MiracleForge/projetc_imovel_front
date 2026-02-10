@@ -7,17 +7,18 @@ import { generateAdvertisementJsonLd } from "@/src/seo/adversetimentJsonLd.seo";
 import serializeJavascript from "serialize-javascript";
 import { formattedPrice } from "@/src/utils/formating.utils";
 import { GalleryAdvertizerPage } from "./GalleyAdvertiserPage.layout";
-import CommumButton from "../ui/buttons/CommumButton.ui";
-import { StarIcon } from "../ui/effects/ImobilyStudio.icon";
-import LikeButton from "../ui/buttons/LikeButtons.ui";
+import CommumButton from "../../ui/buttons/CommumButton.ui";
+import { StarIcon } from "../../ui/effects/ImobilyStudio.icon";
 import LazyLoadWrapper from "@/src/components/wrappers/LazyLoadWrapper.wrapper";
-import { MetricDisplay } from "../layouts/Previews/MetricDisplay.layout";
+import { MetricDisplay } from "../Previews/MetricDisplay.layout";
 import { amenitiesConfig, condominiumConfig, propertyMetricsConfig } from "@/src/content/adversetiment.content";
 import dynamic from "next/dynamic";
-import GoogleMapsComponent from "../layouts/Previews/googleMaps/GoogleMapsComponent.layout";
+import GoogleMapsComponent from "../Previews/googleMaps/GoogleMapsComponent.layout";
 import ShowDescription from "./ShowDescription.layout";
 import ImobilyStudioArea from "./ImobilyStudioArea.layout";
 import { GalleryPlanAdvertisePage } from "./GalleryPlanAdvertisePage.layout";
+import Image from "next/image";
+import ContacInforArea from "./ContacInfoArea.layout";
 
 const FecherClient = dynamic(
   () => import("@/src/components/wrappers/FecherClient.wrapper"),
@@ -49,10 +50,11 @@ export default async function AdvertisementPage(category: { category: string }) 
 
           <PropertyMetricsSection metrics={ad.options.propertyMetrics} />
 
-          <div className="flex flex-col md:flex-row justify-between">
+          <div className="flex flex-col md:flex-row gap-6 w-full">
+
             <DescriptionSection description={ad.description} />
 
-            <GalleryPlanAdvertisePage title={ad.title} plans={[]} />
+            <GalleryPlanAdvertisePage title={ad.title} plans={["/miscellaneous/planta-casa-placeholder.png"]} />
           </div>
 
           <GoogleMapsComponent adress={ad.address} zoom={18} />
@@ -61,8 +63,8 @@ export default async function AdvertisementPage(category: { category: string }) 
           <PropertyCondominionSection condominion={ad.options.condominion} />
 
         </article>
-      </Suspense>
 
+      </Suspense>
       <Suspense fallback={<AdvertisementSkeleton />}>
         <ImobilyStudioArea />
       </Suspense>
@@ -177,71 +179,15 @@ function AsideInfo({
 
       </section>
 
-      <section className="mt-auto flex flex-col gap-3" aria-label="Ações principais">
-        <div className="h-10 flex items-stretch gap-2.5">
-
-          <button
-            aria-label="Entrar em contato sobre este imóvel"
-            className="flex-1 bg-secundary-blue text-white px-4 text-base font-semibold rounded-md flex items-center justify-center cursor-pointer"
-          >
-            Entre em Contato
-          </button>
-
-          <button
-            role="button"
-            aria-label="Compartilhar"
-            className="relative w-14 border rounded-md cursor-pointer flex items-center justify-center"
-          >
-            <img src={"/miscellaneous/share-icon.svg"} width={16} height={16} alt="" className="size-4" />
-          </button>
-
-          <div
-            role="button"
-            aria-label="Favoritar imóvel"
-            className="relative w-14 border rounded-md cursor-pointer flex items-center justify-center"
-          >
-            <LikeButton initialState={false} />
-          </div>
-        </div>
-      </section>
-
-      <address className="not-italic">
-        <nav aria-label="Ações de contato do anunciante">
-          <div className="flex flex-wrap gap-2">
-
-            <a
-              href={`tel:${ad.phone}`}
-              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-1 border rounded-sm border-gray-200"
-            >
-              <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
-              <span>(71) 98447-4664</span>
-            </a>
-
-            <button
-              type="button"
-              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-1 border rounded-sm border-gray-200"
-            >
-              <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
-              <span>Chat</span>
-            </button>
-
-            <button
-              type="button"
-              className="flex-1 min-w-fit inline-flex items-center justify-center gap-2 p-1 border rounded-sm border-gray-200"
-            >
-              <img src="/miscellaneous/phone-icon.svg" alt="" aria-hidden="true" />
-              <span>Agendar visita</span>
-            </button>
-
-          </div>
-        </nav>
-      </address>
+      <ContacInforArea userActionButton="like" phone={ad.phone} />
 
       <hr className="border-gray-200" />
 
       <footer className="flex items-center gap-3 text-base text-neutral-terciary">
-        <img
+        <Image
           className="size-10 rounded-full"
+          width={40}
+          height={40}
           src={ad.advertiser.image || "/mi"}
           alt={`Foto de ${ad.advertiser.name}`}
         />
@@ -300,7 +246,7 @@ function PropertyMetricsSection({
   metrics: advertisementPage["options"]["propertyMetrics"]
 }) {
   return (
-    <section className="mb-6 pt-3 space-y-6" aria-labelledby="metricas-imovel">
+    <section className="mb-6 pt-12 space-y-6 tipografy-title" aria-labelledby="metricas-imovel">
 
       <div className="wrapper-cards-header tipografy-title pt-6 lg:pt-0">
         <h2 id="metricas-imovel" className="wrapper-cards-title">
@@ -343,7 +289,7 @@ function PropertyAmenitiesSection({
   if (!amenities) return null;
 
   return (
-    <section className="mb-6 pt-6 space-y-6" aria-labelledby="amenities-imovel">
+    <section className="mb-6 pt-6 space-y-6 tipografy-title" aria-labelledby="amenities-imovel">
       <div className="wrapper-cards-header tipografy-title">
         <h2 id="amenities-imovel" className="wrapper-cards-title">
           Características do Imóvel
@@ -415,15 +361,15 @@ function DescriptionSection({
 }) {
 
   return (
-    <div className="flex flex-col space-y-6 tipografy-title pt-6 pr-12 justify-baseline">
-      <h3 className="wrapper-cards-subtitle">
-        Sobre este imóvel
-      </h3>
+    <div className="flex-1 pt-6 mb-20 min-w-0">
 
-      <ShowDescription description={description!} />
+      <div className="space-y-6">
+        <h3 className="wrapper-cards-subtitle">
+          Sobre este imóvel
+        </h3>
+        <ShowDescription description={description!} />
+      </div>
     </div>
-
-
   );
 }
 

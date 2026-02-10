@@ -6,10 +6,10 @@ import MySpace from "@/src/components/layouts/features/MySpace.layout";
 import RegionEmptyState from "@/src/components/layouts/stateZero/RegionEmptyState.layout";
 import SectionCardSkeleton from "@/src/components/layouts/cards/cardSections/HorizontalCardSection.skeleton";
 import SectionFeature from "@/src/components/layouts/features/SectionFeature.layout";
+import SectionMarketing from "@/src/components/layouts/features/SectionMarketing.layout";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
-import dynamic from "next/dynamic";
-import SectionMarketing from "@/src/components/layouts/features/SectionMarketing.layout";
 const FecherClient = dynamic(
   () => import("@/src/components/wrappers/FecherClient.wrapper"),
 );
@@ -51,7 +51,8 @@ export default function Home() {
       </LazyLoadWrapper>
 
       <SectionFeature />
-      <SectionMarketing />
+      <SectionMarketing keys={["fast_publish", "security", "visibility"]} />
+
     </main>
   );
 }

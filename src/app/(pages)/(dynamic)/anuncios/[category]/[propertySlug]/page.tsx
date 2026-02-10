@@ -3,8 +3,8 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
 import AdvertiseBreadCombs from "@/src/components/ui/steps/AdvertiseBreadCombs.ui";
-import AdvertisementPage from "@/src/components/advertisementPage/AdvertisementPage.layout";
-import AdvertisementSkeleton from "@/src/components/advertisementPage/AdvertiseSkeleton.skeleton";
+import AdvertisementPage from "@/src/components/layouts/advertisementPage/AdvertisementPage.layout";
+import AdvertisementSkeleton from "@/src/components/layouts/advertisementPage/AdvertiseSkeleton.skeleton";
 import { buildAdvertisementMetadata } from "./metadata";
 import { getAdvertisementBySlug } from "@/src/dal/adversetiment.dal";
 

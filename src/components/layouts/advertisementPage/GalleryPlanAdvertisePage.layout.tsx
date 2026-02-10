@@ -2,8 +2,8 @@
 
 import { useState, useMemo, useCallback, Activity } from "react";
 import dynamic from "next/dynamic";
-import SmallDisplay from "../layouts/banners/SmallDisplay.layout";
-import { GalleryImageButton } from "../ui/buttons/GalleryImageButton.ui";
+import SmallDisplay from "../banners/SmallDisplay.layout";
+import { GalleryImageButton } from "../../ui/buttons/GalleryImageButton.ui";
 
 type UrlMaxArray = readonly [] | readonly [string] | readonly [string, string];
 
@@ -27,9 +27,13 @@ export function GalleryPlanAdvertisePage({
   const [indexToOpen, setIndex] = useState(0);
 
   const images = useMemo<string[]>(() => {
-    return plans.length === 0
-      ? [PLACEHOLDER_IMAGE, PLACEHOLDER_IMAGE]
-      : [...plans];
+    const validPlans = plans.filter(
+      (url): url is string => typeof url === "string" && url.trim() !== ""
+    );
+
+    return validPlans.length > 0
+      ? validPlans
+      : [PLACEHOLDER_IMAGE];
   }, [plans]);
 
   const openAt = useCallback((index: number) => {
@@ -44,7 +48,8 @@ export function GalleryPlanAdvertisePage({
   return (
     <>
       <div
-        className="inline-flex gap-2 min-w-fit h-42"
+        className="shrink-0 inline-flex min-w-fit space-x-6
+  "
         role="list"
         aria-label="Plantas do imóvel"
       >
@@ -55,11 +60,14 @@ export function GalleryPlanAdvertisePage({
             isOpen={isOpen}
             onOpen={() => openAt(index)}
           >
-            <SmallDisplay
-              src={url}
-              alt={`Planta do imóvel ${title}`}
-              fallback={PLACEHOLDER_IMAGE}
-            />
+            <div className="relative aspect-square w-52">
+              <SmallDisplay
+                src={url}
+                alt={`Planta do imóvel ${title}`}
+                fetchPriority="low"
+                fallback={PLACEHOLDER_IMAGE}
+              />
+            </div>
           </GalleryImageButton>
         ))}
       </div>
@@ -68,6 +76,7 @@ export function GalleryPlanAdvertisePage({
         <CarouselAdvertiser
           src={images}
           startIndex={indexToOpen}
+          fallback="/miscellaneous/planta-casa-placeholder.png"
           alt={title}
           setIndex={setIndex}
           onClose={close}

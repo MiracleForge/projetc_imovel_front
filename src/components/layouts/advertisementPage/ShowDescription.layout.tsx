@@ -7,10 +7,10 @@ export default function ShowDescription({ description }: { description: string }
   const [open, setOpen] = useState(false)
 
   return (
-    <div className="relative mt-4b w-full">
+    <div className="relative mt-4b ">
 
       <p
-        className={`text-sm leading-relaxed whitespace-pre-wrap break-words transition-all duration-300
+        className={`text-lg font-normal leading-relaxed whitespace-pre-wrap wrap-break-words transition-all duration-300
         ${!open ? "line-clamp-6 text-neutral-600" : "text-neutral-800"}
         w-full`}
       >
@@ -18,7 +18,7 @@ export default function ShowDescription({ description }: { description: string }
       </p>
 
       {!open && (
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-white to-transparent" />
       )}
 
       <button
