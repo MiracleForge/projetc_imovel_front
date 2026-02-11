@@ -1,8 +1,13 @@
 import Link from "next/link";
-import { AnchorHTMLAttributes, ReactNode } from "react";
+import {
+  AnchorHTMLAttributes,
+  ButtonHTMLAttributes,
+  ReactNode,
+} from "react";
 import { cva, VariantProps } from "class-variance-authority";
 import { twMerge } from "tailwind-merge";
 import clsx from "clsx";
+import { StarIcon } from "../effects/ImobilyStudio.icon";
 
 const buttonVariants = cva(
   "overflow-hidden block text-center hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 font-medium",
@@ -85,37 +90,60 @@ const buttonVariants = cva(
   }
 );
 
-interface CommumButtonProps
-  extends AnchorHTMLAttributes<HTMLAnchorElement>,
-  VariantProps<typeof buttonVariants> {
-  label?: string;
-  url: string;
-  children?: ReactNode;
-}
 
-export default function CommumButton({
-  label,
-  url,
-  children,
-  variant,
-  size,
-  rounded,
-  shadows,
-  className,
-  ...props
-}: CommumButtonProps) {
+
+type BaseProps = VariantProps<typeof buttonVariants> & {
+  label?: string;
+  children?: ReactNode;
+  className?: string;
+};
+
+type LinkProps = BaseProps &
+  AnchorHTMLAttributes<HTMLAnchorElement> & {
+    url: string;
+  };
+
+type ButtonProps = BaseProps &
+  ButtonHTMLAttributes<HTMLButtonElement> & {
+    url?: undefined;
+  };
+
+type CommumButtonProps = LinkProps | ButtonProps;
+
+export default function CommumButton(props: CommumButtonProps) {
+  const {
+    label,
+    children,
+    variant,
+    size,
+    rounded,
+    shadows,
+    className,
+  } = props;
+
+  const classes = twMerge(
+    clsx(buttonVariants({ variant, size, shadows, rounded }), className)
+  );
+
+  if ("url" in props && props.url) {
+    const { url, ...rest } = props;
+
+    return (
+      <Link href={url} role="button" {...rest} className={classes}>
+
+        {children}
+        {label && <span>{label}</span>}
+      </Link>
+    );
+  }
+
+  const buttonProps = props as ButtonProps;
+
   return (
-    <Link
-      href={url}
-      role="button"
-      {...props}
-      className={twMerge(
-        clsx(buttonVariants({ variant, size, shadows, rounded }), className)
-      )}
-    >
+    <button type="button" {...buttonProps} className={classes}>
       {children}
-      <span>{label}</span>
-    </Link>
+      {label && <span>{label}</span>}
+    </button>
   );
 }
 

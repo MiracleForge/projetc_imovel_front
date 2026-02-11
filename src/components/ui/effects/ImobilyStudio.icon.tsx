@@ -1,7 +1,7 @@
 export function StarIcon() {
   return (
     <svg
-      className="group-hover:animate-pulse"
+      className="group-hover:animate-pulse m-0"
       width="26"
       height="26"
       viewBox="0 0 26 26"

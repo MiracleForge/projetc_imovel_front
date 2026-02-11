@@ -48,8 +48,7 @@ export function GalleryPlanAdvertisePage({
   return (
     <>
       <div
-        className="shrink-0 inline-flex min-w-fit space-x-6
-  "
+        className="shrink-0 flex flex-col md:flex-row md:inline-flex min-w-fit gap-6"
         role="list"
         aria-label="Plantas do imóvel"
       >
@@ -60,7 +59,7 @@ export function GalleryPlanAdvertisePage({
             isOpen={isOpen}
             onOpen={() => openAt(index)}
           >
-            <div className="relative aspect-square w-52">
+            <div className="relative min-w-0 lg:w-56">
               <SmallDisplay
                 src={url}
                 alt={`Planta do imóvel ${title}`}

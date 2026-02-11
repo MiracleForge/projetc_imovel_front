@@ -18,7 +18,7 @@ export default function SectionMarketing({ keys, value, simple = false }: Sectio
   );
 
   return (
-    <section className={`${simple === false ? "bg-quartenary-blue text-white" : "bg-white text-black border-t border-t-foreground"} py-12 px-6 rounded-3xl`}>
+    <section className={`${simple === false ? "bg-quartenary-blue text-white" : "bg-white text-black border-t border-t-foreground"} py-12 px-6`}>
       <ul className="flex flex-col lg:flex-row justify-around gap-6">
         {itemsToRender.map(({ key, ...item }, index) => (
           <SectionItem key={`${key}+ ${index}`} {...item} values={value?.[index]} />

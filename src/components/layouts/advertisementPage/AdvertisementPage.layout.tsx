@@ -50,11 +50,11 @@ export default async function AdvertisementPage(category: { category: string }) 
 
           <PropertyMetricsSection metrics={ad.options.propertyMetrics} />
 
-          <div className="flex flex-col md:flex-row gap-6 w-full">
+          <div className="flex flex-col lg:flex-row gap-6 w-full">
 
             <DescriptionSection description={ad.description} />
 
-            <GalleryPlanAdvertisePage title={ad.title} plans={["/miscellaneous/planta-casa-placeholder.png"]} />
+            <GalleryPlanAdvertisePage title={ad.title} plans={["/miscellaneous/planta-casa-placeholder.png", "/miscellaneous/planta-casa-placeholder.png"]} />
           </div>
 
           <GoogleMapsComponent adress={ad.address} zoom={18} />
